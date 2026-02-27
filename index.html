@@ -192,10 +192,18 @@ document.addEventListener("DOMContentLoaded", function () {
         nav.classList.toggle('open');
     });
 
-    // Close menu when clicking any link
+    // Close menu on link click (for anchor links)
     navLinks.forEach(function (link) {
         link.addEventListener('click', function () {
+
+            // Close menu immediately
             nav.classList.remove('open');
+
+            // Optional: small delay fix for smooth scroll
+            setTimeout(() => {
+                nav.classList.remove('open');
+            }, 50);
+
         });
     });
 
@@ -203,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 </body>
 </html>
+
 
 
 
