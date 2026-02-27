@@ -410,8 +410,8 @@ footer nav a{font-size:0.88rem;padding:6px 12px}
   .menu-toggle{display:block}
   nav{
     display:none;
-    position:absolute;
-    top:100%;left:0;right:0;
+    position:fixed;
+    top:60px;left:0;right:0;
     background:rgba(6,21,48,0.98);
     backdrop-filter:blur(12px);
     flex-direction:column;
@@ -446,3 +446,4 @@ footer nav a{font-size:0.88rem;padding:6px 12px}
   .card-grid{grid-template-columns:1fr}
   .schedule-grid{grid-template-columns:1fr 1fr}
 }
+
