@@ -16,7 +16,7 @@
     <img src="logo.jpg" alt="MathLands Logo">
     <span class="logo-text">MATH<span>Lands.</span></span>
   </a>
-  <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Toggle menu">&#9776;</button>
+  <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -145,7 +145,22 @@
   <p class="tagline">"Mathematics is not calculation. It is disciplined reasoning."</p>
   <p class="copyright">&copy; 2026 MathLands. All rights reserved.</p>
 </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+
+    // Always ensure menu is closed on page load
+    nav.classList.remove('open');
+
+    menuToggle.addEventListener('click', function () {
+        nav.classList.toggle('open');
+    });
+
+});
+</script>
 </body>
 </html>
+
 
