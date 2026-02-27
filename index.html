@@ -181,23 +181,28 @@
   <p class="copyright">&copy; 2026 MathLands. All rights reserved.</p>
 </footer>
 <script>
-const menuToggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('nav');
-const navLinks = document.querySelectorAll('nav a');
+document.addEventListener("DOMContentLoaded", function () {
 
-// Toggle menu
-menuToggle.addEventListener('click', () => {
-    nav.classList.toggle('open');
-});
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+    const navLinks = document.querySelectorAll('nav a');
 
-// Close menu when clicking a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        nav.classList.remove('open');
+    // Toggle menu
+    menuToggle.addEventListener('click', function () {
+        nav.classList.toggle('open');
     });
+
+    // Close menu when clicking any link
+    navLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+            nav.classList.remove('open');
+        });
+    });
+
 });
 </script>
 </body>
 </html>
+
 
 
