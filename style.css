@@ -460,6 +460,12 @@ nav.open{
 section {
     scroll-margin-top: 80px;
 }
+/* WhatsApp button icon alignment */
+.whatsapp-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+}
 
 
 
