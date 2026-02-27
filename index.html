@@ -185,18 +185,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const menuToggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('nav');
+    const navLinks = document.querySelectorAll('nav a');
 
-    // Always ensure menu is closed on page load
-    nav.classList.remove('open');
-
+    // Toggle menu
     menuToggle.addEventListener('click', function () {
         nav.classList.toggle('open');
+    });
+
+    // Close menu when any link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            nav.classList.remove('open');
+        });
     });
 
 });
 </script>
 </body>
 </html>
+
 
 
 
