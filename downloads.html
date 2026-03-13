@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programs | MathLands</title>
+  <meta name="description" content="Explore MathLands academic programs for Classes 7-12 - Foundation, Madhyamik, and WBCHSE courses with structured schedules.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo.jpg" alt="MathLands Logo">
+    <span class="logo-text">MATH<span>Lands.</span></span>
+  </a>
+  <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="programs.html" class="active">Programs</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<section class="section">
+
+<h2>Latest Test Answers</h2>
+
+<div class="card-grid">
+
+<div class="card">
+<h3>Class 12 Matrix Test</h3>
+<p>Answer key for today's class test.</p>
+
+<a href="downloads/Matrix_Class_Test_Answer_Key_MATHLands.pdf"
+target="_blank"
+class="btn-primary">
+
+Download Answer Key
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">
+    <img src="logo.jpg" alt="MathLands">
+    <span>MATH<em>Lands.</em></span>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="programs.html">Programs</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <p class="tagline">"Mathematics is not calculation. It is disciplined reasoning."</p>
+  <div class="social-links">
+
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/share/186XPcp8nD/" target="_blank" class="social-icon facebook">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M22 12a10 10 0 10-11.5 9.9v-7H8v-3h2.5V9.5c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.7-1.6 1.5V12H17l-.4 3h-2.8v7A10 10 0 0022 12z"/>
+        </svg>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/mathlands.official?igsh=MW4zaXUzcGlmYWpvYg==" target="_blank" class="social-icon instagram">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5.2a4.8 4.8 0 110 9.6 4.8 4.8 0 010-9.6zm6.3-.3a1.1 1.1 0 110 2.2 1.1 1.1 0 010-2.2zM12 9a3 3 0 100 6 3 3 0 000-6z"/>
+        </svg>
+    </a>
+
+    <!-- Gmail -->
+    <a href="mailto:mathlands.official@gmail.com" class="social-icon gmail">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M12 13.5L2 6.75V18h20V6.75L12 13.5zM12 11L2 4h20L12 11z"/>
+        </svg>
+    </a>
+
+</div>
+  <p class="copyright">&copy; 2026 MathLands. All rights reserved.</p>
+</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+    const navLinks = document.querySelectorAll('nav a');
+
+    // Toggle menu
+    menuToggle.addEventListener('click', function () {
+        nav.classList.toggle('open');
+    });
+
+    // Close menu when any link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            nav.classList.remove('open');
+        });
+    });
+
+});
+</script>
+</body>
+</html>
