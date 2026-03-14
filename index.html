@@ -312,7 +312,7 @@ padding:8px;
 
 <script>
 
-const API_KEY="AIzaSyDbx55iZtNeR5B3JktaEXnpqakm8ZI475Q";
+const API_KEY="AIzaSyD6dnK8u0rPTzDkLpdEcF1ayLd_SDkRp70";
 
 document.getElementById("ai-button").onclick=function(){
 document.getElementById("ai-chat").style.display="flex";
@@ -338,7 +338,7 @@ input.value="";
 try{
 
 let response = await fetch(
-"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key="+API_KEY,
+"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+API_KEY,
 {
 method:"POST",
 headers:{
