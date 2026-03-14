@@ -226,6 +226,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+  <!-- Floating AI Tutor -->
+<div id="ai-button">AI Tutor</div>
+
+<div id="ai-chat">
+
+<div id="ai-header">
+MATHLands AI Tutor
+<span onclick="closeChat()" style="cursor:pointer;">✖</span>
+</div>
+
+<div id="chat-box"></div>
+
+<div id="input-area">
+
+<input id="user-input" placeholder="তোমার গণিতের প্রশ্ন লিখো...">
+
+<button onclick="sendMessage()">Send</button>
+
+<button onclick="startVoice()">🎤</button>
+
+</div>
+
+<hr>
+
+<div style="padding:10px;">
+
+<input type="file" id="imageInput">
+
+<button onclick="solveImage()">Solve Image</button>
+
+<div id="image-result"></div>
+
+</div>
+
+</div>
 </body>
 </html>
 
