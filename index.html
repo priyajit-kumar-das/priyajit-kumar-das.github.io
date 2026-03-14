@@ -261,7 +261,7 @@ MATHLands AI Tutor
 </div>
 
 </div>
-  <script>
+<script>
 
 const API_KEY="AIzaSyDbx55iZtNeR5B3JktaEXnpqakm8ZI475Q";
 
@@ -336,38 +336,119 @@ let response=await fetch(
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
-contents:[{
-parts:[
+<script>
+
+const API_KEY="YOUR_API_KEY";
+
+document.getElementById("ai-button").onclick=function(){
+document.getElementById("ai-chat").style.display="flex";
+};
+
+function closeChat(){
+document.getElementById("ai-chat").style.display="none";
+}
+
+async function sendMessage(){
+
+let input=document.getElementById("user-input");
+let message=input.value;
+
+if(message.trim()=="") return;
+
+let chat=document.getElementById("chat-box");
+<script>
+
+const API_KEY="YOUR_API_KEY";
+
+document.getElementById("ai-button").onclick=function(){
+document.getElementById("ai-chat").style.display="flex";
+};
+
+function closeChat(){
+document.getElementById("ai-chat").style.display="none";
+}
+
+async function sendMessage(){
+
+let input=document.getElementById("user-input");
+let message=input.value;
+
+if(message.trim()=="") return;
+
+let chat=document.getElementById("chat-box");
+
+chat.innerHTML += "<div><b>You:</b> "+message+"</div>";
+
+input.value="";
+
+try{
+
+let response = await fetch(
+"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key="+API_KEY,
 {
-text:"Solve this math problem step-by-step in Bengali."
+method:"POST",
+headers:{
+"Content-Type":"application/json"
 },
+body:JSON.stringify
+  <script>
+
+const API_KEY="AIzaSyDbx55iZtNeR5B3JktaEXnpqakm8ZI475Q";
+
+document.getElementById("ai-button").onclick=function(){
+document.getElementById("ai-chat").style.display="flex";
+};
+
+function closeChat(){
+document.getElementById("ai-chat").style.display="none";
+}
+
+async function sendMessage(){
+
+let input=document.getElementById("user-input");
+let message=input.value;
+
+if(message.trim()=="") return;
+
+let chat=document.getElementById("chat-box");
+
+chat.innerHTML += "<div><b>You:</b> "+message+"</div>";
+
+input.value="";
+
+try{
+
+let response = await fetch(
+"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key="+API_KEY,
 {
-inline_data:{
-mime_type:"image/jpeg",
-data:base64
-}
-}
-]
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+contents:[{
+parts:[{text:message}]
 }]
 })
 });
 
-let data=await response.json();
+let data = await response.json();
 
-document.getElementById("image-result").innerText =
-data.candidates[0].content.parts[0].text;
+let aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "AI could not respond.";
 
-};
+chat.innerHTML += "<div><b>AI:</b> "+aiReply+"</div>";
 
-reader.readAsDataURL(file);
+}catch(error){
+
+chat.innerHTML += "<div><b>Error:</b> "+error+"</div>";
 
 }
 
-
+}
 
 function startVoice(){
 
-const recognition=new webkitSpeechRecognition();
+const recognition = new webkitSpeechRecognition();
 
 recognition.lang="bn-BD";
 
