@@ -261,6 +261,124 @@ MATHLands AI Tutor
 </div>
 
 </div>
+  <script>
+
+const API_KEY="AIzaSyDbx55iZtNeR5B3JktaEXnpqakm8ZI475Q";
+
+document.getElementById("ai-button").onclick=function(){
+document.getElementById("ai-chat").style.display="flex";
+};
+
+function closeChat(){
+document.getElementById("ai-chat").style.display="none";
+}
+
+async function sendMessage(){
+
+let input=document.getElementById("user-input");
+let message=input.value;
+
+if(message.trim()=="") return;
+
+let chat=document.getElementById("chat-box");
+
+chat.innerHTML+="<div><b>You:</b> "+message+"</div>";
+
+input.value="";
+
+let response=await fetch(
+"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+API_KEY,
+{
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+body:JSON.stringify({
+contents:[{
+parts:[{
+text:"You are a Bengali math teacher helping class 6-12 students. Explain step-by-step in Bengali. Question: "+message
+}]
+}]
+})
+});
+
+let data=await response.json();
+
+let aiReply=data.candidates[0].content.parts[0].text;
+
+chat.innerHTML+="<div><b>AI:</b> "+aiReply+"</div>";
+
+}
+
+
+
+async function solveImage(){
+
+let file=document.getElementById("imageInput").files[0];
+
+if(!file){
+alert("Upload image first");
+return;
+}
+
+let reader=new FileReader();
+
+reader.onloadend=async function(){
+
+let base64=reader.result.split(",")[1];
+
+let response=await fetch(
+"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+API_KEY,
+{
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+body:JSON.stringify({
+contents:[{
+parts:[
+{
+text:"Solve this math problem step-by-step in Bengali."
+},
+{
+inline_data:{
+mime_type:"image/jpeg",
+data:base64
+}
+}
+]
+}]
+})
+});
+
+let data=await response.json();
+
+document.getElementById("image-result").innerText =
+data.candidates[0].content.parts[0].text;
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+
+
+function startVoice(){
+
+const recognition=new webkitSpeechRecognition();
+
+recognition.lang="bn-BD";
+
+recognition.start();
+
+recognition.onresult=function(event){
+
+let speechText=event.results[0][0].transcript;
+
+document.getElementById("user-input").value=speechText;
+
+};
+
+}
+
+</script>
 </body>
 </html>
 
