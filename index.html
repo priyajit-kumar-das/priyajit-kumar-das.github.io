@@ -289,24 +289,29 @@ input.value="";
 try{
 
 let response = await fetch(
-"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key="+API_KEY,
+"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+API_KEY,
 {
 method:"POST",
-headers:{ "Content-Type":"application/json" },
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 contents:[{
-parts:[{
-text:"You are a Bengali math teacher helping class 6-12 students. Explain step-by-step in Bengali. Question: "+message
-}]
+parts:[{text:message}]
 }]
 })
 });
 
 let data = await response.json();
 
-let aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "AI could not answer.";
+console.log(data);   // debug
 
+if(data.candidates){
+let aiReply=data.candidates[0].content.parts[0].text;
 chat.innerHTML += "<div><b>AI:</b> "+aiReply+"</div>";
+}else{
+chat.innerHTML += "<div><b>AI:</b> No response from AI</div>";
+}
 
 }catch(error){
 
@@ -315,8 +320,6 @@ chat.innerHTML += "<div><b>Error:</b> "+error+"</div>";
 }
 
 }
-
-
 async function solveImage(){
 
 let file=document.getElementById("imageInput").files[0];
