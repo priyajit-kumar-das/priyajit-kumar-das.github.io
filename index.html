@@ -228,30 +228,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-<!-- AI Tutor Widget -->
-<div id="ai-button">AI Tutor</div>
+<!-- AI Tutor Button -->
+<div id="ai-button">🤖 AI Tutor</div>
 
+<!-- Chat Window -->
 <div id="ai-chat">
 
-<div id="ai-header">
-MATHLands AI Tutor
-<span onclick="closeChat()" style="cursor:pointer;">✖</span>
+<div class="ai-header">
+<span>MathLands AI Tutor</span>
+<button onclick="closeChat()">✕</button>
 </div>
 
 <div id="chat-box"></div>
 
-<div id="input-area">
+<div class="ai-input">
+
 <input id="user-input" placeholder="তোমার গণিতের প্রশ্ন লিখো...">
-<button onclick="sendMessage()">Send</button>
-<button onclick="startVoice()">🎤</button>
-</div>
 
-<hr>
+<button onclick="sendMessage()">➤</button>
 
-<div style="padding:10px;">
-<input type="file" id="imageInput">
-<button onclick="solveImage()">Solve Image</button>
-<div id="image-result"></div>
 </div>
 
 </div>
@@ -456,28 +451,6 @@ document.getElementById("user-input").value = speechText;
 }
 
 </script>
-  <!-- AI Tutor Button -->
-<div id="ai-button">🤖 AI Tutor</div>
-
-<!-- Chat Window -->
-<div id="ai-chat">
-
-<div class="ai-header">
-<span>MathLands AI Tutor</span>
-<button onclick="closeChat()">✕</button>
-</div>
-
-<div id="chat-box"></div>
-
-<div class="ai-input">
-
-<input id="user-input" placeholder="তোমার গণিতের প্রশ্ন লিখো...">
-
-<button onclick="sendMessage()">➤</button>
-
-</div>
-
-</div>
 </body>
 </html>
 
