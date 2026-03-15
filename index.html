@@ -347,9 +347,19 @@ headers:{
 },
 body:JSON.stringify({
 contents:[{
-parts:[{text:message}]
+parts:[{
+text:`
+You are a professional mathematics teacher for WBBSE and WBCHSE students.
+
+Explain the answer step-by-step in simple Bengali.
+
+Show equations clearly.
+
+Question:
+${message}
+`
 }]
-})
+}]
 });
 
 if(response.status===429 || response.status===403){
@@ -363,22 +373,28 @@ return;
 }
 
 let data=await response.json();
+console.log(data);
 
 document.getElementById("typing").remove();
 
-let aiReply=data?.candidates?.[0]?.content?.parts?.[0]?.text || "AI reply পাওয়া যায়নি";
+let aiReply="";
+
+if(data.candidates && data.candidates.length>0){
+aiReply=data.candidates[0].content.parts[0].text;
+}else{
+aiReply="AI reply পাওয়া যায়নি";
+}
 
 chat.innerHTML+=`<div class="ai-msg">${aiReply}</div>`;
+MathJax.typeset();
 
 chat.scrollTop=chat.scrollHeight;
 
-MathJax.typeset();
-
 }catch(error){
 
-document.getElementById("typing").remove();
-
-chat.innerHTML+=`<div class="ai-msg">Error: ${error}</div>`;
+let typing=document.getElementById("typing");
+if(typing) typing.remove();
+chat.innerHTML+=`<div class="ai-msg">⚠️ Server error. পরে আবার চেষ্টা করো।</div>`;
 
 }
 
@@ -409,7 +425,14 @@ headers:{
 body:JSON.stringify({
 contents:[{
 parts:[
-{ text:"Solve this math problem step-by-step." },
+{
+text:`
+You are a mathematics teacher.
+Solve the problem from this image step-by-step.
+Explain clearly in Bengali.
+Show equations properly.
+`
+},
 {
 inline_data:{
 mime_type:"image/jpeg",
