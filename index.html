@@ -338,17 +338,19 @@ chat.innerHTML+=`<div class="ai-msg" id="typing">AI is thinking...</div>`;
 
 try{
 
-let response=await fetch(
-"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+API_KEY,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-contents:[{
-parts:[{
-text:`
+let response = await fetch(
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + API_KEY,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [
+            {
+              text: `
 You are a professional mathematics teacher for WBBSE and WBCHSE students.
 
 Explain the answer step-by-step in simple Bengali.
@@ -358,9 +360,13 @@ Show equations clearly.
 Question:
 ${message}
 `
-    }]
-  }]
-});
+            }
+          ]
+        }
+      ]
+    })
+  }
+);
 
 if(response.status===429 || response.status===403){
 
