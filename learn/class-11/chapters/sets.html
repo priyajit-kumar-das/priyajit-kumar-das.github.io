@@ -1,6 +1,3 @@
-<div style="padding:10px;">
-  <a href="../index.html">← Back</a>
-</div>
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -283,6 +280,31 @@ header{position:sticky;top:0;z-index:300;background:rgba(9,21,42,0.97);backdrop-
 .acb.op{display:block;animation:fu .22s ease}
 
 /* TOAST */
+  /* Back Button - MATHLands Style */
+.back-wrapper {
+  max-width: 1100px;
+  margin: 10px auto 0;
+  padding: 0 20px;
+}
+
+.back-button {
+  display: inline-block;
+  background: rgba(20, 184, 196, 0.08);
+  color: #14B8C4;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid rgba(20, 184, 196, 0.25);
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: #14B8C4;
+  color: #07101f;
+  transform: translateY(-1px);
+}
 #toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--teal);color:var(--navy);padding:10px 20px;border-radius:8px;font-weight:800;font-family:'Syne',sans-serif;transform:translateY(60px);opacity:0;transition:all .28s;pointer-events:none;font-size:.82rem}
 #toast.show{transform:none;opacity:1}
 .cn{font-family:'DM Mono',monospace;color:var(--teal3);background:rgba(0,180,200,0.08);padding:1px 6px;border-radius:3px;font-size:.88em}
@@ -298,7 +320,11 @@ header{position:sticky;top:0;z-index:300;background:rgba(9,21,42,0.97);backdrop-
     <span class="hsub">সেট তত্ত্ব</span>
   </div>
 </header>
-
+<div class="back-wrapper">
+  <a href="../index.html" class="back-button">
+    ← Back to Class
+  </a>
+</div>
 <div class="hero">
   <div class="hbg"></div><div class="hgrid"></div>
   <div class="hcontent">
