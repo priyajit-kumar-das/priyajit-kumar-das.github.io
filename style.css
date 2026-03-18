@@ -691,3 +691,7 @@ cursor:pointer;
 .program-card p {
   opacity: 0.7;
 }
+
+.ai-tutor {
+  display: none !important;
+}
