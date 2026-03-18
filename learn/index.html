@@ -1,36 +1,48 @@
-<h1>📚 Learn with MATHLands</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn | MATHLands</title>
 
-<p style="text-align:center; opacity:0.7;">
-  Class-wise interactive math chapters
-</p>
+  <!-- Connect your main CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
 
-<div class="grid">
-  <a href="class-11/index.html">Class 11</a>
-</div>
+<body>
 
-<style>
-body {
-  background:#0a1628;
-  color:white;
-  font-family:sans-serif;
-  text-align:center;
-}
+  <!-- NAVBAR (same as your main site) -->
+  <nav class="navbar">
+    <div class="logo">MATHLands.</div>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Learn</a>
+      <a href="../about.html">About</a>
+      <a href="../programs.html">Programs</a>
+      <a href="../downloads.html">Downloads</a>
+      <a href="../contact.html">Contact</a>
+    </div>
+  </nav>
 
-.grid {
-  padding:20px;
-}
+  <!-- MAIN SECTION -->
+  <section class="container" style="text-align:center; padding:80px 20px;">
+    
+    <h1> Learn with MATHLands</h1>
 
-a {
-  display:block;
-  margin:10px;
-  padding:15px;
-  background:#111c34;
-  color:white;
-  text-decoration:none;
-  border-radius:10px;
-}
+    <p style="opacity:0.7; margin-top:10px;">
+      Class-wise interactive math chapters
+    </p>
 
-a:hover {
-  background:#00b4d8;
-}
-</style>
+    <div class="card-grid" style="margin-top:40px;">
+      
+      <a href="class-11/index.html" class="program-card">
+        <h3>Class 11</h3>
+        <p>Explore chapters</p>
+      </a>
+
+    </div>
+
+  </section>
+
+</body>
+</html>
