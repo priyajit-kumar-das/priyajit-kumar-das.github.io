@@ -1,0 +1,1432 @@
+<div style="padding:10px;">
+  <a href="../index.html">← Back</a>
+</div>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATHLands — সেট তত্ত্ব</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#09152a;--navy2:#0c1c38;--navy3:#0f2342;
+  --teal:#00b4c8;--teal2:#0093a8;--teal3:#55d0e0;
+  --white:#ddeeff;--gray:#6a85aa;
+  --gold:#f5c842;--green:#27ae60;--red:#e74c3c;--purple:#a78bfa;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--white);font-family:'Noto Sans Bengali',sans-serif;font-size:15px;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--navy2)}::-webkit-scrollbar-thumb{background:var(--teal);border-radius:3px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:300;background:rgba(9,21,42,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,180,200,0.18);display:flex;align-items:center;justify-content:space-between;padding:10px 24px}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-1px}
+.logo .lm{color:#fff}.logo .ll{color:var(--teal)}.logo .ld{color:var(--teal)}
+.hbadge{background:linear-gradient(135deg,var(--teal),var(--teal2));color:var(--navy);font-size:.6rem;font-weight:800;font-family:'Syne',sans-serif;padding:3px 9px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase}
+.hsub{font-size:.72rem;color:var(--gray);font-family:'DM Mono',monospace}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:48px 24px 36px;text-align:center}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 0%,rgba(0,180,200,0.14) 0%,transparent 70%)}
+.hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,180,200,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,200,0.045) 1px,transparent 1px);background-size:38px 38px;animation:gp 5s ease-in-out infinite}
+@keyframes gp{0%,100%{opacity:.4}50%{opacity:.85}}
+.hcontent{position:relative;z-index:1}
+.htag{display:inline-block;border:1px solid var(--teal);color:var(--teal);font-size:.68rem;font-family:'DM Mono',monospace;padding:4px 13px;border-radius:20px;margin-bottom:14px;letter-spacing:1.5px;animation:fu .5s ease}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.75rem,4vw,2.9rem);line-height:1.2;animation:fu .55s ease .1s both}
+.hero h1 .ac{color:var(--teal)}
+.hero p{color:var(--gray);font-size:.85rem;max-width:520px;margin:10px auto 0;animation:fu .55s ease .2s both}
+.hstats{display:flex;justify-content:center;gap:24px;margin-top:24px;flex-wrap:wrap;animation:fu .55s ease .3s both}
+.sn{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;color:var(--teal)}
+.sl{font-size:.68rem;color:var(--gray)}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* NAV TABS */
+.navtabs{display:flex;gap:4px;overflow-x:auto;padding:10px 24px;border-bottom:1px solid rgba(0,180,200,0.13);background:var(--navy2);scrollbar-width:none}
+.navtabs::-webkit-scrollbar{display:none}
+.ntab{flex-shrink:0;background:transparent;border:1px solid transparent;color:var(--gray);padding:7px 15px;border-radius:7px;cursor:pointer;font-size:.77rem;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;white-space:nowrap}
+.ntab:hover{border-color:var(--teal);color:var(--teal)}
+.ntab.on{background:var(--teal);color:var(--navy);font-weight:700;border-color:var(--teal)}
+
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 175px)}
+.sidebar{width:230px;flex-shrink:0;background:var(--navy2);border-right:1px solid rgba(0,180,200,0.12);padding:18px 0;position:sticky;top:100px;height:calc(100vh - 100px);overflow-y:auto;scrollbar-width:thin}
+.sbt{font-size:.6rem;font-family:'DM Mono',monospace;color:var(--teal);letter-spacing:2px;text-transform:uppercase;padding:0 16px 6px}
+.sbi{display:flex;align-items:center;gap:8px;padding:8px 16px;cursor:pointer;color:var(--gray);font-size:.78rem;font-family:'Noto Sans Bengali',sans-serif;transition:all .18s;border-left:3px solid transparent}
+.sbi:hover{background:rgba(0,180,200,0.07);color:var(--white)}
+.sbi.on{background:rgba(0,180,200,0.11);color:var(--teal);border-left-color:var(--teal)}
+.sbprog{padding:12px 16px;border-top:1px solid rgba(0,180,200,0.1);margin-top:6px}
+.pbar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-top:4px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal3));border-radius:2px;transition:width .5s}
+
+/* CONTENT */
+.content{flex:1;padding:24px;min-width:0;max-width:100%}
+
+/* mobile progress strip */
+.mob-prog-strip{display:none}
+@media(max-width:767px){
+  .mob-prog-strip{display:flex;align-items:center;gap:10px;padding:8px 16px;background:var(--navy3);border-bottom:1px solid rgba(0,180,200,0.1);font-size:.72rem;color:var(--gray)}
+  .mob-prog-strip .pbar{flex:1;height:5px}
+  .mob-prog-strip span{white-space:nowrap;font-family:'DM Mono',monospace}
+}
+
+/* MOBILE: hide sidebar, full-width content */
+@media(max-width:767px){
+  .sidebar{display:none}
+  .layout{display:block}
+  .content{padding:16px;width:100%}
+  /* mobile topic picker strip */
+  .mob-topic-bar{display:flex;overflow-x:auto;gap:6px;padding:10px 16px;background:var(--navy2);border-bottom:1px solid rgba(0,180,200,0.12);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .mob-topic-bar::-webkit-scrollbar{display:none}
+  .mtopbtn{flex-shrink:0;background:transparent;border:1px solid rgba(0,180,200,0.2);color:var(--gray);padding:6px 13px;border-radius:20px;cursor:pointer;font-size:.72rem;font-family:'Noto Sans Bengali',sans-serif;transition:all .18s;white-space:nowrap}
+  .mtopbtn:hover,.mtopbtn.on{background:var(--teal);color:var(--navy);border-color:var(--teal);font-weight:700}
+  /* misc mobile tweaks */
+  .hero{padding:32px 16px 28px}
+  .hero h1{font-size:1.65rem}
+  .hstats{gap:16px}
+  .sn{font-size:1.35rem}
+  .navtabs{padding:8px 12px}
+  .ntab{padding:6px 11px;font-size:.72rem}
+  .card{padding:16px}
+  .sh2{font-size:1.15rem}
+  .mt{padding:16px}
+  .mcq-opts,.qt-opts,.ft-opts{grid-template-columns:1fr}
+  .lgrid,.stg{grid-template-columns:1fr 1fr}
+  .tgrid{grid-template-columns:1fr 1fr}
+  .gbrd{grid-template-columns:repeat(4,1fr);gap:6px}
+  .gc{font-size:.66rem;padding:5px}
+  .nbbtns{gap:6px}
+  .btnp,.btns{padding:9px 16px;font-size:.78rem}
+  .vbtns{gap:5px}
+  .vbtn{padding:5px 9px;font-size:.7rem}
+}
+@media(min-width:768px){
+  .mob-topic-bar{display:none}
+}
+.tabp{display:none}.tabp.on{display:block;animation:fu .3s ease}
+.cp{display:none}.cp.on{display:block;animation:fu .28s ease}
+
+/* CARDS */
+.card{background:var(--navy3);border:1px solid rgba(0,180,200,0.15);border-radius:13px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent)}
+.card-h{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--teal);margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.card p{line-height:1.85;color:#aac8e8;margin-bottom:9px}
+.card p:last-child{margin-bottom:0}
+
+.dbox{background:rgba(0,180,200,0.07);border:1px solid rgba(0,180,200,0.22);border-radius:8px;padding:13px 16px;margin:12px 0}
+.dbox .dl{font-size:.62rem;font-family:'DM Mono',monospace;color:var(--teal);letter-spacing:2px;margin-bottom:5px}
+.dbox p{color:var(--white);margin:0;line-height:1.8}
+
+.ebox{background:rgba(245,200,66,0.06);border:1px solid rgba(245,200,66,0.2);border-radius:8px;padding:13px 16px;margin:12px 0}
+.ebox .el{font-size:.62rem;font-family:'DM Mono',monospace;color:var(--gold);letter-spacing:2px;margin-bottom:5px}
+.ebox p,.ebox li{color:#e8d898;line-height:1.85;margin-bottom:3px}
+
+.fbox{background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;padding:13px 16px;margin:12px 0;font-family:'DM Mono',monospace;font-size:.85rem;color:#cfb8ff;line-height:2.1}
+.fbox .fl{font-size:.62rem;letter-spacing:2px;color:var(--purple);margin-bottom:6px;font-family:'DM Mono',monospace}
+
+.tipbox{background:rgba(39,174,96,0.07);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:11px 15px;margin:12px 0}
+.tipbox .tl{font-size:.62rem;color:var(--green);letter-spacing:1px;margin-bottom:3px;font-family:'DM Mono',monospace}
+.tipbox p{color:#88ffbb;margin:0;font-size:.83rem;line-height:1.7}
+
+.wbox{background:rgba(231,76,60,0.07);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:11px 15px;margin:12px 0}
+.wbox .wl{font-size:.62rem;color:var(--red);letter-spacing:1px;margin-bottom:3px;font-family:'DM Mono',monospace}
+.wbox p{color:#ffaaaa;margin:0;font-size:.83rem;line-height:1.7}
+
+/* SECTION H2 */
+.sh2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.38rem;color:var(--white);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid rgba(0,180,200,0.12);display:flex;align-items:center;gap:9px}
+.snum{background:var(--teal);color:var(--navy);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;font-family:'Syne',sans-serif;font-weight:800}
+
+/* SET TYPE GRID */
+.stg{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:11px;margin:12px 0}
+.stc{background:var(--navy2);border:1px solid rgba(0,180,200,0.12);border-radius:10px;padding:14px;transition:all .18s}
+.stc:hover{border-color:var(--teal);transform:translateY(-2px)}
+.stn{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:var(--teal);margin-bottom:4px}
+.ste{font-family:'DM Mono',monospace;font-size:.76rem;color:var(--gold);background:rgba(245,200,66,0.07);padding:4px 8px;border-radius:4px;display:inline-block;margin-top:5px}
+.std{font-size:.76rem;color:var(--gray);margin-top:5px;line-height:1.6}
+
+/* BUTTONS */
+.btnp{background:var(--teal);color:var(--navy);border:none;padding:10px 22px;border-radius:8px;font-weight:800;font-family:'Syne',sans-serif;cursor:pointer;font-size:.8rem;transition:all .18s}
+.btnp:hover{background:var(--teal3);transform:translateY(-1px)}
+.btns{background:transparent;color:var(--teal);border:1px solid var(--teal);padding:10px 22px;border-radius:8px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;font-size:.8rem;transition:all .18s}
+.btns:hover{background:rgba(0,180,200,0.09)}
+.nbbtns{display:flex;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:8px}
+
+/* LAW GRID */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;margin:12px 0}
+.lc{background:var(--navy2);border:1px solid rgba(0,180,200,0.12);border-radius:10px;padding:14px;transition:all .18s}
+.lc:hover{border-color:var(--teal);transform:translateY(-2px)}
+.ln{font-family:'Syne',sans-serif;font-weight:700;font-size:.83rem;color:var(--teal);margin-bottom:6px}
+.lf{font-family:'DM Mono',monospace;font-size:.76rem;color:#cfb8ff;background:rgba(167,139,250,0.08);padding:7px 10px;border-radius:5px;margin-bottom:6px;line-height:1.7}
+.ld{font-size:.76rem;color:var(--gray);line-height:1.55}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;margin:12px 0}
+.tbl th{background:rgba(0,180,200,0.1);color:var(--teal);padding:10px 14px;text-align:left;font-size:.72rem;font-family:'DM Mono',monospace;letter-spacing:1px;border-bottom:1px solid rgba(0,180,200,0.14)}
+.tbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:.82rem;color:var(--white);vertical-align:top}
+.tbl td:first-child{font-family:'DM Mono',monospace;color:var(--teal3)}
+.tbl tr:hover td{background:rgba(0,180,200,0.03)}
+
+/* VENN */
+.venn-wrap{display:flex;justify-content:center;padding:16px;flex-wrap:wrap;gap:16px}
+.vbox{background:var(--navy3);border:1px solid rgba(0,180,200,0.15);border-radius:13px;padding:20px;margin-bottom:16px}
+.vbtns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.vbtn{background:transparent;border:1px solid rgba(0,180,200,0.2);color:var(--gray);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.73rem;font-family:'Noto Sans Bengali',sans-serif;transition:all .18s}
+.vbtn:hover{border-color:var(--teal);color:var(--teal)}
+.vbtn.on{background:var(--teal);color:var(--navy);border-color:var(--teal);font-weight:700}
+.vdesc{text-align:center;margin-top:10px;padding:9px 14px;background:rgba(0,180,200,0.07);border-radius:7px;font-family:'DM Mono',monospace;color:var(--teal3);font-size:.78rem;line-height:1.65}
+#vsvg{display:flex;justify-content:center;min-height:190px;align-items:center}
+
+/* MINI TEST */
+.mt{background:var(--navy2);border:2px solid rgba(0,180,200,0.28);border-radius:13px;padding:20px;margin-top:20px}
+.mt-hd{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.mt-badge{background:linear-gradient(135deg,var(--teal),var(--teal2));color:var(--navy);font-size:.62rem;font-weight:800;font-family:'Syne',sans-serif;padding:3px 11px;border-radius:20px;letter-spacing:.5px}
+.mt-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;color:var(--white)}
+.mt-info{display:flex;justify-content:space-between;font-size:.75rem;color:var(--gray);font-family:'DM Mono',monospace;margin-bottom:12px}
+/* question card */
+.mtq{background:var(--navy3);border:1px solid rgba(0,180,200,0.13);border-radius:9px;padding:14px;margin-bottom:8px}
+.mqn{font-size:.6rem;color:var(--teal);font-family:'DM Mono',monospace;letter-spacing:2px;margin-bottom:6px}
+.mqt{font-size:.86rem;color:var(--white);line-height:1.8;margin-bottom:10px}
+/* MCQ opts */
+.mcq-opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media(max-width:540px){.mcq-opts{grid-template-columns:1fr}}
+.mopt{background:rgba(255,255,255,0.04);border:1px solid rgba(0,180,200,0.13);color:var(--white);padding:9px 13px;border-radius:7px;cursor:pointer;font-size:.8rem;font-family:'Noto Sans Bengali',sans-serif;transition:all .18s;text-align:left;line-height:1.5}
+.mopt:hover:not([disabled]){border-color:var(--teal);background:rgba(0,180,200,0.08)}
+.mopt.ok{background:rgba(39,174,96,0.18);border-color:var(--green);color:#99ffcc}
+.mopt.no{background:rgba(231,76,60,0.15);border-color:var(--red);color:#ffaaaa}
+/* TF */
+.tf-row{display:flex;gap:8px}
+.tfbtn{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(0,180,200,0.13);color:var(--white);padding:9px;border-radius:7px;cursor:pointer;font-size:.83rem;font-family:'Noto Sans Bengali',sans-serif;transition:all .18s;font-weight:600}
+.tfbtn:hover:not([disabled]){border-color:var(--teal);background:rgba(0,180,200,0.08)}
+.tfbtn.ok{background:rgba(39,174,96,0.18);border-color:var(--green);color:#99ffcc}
+.tfbtn.no{background:rgba(231,76,60,0.15);border-color:var(--red);color:#ffaaaa}
+/* FIB */
+.fib-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.fibinp{background:var(--navy);border:1px solid rgba(0,180,200,0.25);color:var(--white);padding:8px 12px;border-radius:7px;font-family:'DM Mono',monospace;font-size:.83rem;outline:none;transition:border-color .18s;min-width:90px;flex:1;max-width:180px}
+.fibinp:focus{border-color:var(--teal)}
+.fibsub{background:var(--teal);color:var(--navy);border:none;padding:8px 16px;border-radius:7px;cursor:pointer;font-weight:700;font-family:'Syne',sans-serif;font-size:.76rem;transition:all .18s;white-space:nowrap}
+.fibsub:hover{background:var(--teal3)}
+/* exp */
+.mexp{display:none;margin-top:8px;padding:9px 13px;background:rgba(0,180,200,0.07);border-radius:6px;font-size:.78rem;color:var(--teal3);line-height:1.65}
+.mexp.show{display:block;animation:fu .22s ease}
+/* mt result */
+.mt-res{display:none;text-align:center;padding:18px;margin-top:10px;background:var(--navy3);border:1px solid rgba(0,180,200,0.18);border-radius:9px}
+.mt-res.show{display:block;animation:fu .3s ease}
+.mt-rs{font-family:'Syne',sans-serif;font-weight:800;font-size:2.4rem;color:var(--teal)}
+.mt-rm{font-size:.85rem;margin-top:5px;color:var(--gray)}
+
+/* QUIZ / FULL TEST */
+.qt-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.qt-score{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800}
+.qt-timer{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--gray);padding:4px 11px;background:rgba(255,255,255,0.04);border-radius:6px}
+.qt-prog{height:3px;background:rgba(255,255,255,0.07);border-radius:2px;margin-bottom:18px;overflow:hidden}
+.qt-pf{height:100%;background:var(--teal);border-radius:2px;transition:width .4s}
+.qtq{background:var(--navy3);border:1px solid rgba(0,180,200,0.13);border-radius:11px;padding:18px;margin-bottom:12px}
+.qtn{font-size:.6rem;color:var(--teal);font-family:'DM Mono',monospace;letter-spacing:2px;margin-bottom:7px}
+.qtt{font-size:.87rem;color:var(--white);line-height:1.82;margin-bottom:13px}
+.qt-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+@media(max-width:520px){.qt-opts{grid-template-columns:1fr}}
+.qopt{background:rgba(255,255,255,0.04);border:1px solid rgba(0,180,200,0.13);color:var(--white);padding:10px 13px;border-radius:8px;cursor:pointer;font-size:.8rem;font-family:'Noto Sans Bengali',sans-serif;transition:all .18s;text-align:left;line-height:1.5}
+.qopt:hover:not([disabled]){border-color:var(--teal);background:rgba(0,180,200,0.08)}
+.qopt.ok{background:rgba(39,174,96,0.18);border-color:var(--green);color:#99ffcc}
+.qopt.no{background:rgba(231,76,60,0.15);border-color:var(--red);color:#ffaaaa}
+.qexp{display:none;margin-top:9px;padding:9px 13px;background:rgba(0,180,200,0.07);border-radius:6px;font-size:.78rem;color:var(--teal3);line-height:1.65}
+.qexp.show{display:block;animation:fu .22s ease}
+.qt-result{display:none;text-align:center;padding:36px;background:var(--navy3);border:1px solid rgba(0,180,200,0.16);border-radius:13px}
+.qt-result.show{display:block;animation:fu .4s ease}
+.qt-rs{font-family:'Syne',sans-serif;font-weight:800;font-size:3.2rem;color:var(--teal)}
+.qt-rm{font-size:1rem;margin:9px 0}
+.qt-rsub{color:var(--gray);font-size:.82rem}
+.bk{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:9px;margin:18px 0}
+.bki{background:var(--navy2);border:1px solid rgba(0,180,200,0.12);border-radius:8px;padding:12px;text-align:center}
+.bkn{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem}
+.bkl{font-size:.68rem;color:var(--gray);margin-top:2px}
+
+/* EXERCISE */
+.excard{background:var(--navy3);border:1px solid rgba(0,180,200,0.13);border-radius:11px;padding:18px;margin-bottom:10px}
+.exqt{font-size:.85rem;color:var(--white);line-height:1.8;margin-bottom:10px}
+.exopts{display:flex;flex-wrap:wrap;gap:7px}
+.exopt{background:rgba(255,255,255,0.04);border:1px solid rgba(0,180,200,0.13);color:var(--white);padding:7px 14px;border-radius:7px;cursor:pointer;font-size:.8rem;font-family:'Noto Sans Bengali',sans-serif;transition:all .18s}
+.exopt:hover:not([disabled]){border-color:var(--teal)}
+.exopt.ok{background:rgba(39,174,96,0.18);border-color:var(--green);color:#99ffcc}
+.exopt.no{background:rgba(231,76,60,0.15);border-color:var(--red);color:#ffaaaa}
+
+/* COUNTING TOOL */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:9px;margin-bottom:12px}
+.tlbl{font-size:.62rem;color:var(--teal);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:4px;display:block}
+.tinp{width:100%;background:var(--navy2);border:1px solid rgba(0,180,200,0.18);color:var(--white);padding:8px 11px;border-radius:7px;font-family:'DM Mono',monospace;font-size:.83rem;outline:none;transition:border-color .18s}
+.tinp:focus{border-color:var(--teal)}
+.tres{background:rgba(0,180,200,0.07);border:1px solid rgba(0,180,200,0.18);border-radius:8px;padding:13px;margin-top:9px;font-family:'DM Mono',monospace;color:var(--teal3);display:none;line-height:2.1;font-size:.83rem}
+.tres.show{display:block;animation:fu .28s}
+
+/* GAME */
+.gbrd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:520px;margin:0 auto}
+.gc{aspect-ratio:1.1;background:var(--navy2);border:2px solid rgba(0,180,200,0.14);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'DM Mono',monospace;font-size:.73rem;text-align:center;padding:7px;transition:all .3s;color:var(--white);user-select:none;line-height:1.4}
+.gc:hover{border-color:var(--teal);transform:scale(1.04)}
+.gc.flip{background:rgba(0,180,200,0.13);border-color:var(--teal)}
+.gc.match{background:rgba(39,174,96,0.2);border-color:var(--green);color:var(--green)}
+.gc.bad{background:rgba(231,76,60,0.18);border-color:var(--red)}
+.gstats{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.gs{text-align:center;background:rgba(0,180,200,0.07);border:1px solid rgba(0,180,200,0.12);border-radius:8px;padding:9px 16px;min-width:85px}
+.gsv{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--teal)}
+.gsl{font-size:.66rem;color:var(--gray)}
+
+/* ACCORDION */
+.acc{margin:7px 0}
+.ach{display:flex;justify-content:space-between;align-items:center;background:var(--navy2);border:1px solid rgba(0,180,200,0.14);border-radius:8px;padding:11px 14px;cursor:pointer;transition:all .18s;user-select:none}
+.ach:hover,.ach.op{border-color:var(--teal);background:rgba(0,180,200,0.07)}
+.ach.op{border-radius:8px 8px 0 0}
+.act{font-size:.83rem;color:var(--white);font-family:'Noto Sans Bengali',sans-serif}
+.acarr{color:var(--teal);transition:transform .3s;font-size:.73rem}
+.ach.op .acarr{transform:rotate(180deg)}
+.acb{display:none;background:rgba(0,180,200,0.04);border:1px solid var(--teal);border-top:none;border-radius:0 0 8px 8px;padding:13px 14px;font-size:.82rem;color:#aac8e8;line-height:1.85}
+.acb.op{display:block;animation:fu .22s ease}
+
+/* TOAST */
+#toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--teal);color:var(--navy);padding:10px 20px;border-radius:8px;font-weight:800;font-family:'Syne',sans-serif;transform:translateY(60px);opacity:0;transition:all .28s;pointer-events:none;font-size:.82rem}
+#toast.show{transform:none;opacity:1}
+.cn{font-family:'DM Mono',monospace;color:var(--teal3);background:rgba(0,180,200,0.08);padding:1px 6px;border-radius:3px;font-size:.88em}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<header>
+  <div class="logo"><span class="lm">MATH</span><span class="ll">Lands</span><span class="ld">.</span></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="hbadge">Class 11 · WBCHSE</span>
+    <span class="hsub">সেট তত্ত্ব</span>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hbg"></div><div class="hgrid"></div>
+  <div class="hcontent">
+    <div class="htag">SET THEORY · সেট তত্ত্ব · Semester I</div>
+    <h1>সেট তত্ত্ব —<br><span class="ac">সহজভাবে</span></h1>
+    <p>প্রতিটি concept শেখো → ভেনচিত্র দেখো → mini-test দাও → Quiz-এ নিজেকে যাচাই করো</p>
+    <div class="hstats">
+      <div><div class="sn">11</div><div class="sl">Topics</div></div>
+      <div><div class="sn">55+</div><div class="sl">Mini প্রশ্ন</div></div>
+      <div><div class="sn">25</div><div class="sl">Full Quiz</div></div>
+      <div><div class="sn">∞</div><div class="sl">অনুশীলন</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="navtabs">
+  <button class="ntab on" onclick="gTab('learn',this)">📚 পাঠ্যক্রম</button>
+  <button class="ntab" onclick="gTab('laws',this)">⚖️ সূত্রাবলী</button>
+  <button class="ntab" onclick="gTab('counting',this)">🔢 গণনা সরঞ্জাম</button>
+  <button class="ntab" onclick="gTab('quiz',this)">❓ Quiz</button>
+  <button class="ntab" onclick="gTab('exercise',this)">📝 অনুশীলনী</button>
+  <button class="ntab" onclick="gTab('game',this)">🎮 গেম</button>
+</div>
+
+<div class="layout">
+
+<!-- MOBILE TOPIC BAR (visible only on mobile) -->
+<div class="mob-topic-bar" id="mob-learn-bar">
+  <button class="mtopbtn on" onclick="gConceptMob('def',this)">📖 সংজ্ঞা</button>
+  <button class="mtopbtn" onclick="gConceptMob('repr',this)">✍️ উপস্থাপনা</button>
+  <button class="mtopbtn" onclick="gConceptMob('types',this)">🗂️ প্রকারভেদ</button>
+  <button class="mtopbtn" onclick="gConceptMob('sub',this)">⊆ উপসেট</button>
+  <button class="mtopbtn" onclick="gConceptMob('pow',this)">🔋 সার্বিক/সূচক</button>
+  <button class="mtopbtn" onclick="gConceptMob('uni',this)">∪ সংযোগ/ছেদ</button>
+  <button class="mtopbtn" onclick="gConceptMob('diff',this)">− অন্তর</button>
+  <button class="mtopbtn" onclick="gConceptMob('comp',this)">Aᶜ পূরক</button>
+  <button class="mtopbtn" onclick="gConceptMob('disj',this)">⊘ বিচ্ছেদ</button>
+  <button class="mtopbtn" onclick="gConceptMob('dual',this)">🔄 দ্বৈত</button>
+  <button class="mtopbtn" onclick="gConceptMob('cnt',this)">🔢 গণনা</button>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sbt">টপিক</div>
+  <div class="sbi on" id="si-def" onclick="gConcept('def')"><span>📖</span>সেটের সংজ্ঞা</div>
+  <div class="sbi" id="si-repr" onclick="gConcept('repr')"><span>✍️</span>উপস্থাপনা</div>
+  <div class="sbi" id="si-types" onclick="gConcept('types')"><span>🗂️</span>প্রকারভেদ</div>
+  <div class="sbi" id="si-sub" onclick="gConcept('sub')"><span>⊆</span>উপসেট</div>
+  <div class="sbi" id="si-pow" onclick="gConcept('pow')"><span>🔋</span>সার্বিক ও সূচক</div>
+  <div class="sbi" id="si-uni" onclick="gConcept('uni')"><span>∪</span>সংযোগ ও ছেদ</div>
+  <div class="sbi" id="si-diff" onclick="gConcept('diff')"><span>−</span>সেটের অন্তর</div>
+  <div class="sbi" id="si-comp" onclick="gConcept('comp')"><span>Aᶜ</span>পূরক সেট</div>
+  <div class="sbi" id="si-disj" onclick="gConcept('disj')"><span>⊘</span>বিচ্ছেদ সেট</div>
+  <div class="sbi" id="si-dual" onclick="gConcept('dual')"><span>🔄</span>দ্বৈত নীতি</div>
+  <div class="sbi" id="si-cnt" onclick="gConcept('cnt')"><span>🔢</span>পদসংখ্যা নির্ণয়</div>
+  <div class="sbprog">
+    <div style="font-size:.68rem;color:var(--gray)">অগ্রগতি</div>
+    <div class="pbar"><div class="pfill" id="pf" style="width:9%"></div></div>
+    <div style="font-size:.66rem;color:var(--gray);margin-top:3px" id="pt">1/11</div>
+  </div>
+</aside>
+
+<main class="content">
+
+<!-- mobile progress strip (only visible on mobile, only in learn tab) -->
+<div class="mob-prog-strip" id="mob-prog">
+  <span id="mob-pt">1/11</span>
+  <div class="pbar"><div class="pfill" id="mob-pf" style="width:9%"></div></div>
+</div>
+
+<!-- ====== LEARN TAB ====== -->
+<div id="tab-learn" class="tabp on">
+
+<!-- === DEF === -->
+<div class="cp on" id="cp-def">
+  <div class="sh2"><span class="snum">১</span>সেটের সংজ্ঞা</div>
+  <div class="card">
+    <div class="card-h">📖 সেট কী?</div>
+    <p>সু-সংজ্ঞাত বস্তুর সংগ্রহকে <strong>সেট</strong> বলে। প্রতিটি বস্তুকে সেটের <strong>উপাদান</strong> বা <strong>পদ</strong> বলে।</p>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p>"সু-সংজ্ঞাত" মানে — যার একটি নির্দিষ্ট সংজ্ঞা আছে, যেখানে বস্তু সম্পর্কে নিঃসন্দেহে বলা যাবে সে ওই সেটের অন্তর্ভুক্ত কিনা।</p></div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div>
+      <p>✅ <strong>সেট:</strong> 10-এর চেয়ে ছোট জোড় স্বাভাবিক সংখ্যা = {2,4,6,8}</p>
+      <p>✅ <strong>সেট:</strong> বাংলা স্বরবর্ণ = {অ, আ, ই, ঈ...}</p>
+      <p>❌ <strong>সেট নয়:</strong> "ভালো ছাত্রদের দল" — "ভালো" সু-সংজ্ঞাত নয়</p>
+      <p>❌ <strong>সেট নয়:</strong> "লম্বা মানুষদের দল" — "লম্বা" আপেক্ষিক</p>
+    </div>
+    <div class="dbox"><div class="dl">সদস্যতা সম্পর্ক</div>
+      <p>a সেট A-তে থাকলে: <span class="cn">a ∈ A</span> &nbsp;|&nbsp; না থাকলে: <span class="cn">a ∉ A</span></p>
+    </div>
+    <div class="tipbox"><div class="tl">💡 মনে রাখো</div><p>সেট বড় হাতে: A, B, S, U — উপাদান ছোট হাতে: a, b, x। { } এর মধ্যে comma দিয়ে লেখা হয়।</p></div>
+    <div class="venn-wrap">
+      <svg width="250" height="150" viewBox="0 0 250 150">
+        <rect x="4" y="4" width="242" height="142" rx="7" fill="none" stroke="rgba(0,180,200,0.38)" stroke-width="1.2" stroke-dasharray="5,3"/>
+        <text x="228" y="17" fill="rgba(0,180,200,0.55)" font-size="10" font-family="DM Mono">U</text>
+        <circle cx="105" cy="75" r="55" fill="rgba(0,180,200,0.13)" stroke="#00b4c8" stroke-width="2"/>
+        <text x="105" y="30" fill="#00b4c8" font-size="13" text-anchor="middle" font-family="DM Mono" font-weight="bold">A</text>
+        <circle cx="88" cy="68" r="3.5" fill="#00b4c8"/>
+        <text x="97" y="72" fill="#aac8e8" font-size="10" font-family="DM Mono">2</text>
+        <circle cx="108" cy="82" r="3.5" fill="#00b4c8"/>
+        <text x="117" y="86" fill="#aac8e8" font-size="10" font-family="DM Mono">4</text>
+        <circle cx="122" cy="63" r="3.5" fill="#00b4c8"/>
+        <text x="131" y="67" fill="#aac8e8" font-size="10" font-family="DM Mono">6</text>
+        <circle cx="195" cy="75" r="3.5" fill="#e74c3c"/>
+        <text x="204" y="79" fill="#ffaaaa" font-size="10" font-family="DM Mono">7</text>
+        <text x="88" y="108" fill="rgba(0,180,200,0.7)" font-size="9" font-family="DM Mono">∈ A</text>
+        <text x="184" y="95" fill="#e74c3c" font-size="9" font-family="DM Mono">∉ A</text>
+      </svg>
+    </div>
+  </div>
+  <div id="mt-def"></div>
+  <div class="nbbtns" style="margin-top:12px"><span></span><button class="btnp" onclick="gConcept('repr')">পরবর্তী: উপস্থাপনা →</button></div>
+</div>
+
+<!-- === REPR === -->
+<div class="cp" id="cp-repr">
+  <div class="sh2"><span class="snum">২</span>সেটের উপস্থাপনা</div>
+  <div class="card">
+    <div class="card-h">✍️ তিনটি পদ্ধতি</div>
+    <div class="lgrid">
+      <div class="lc"><div class="ln">① তালিকা পদ্ধতি</div><div class="lf">Roster / Tabular</div><div class="ld">সব উপাদান { } এর মধ্যে তালিকা করা হয়</div></div>
+      <div class="lc"><div class="ln">② সেট-গঠন পদ্ধতি</div><div class="lf">Set Builder Method</div><div class="ld">বৈশিষ্ট্য দিয়ে {x : ...} আকারে লেখা হয়</div></div>
+      <div class="lc"><div class="ln">③ ভেনচিত্র</div><div class="lf">Venn Diagram</div><div class="ld">বৃত্ত ও আয়তক্ষেত্রে চিত্রে প্রকাশ</div></div>
+    </div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div>
+      <p><strong>তালিকা:</strong> A = {2, 4, 6, 8}</p>
+      <p><strong>সেট-গঠন:</strong> A = {x : x জোড় স্বাভাবিক সংখ্যা, x &lt; 10}</p>
+      <p><strong>বা:</strong> A = {x : x = 2n, n ∈ ℕ, 1 ≤ n ≤ 4}</p>
+    </div>
+    <div class="tipbox"><div class="tl">💡 মনে রাখো</div><p>{ x : ... } বা { x | ... } উভয়ই লেখা যায়। ":" মানে "such that" বা "যেখানে"।</p></div>
+  </div>
+  <div id="mt-repr"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('def')">← আগের</button><button class="btnp" onclick="gConcept('types')">পরবর্তী →</button></div>
+</div>
+
+<!-- === TYPES === -->
+<div class="cp" id="cp-types">
+  <div class="sh2"><span class="snum">৩</span>সেটের প্রকারভেদ</div>
+  <div class="card">
+    <div class="stg">
+      <div class="stc"><div class="stn">শূন্য সেট</div><div class="ste">∅ বা {}</div><div class="std">কোনো উপাদান নেই। যেমন: {x:x²=-1,x∈ℝ}</div></div>
+      <div class="stc"><div class="stn">একপদী সেট</div><div class="ste">{5} বা {π}</div><div class="std">মাত্র একটি উপাদান।</div></div>
+      <div class="stc"><div class="stn">সসীম সেট</div><div class="ste">{1,2,3,4,5}</div><div class="std">উপাদান সংখ্যা গণনাযোগ্য ও সীমিত।</div></div>
+      <div class="stc"><div class="stn">অসীম সেট</div><div class="ste">ℕ={1,2,3,...}</div><div class="std">উপাদান সংখ্যা অসীম। যেমন: ℤ, ℝ, ℚ</div></div>
+      <div class="stc"><div class="stn">সমান সেট</div><div class="ste">A = B</div><div class="std">উপাদান সম্পূর্ণ একই হলে।</div></div>
+      <div class="stc"><div class="stn">সমতুল্য সেট</div><div class="ste">n(A) = n(B)</div><div class="std">পদসংখ্যা সমান কিন্তু উপাদান আলাদা।</div></div>
+    </div>
+    <div class="wbox"><div class="wl">⚠️ সাধারণ ভুল</div><p>{0} শূন্য সেট নয়! এটি একপদী সেট। শূন্য সেট = {} বা ∅।<br>{∅} এবং ∅ এক নয় — {∅} একপদী সেট!</p></div>
+    <div class="ebox"><div class="el">গুরুত্বপূর্ণ উদাহরণ ✦</div>
+      <p>• {1,2,3} = {3,2,1} → সমান সেট (ক্রম বিবেচ্য নয়)</p>
+      <p>• {1,2} ও {a,b} → সমতুল্য কিন্তু সমান নয়</p>
+      <p>• {x:x পূর্ণসংখ্যা, 1&lt;x&lt;2} → শূন্য সেট</p>
+    </div>
+  </div>
+  <div id="mt-types"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('repr')">← আগের</button><button class="btnp" onclick="gConcept('sub')">পরবর্তী →</button></div>
+</div>
+
+<!-- === SUBSET === -->
+<div class="cp" id="cp-sub">
+  <div class="sh2"><span class="snum">৪</span>উপসেট ও যথার্থ উপসেট</div>
+  <div class="card">
+    <div class="card-h">⊆ উপসেট (Subset)</div>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p>A-র প্রতিটি উপাদান B-তেও থাকলে: <span class="cn">A ⊆ B</span><br>A ⊂ B মানে A ⊆ B কিন্তু A ≠ B (যথার্থ উপসেট)</p></div>
+    <div class="fbox"><div class="fl">গুরুত্বপূর্ণ সম্পর্ক</div>
+      ∅ ⊆ A (শূন্য সেট সকল সেটের উপসেট)<br>
+      A ⊆ A (প্রতিটি সেট নিজের উপসেট)<br>
+      A⊆B ও B⊆C ⟹ A⊆C (transitivity)<br>
+      A⊆B ও B⊆A ⟺ A=B
+    </div>
+    <div class="fbox" style="margin-top:0"><div class="fl">উপসেটের সংখ্যা</div>
+      n পদবিশিষ্ট সেটের মোট উপসেট = 2ⁿ<br>
+      যথার্থ উপসেট = 2ⁿ − 1
+    </div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div>
+      <p>A={a,b,c} → উপসেট=2³=8: ∅,{a},{b},{c},{a,b},{a,c},{b,c},{a,b,c}</p>
+      <p>যথার্থ উপসেট = 7টি</p>
+    </div>
+    <div class="venn-wrap">
+      <svg width="230" height="150" viewBox="0 0 230 150">
+        <rect x="3" y="3" width="224" height="144" rx="7" fill="none" stroke="rgba(0,180,200,0.3)" stroke-width="1" stroke-dasharray="5,3"/>
+        <text x="210" y="16" fill="rgba(0,180,200,0.5)" font-size="10" font-family="DM Mono">U</text>
+        <circle cx="110" cy="78" r="62" fill="rgba(245,200,66,0.1)" stroke="#f5c842" stroke-width="2"/>
+        <circle cx="98" cy="84" r="30" fill="rgba(0,180,200,0.25)" stroke="#00b4c8" stroke-width="2"/>
+        <text x="98" y="88" fill="#00b4c8" font-size="12" text-anchor="middle" font-family="DM Mono" font-weight="bold">A</text>
+        <text x="148" y="60" fill="#f5c842" font-size="12" font-family="DM Mono" font-weight="bold">B</text>
+        <text x="85" y="107" fill="#00b4c8" font-size="9" font-family="DM Mono">A⊆B</text>
+        <text x="142" y="90" fill="#e8d898" font-size="9" font-family="DM Mono">3,4</text>
+        <text x="85" y="85" fill="#aac8e8" font-size="9" font-family="DM Mono">1,2</text>
+      </svg>
+    </div>
+    <div class="tipbox"><div class="tl">💡 পরীক্ষার টিপ</div><p>4 পদবিশিষ্ট সেটের উপসেট=2⁴=16, যথার্থ=15। এটি MCQ-তে বারবার আসে!</p></div>
+  </div>
+  <div id="mt-sub"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('types')">← আগের</button><button class="btnp" onclick="gConcept('pow')">পরবর্তী →</button></div>
+</div>
+
+<!-- === POW === -->
+<div class="cp" id="cp-pow">
+  <div class="sh2"><span class="snum">৫</span>সার্বিক সেট ও সূচক সেট</div>
+  <div class="card">
+    <div class="card-h">🌐 সার্বিক সেট (Universal Set)</div>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p>কোনো আলোচনায় সংশ্লিষ্ট সকল উপাদানের সেট। প্রকাশ: <span class="cn">U</span> বা <span class="cn">S</span></p></div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div><p>U={1,2,...,10} হলে A={2,4,6} এবং B={1,3,5} উভয়ই U-র উপসেট।</p></div>
+  </div>
+  <div class="card">
+    <div class="card-h">🔋 সূচক সেট / ঘাত সেট (Power Set)</div>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p>A-র সকল উপসেটের সংগ্রহ = <span class="cn">P(A)</span></p></div>
+    <div class="fbox"><div class="fl">সূত্র</div>n(A)=m হলে, n(P(A)) = 2ᵐ<br>n(P(P(A))) = 2^(2ᵐ)</div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div>
+      <p>A={1,2,3} → P(A)={∅,{1},{2},{3},{1,2},{1,3},{2,3},{1,2,3}}</p>
+      <p>n(P(A))=8 &nbsp;|&nbsp; n(P(P(A)))=2⁸=256</p>
+      <p><strong>ছায়া প্রশ্ন:</strong> A={3,5,6} হলে n(P(P(A)))=2^(2³)=256</p>
+    </div>
+  </div>
+  <div id="mt-pow"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('sub')">← আগের</button><button class="btnp" onclick="gConcept('uni')">পরবর্তী →</button></div>
+</div>
+
+<!-- === UNI (Union+Intersection) === -->
+<div class="cp" id="cp-uni">
+  <div class="sh2"><span class="snum">৬</span>সংযোগ ∪ এবং ছেদ ∩</div>
+  <div class="card">
+    <div class="card-h">∪ সংযোগ (Union)</div>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p><span class="cn">A ∪ B = {x : x ∈ A অথবা x ∈ B}</span></p></div>
+    <div class="fbox"><div class="fl">ধর্ম</div>A∪∅=A &nbsp;|&nbsp; A∪A=A &nbsp;|&nbsp; A∪U=U &nbsp;|&nbsp; A∪B=B∪A</div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div><p>A={1,2,3}, B={3,4,5} → A∪B={1,2,3,4,5}</p></div>
+  </div>
+  <div class="card">
+    <div class="card-h">∩ ছেদ (Intersection)</div>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p><span class="cn">A ∩ B = {x : x ∈ A এবং x ∈ B}</span></p></div>
+    <div class="fbox"><div class="fl">ধর্ম</div>A∩∅=∅ &nbsp;|&nbsp; A∩A=A &nbsp;|&nbsp; A∩U=A &nbsp;|&nbsp; A∩B=B∩A</div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div><p>A={1,2,3,4}, B={3,4,5,6} → A∩B={3,4}</p></div>
+  </div>
+
+  <!-- INTERACTIVE VENN -->
+  <div class="vbox">
+    <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--teal);margin-bottom:11px;font-size:.95rem">🔵 ইন্টারেক্টিভ ভেনচিত্র</div>
+    <div class="vbtns">
+      <button class="vbtn on" onclick="doVenn('union',this)">A ∪ B</button>
+      <button class="vbtn" onclick="doVenn('inter',this)">A ∩ B</button>
+      <button class="vbtn" onclick="doVenn('aonly',this)">A − B</button>
+      <button class="vbtn" onclick="doVenn('bonly',this)">B − A</button>
+      <button class="vbtn" onclick="doVenn('acomp',this)">Aᶜ</button>
+      <button class="vbtn" onclick="doVenn('bcomp',this)">Bᶜ</button>
+      <button class="vbtn" onclick="doVenn('sym',this)">A △ B</button>
+      <button class="vbtn" onclick="doVenn('disj',this)">বিচ্ছেদ</button>
+    </div>
+    <div id="vsvg"></div>
+    <div class="vdesc" id="vdesc">A ∪ B = A এবং B উভয়ের সকল উপাদান — n(A∪B) = n(A)+n(B)−n(A∩B)</div>
+  </div>
+
+  <div id="mt-uni"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('pow')">← আগের</button><button class="btnp" onclick="gConcept('diff')">পরবর্তী →</button></div>
+</div>
+
+<!-- === DIFF === -->
+<div class="cp" id="cp-diff">
+  <div class="sh2"><span class="snum">৭</span>সেটের অন্তর (Difference)</div>
+  <div class="card">
+    <div class="card-h">− সেটের অন্তর</div>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p><span class="cn">A − B = {x : x ∈ A কিন্তু x ∉ B}</span><br>A-তে আছে কিন্তু B-তে নেই এমন উপাদান।</p></div>
+    <div class="fbox"><div class="fl">সম্পর্ক</div>A−B = A∩Bᶜ &nbsp;|&nbsp; n(A−B) = n(A)−n(A∩B)</div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div>
+      <p>A={1,2,3,4,5}, B={3,4,5,6,7}</p>
+      <p>A−B={1,2} &nbsp;|&nbsp; B−A={6,7}</p>
+    </div>
+    <div class="wbox"><div class="wl">⚠️ মনে রাখো</div><p>A−B ≠ B−A সাধারণত। যদি A∩B=∅ হয় তাহলে A−B=A।</p></div>
+    <div class="venn-wrap">
+      <svg width="280" height="160" viewBox="0 0 280 160">
+        <defs>
+          <clipPath id="ca"><circle cx="108" cy="80" r="60"/></clipPath>
+          <clipPath id="cb"><circle cx="172" cy="80" r="60"/></clipPath>
+        </defs>
+        <rect x="3" y="3" width="274" height="154" rx="7" fill="none" stroke="rgba(0,180,200,0.3)" stroke-width="1" stroke-dasharray="5,3"/>
+        <text x="260" y="16" fill="rgba(0,180,200,0.5)" font-size="10" font-family="DM Mono">U</text>
+        <!-- A only = highlight A, then cover B-over-A region with dark -->
+        <circle cx="108" cy="80" r="60" fill="rgba(231,76,60,0.38)" stroke="#00b4c8" stroke-width="2"/>
+        <circle cx="172" cy="80" r="60" fill="rgba(9,21,42,0.88)" stroke="none" clip-path="url(#ca)"/>
+        <circle cx="172" cy="80" r="60" fill="rgba(245,200,66,0.07)" stroke="#f5c842" stroke-width="2"/>
+        <text x="78" y="83" fill="#e74c3c" font-size="13" font-family="DM Mono" font-weight="bold">A</text>
+        <text x="192" y="58" fill="#f5c842" font-size="13" font-family="DM Mono" font-weight="bold">B</text>
+        <text x="65" y="88" fill="#ffaaaa" font-size="9" font-family="DM Mono">1,2</text>
+        <text x="130" y="88" fill="#888" font-size="8" font-family="DM Mono">3,4,5</text>
+        <text x="182" y="88" fill="#e8d898" font-size="9" font-family="DM Mono">6,7</text>
+        <text x="62" y="108" fill="#e74c3c" font-size="9" font-family="DM Mono">A−B</text>
+      </svg>
+    </div>
+    <div class="dbox" style="margin-top:12px"><div class="dl">প্রতিসম অন্তর (Symmetric Difference)</div>
+      <p>A△B = (A−B)∪(B−A) = (A∪B)−(A∩B)</p>
+      <p>n(A△B) = n(A)+n(B)−2n(A∩B)</p>
+    </div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div><p>A={1,2,3,4}, B={3,4,5,6} → A△B={1,2,5,6}</p></div>
+  </div>
+  <div id="mt-diff"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('uni')">← আগের</button><button class="btnp" onclick="gConcept('comp')">পরবর্তী →</button></div>
+</div>
+
+<!-- === COMP === -->
+<div class="cp" id="cp-comp">
+  <div class="sh2"><span class="snum">৮</span>পূরক সেট (Complement)</div>
+  <div class="card">
+    <div class="card-h">Aᶜ পূরক সেট</div>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p><span class="cn">Aᶜ = U − A = {x : x ∈ U এবং x ∉ A}</span></p></div>
+    <div class="fbox"><div class="fl">সূত্রসমূহ</div>
+      (Aᶜ)ᶜ=A &nbsp; A∪Aᶜ=U &nbsp; A∩Aᶜ=∅<br>
+      Uᶜ=∅ &nbsp; ∅ᶜ=U<br>
+      n(Aᶜ)=n(U)−n(A)<br>
+      n(Aᶜ∩Bᶜ)=n(U)−n(A∪B)<br>
+      n(Aᶜ∪Bᶜ)=n(U)−n(A∩B)
+    </div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div>
+      <p>U={1..10}, A={2,4,6,8,10} → Aᶜ={1,3,5,7,9}</p>
+    </div>
+    <div class="venn-wrap">
+      <svg width="250" height="150" viewBox="0 0 250 150">
+        <rect x="3" y="3" width="244" height="144" rx="7" fill="rgba(0,180,200,0.22)" stroke="#00b4c8" stroke-width="1.3" stroke-dasharray="5,3"/>
+        <text x="228" y="16" fill="rgba(0,180,200,0.7)" font-size="10" font-family="DM Mono">U</text>
+        <circle cx="112" cy="75" r="52" fill="rgba(9,21,42,0.9)" stroke="#00b4c8" stroke-width="2.2"/>
+        <text x="112" y="79" fill="#00b4c8" font-size="13" text-anchor="middle" font-family="DM Mono" font-weight="bold">A</text>
+        <text x="25" y="55" fill="#66ccdd" font-size="10" font-family="DM Mono">Aᶜ</text>
+        <text x="196" y="55" fill="#66ccdd" font-size="10" font-family="DM Mono">Aᶜ</text>
+        <text x="50" y="120" fill="#66ccdd" font-size="10" font-family="DM Mono">Aᶜ</text>
+      </svg>
+    </div>
+  </div>
+  <div id="mt-comp"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('diff')">← আগের</button><button class="btnp" onclick="gConcept('disj')">পরবর্তী →</button></div>
+</div>
+
+<!-- === DISJ === -->
+<div class="cp" id="cp-disj">
+  <div class="sh2"><span class="snum">৯</span>বিচ্ছেদ সেট (Disjoint Sets)</div>
+  <div class="card">
+    <div class="card-h">⊘ বিচ্ছেদ সেট</div>
+    <div class="dbox"><div class="dl">সংজ্ঞা</div><p>A ও B-এর কোনো সাধারণ উপাদান নেই: <span class="cn">A ∩ B = ∅</span></p></div>
+    <div class="fbox"><div class="fl">বিচ্ছেদ সেটে</div>n(A∪B) = n(A) + n(B)</div>
+    <div class="ebox"><div class="el">উদাহরণ ✦</div>
+      <p>A={1,2,3}, B={4,5,6} → A∩B=∅ → বিচ্ছেদ ✓</p>
+      <p>A={1,2,3}, B={3,4,5} → A∩B={3}≠∅ → বিচ্ছেদ নয় ✗</p>
+    </div>
+    <div class="venn-wrap">
+      <svg width="270" height="140" viewBox="0 0 270 140">
+        <rect x="3" y="3" width="264" height="134" rx="7" fill="none" stroke="rgba(0,180,200,0.3)" stroke-width="1" stroke-dasharray="5,3"/>
+        <text x="250" y="16" fill="rgba(0,180,200,0.5)" font-size="10" font-family="DM Mono">U</text>
+        <circle cx="75" cy="70" r="52" fill="rgba(0,180,200,0.2)" stroke="#00b4c8" stroke-width="2"/>
+        <circle cx="195" cy="70" r="52" fill="rgba(245,200,66,0.15)" stroke="#f5c842" stroke-width="2"/>
+        <text x="75" y="74" fill="#00b4c8" font-size="13" text-anchor="middle" font-family="DM Mono" font-weight="bold">A</text>
+        <text x="195" y="74" fill="#f5c842" font-size="13" text-anchor="middle" font-family="DM Mono" font-weight="bold">B</text>
+        <text x="75" y="92" fill="#aac8e8" font-size="9" text-anchor="middle" font-family="DM Mono">{1,2,3}</text>
+        <text x="195" y="92" fill="#e8d898" font-size="9" text-anchor="middle" font-family="DM Mono">{4,5,6}</text>
+        <text x="133" y="74" fill="#888" font-size="9" text-anchor="middle" font-family="DM Mono">A∩B=∅</text>
+      </svg>
+    </div>
+  </div>
+  <div id="mt-disj"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('comp')">← আগের</button><button class="btnp" onclick="gConcept('dual')">পরবর্তী →</button></div>
+</div>
+
+<!-- === DUAL === -->
+<div class="cp" id="cp-dual">
+  <div class="sh2"><span class="snum">১০</span>দ্বৈত নীতি ও ডি-মর্গান</div>
+  <div class="card">
+    <div class="card-h">🔄 দ্বৈত নীতি</div>
+    <div class="dbox"><div class="dl">নীতি</div><p>যেকোনো সত্য বিবৃতিতে <strong>∪↔∩</strong> এবং <strong>U↔∅</strong> পরিবর্তন করলে নতুন বিবৃতিও সত্য।</p></div>
+    <table class="tbl"><thead><tr><th>মূল সত্য</th><th>দ্বৈত সত্য</th></tr></thead>
+    <tbody>
+      <tr><td>A∪∅=A</td><td>A∩U=A</td></tr>
+      <tr><td>A∪U=U</td><td>A∩∅=∅</td></tr>
+      <tr><td>A∪Aᶜ=U</td><td>A∩Aᶜ=∅</td></tr>
+      <tr><td>A∪(B∩C)=(A∪B)∩(A∪C)</td><td>A∩(B∪C)=(A∩B)∪(A∩C)</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card">
+    <div class="card-h" style="color:var(--red)">⚡ ডি-মর্গানের সূত্র</div>
+    <div class="fbox"><div class="fl">সূত্র</div>(A∪B)ᶜ = Aᶜ∩Bᶜ<br>(A∩B)ᶜ = Aᶜ∪Bᶜ</div>
+    <div class="acc"><div class="ach" onclick="togAcc(this)"><span class="act">প্রমাণ: (A∪B)ᶜ=Aᶜ∩Bᶜ</span><span class="acarr">▼</span></div><div class="acb">U={1..8},A={1,2,3,4},B={3,4,5,6}<br>A∪B={1,2,3,4,5,6} → (A∪B)ᶜ={7,8}<br>Aᶜ={5,6,7,8}, Bᶜ={1,2,7,8}<br>Aᶜ∩Bᶜ={7,8} ✓</div></div>
+    <div class="acc" style="margin-top:6px"><div class="ach" onclick="togAcc(this)"><span class="act">প্রমাণ: (A∩B)ᶜ=Aᶜ∪Bᶜ</span><span class="acarr">▼</span></div><div class="acb">A∩B={3,4} → (A∩B)ᶜ={1,2,5,6,7,8}<br>Aᶜ∪Bᶜ={5,6,7,8}∪{1,2,7,8}={1,2,5,6,7,8} ✓</div></div>
+  </div>
+  <div id="mt-dual"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('disj')">← আগের</button><button class="btnp" onclick="gConcept('cnt')">পরবর্তী →</button></div>
+</div>
+
+<!-- === CNT === -->
+<div class="cp" id="cp-cnt">
+  <div class="sh2"><span class="snum">১১</span>সসীম সেটের পদসংখ্যা নির্ণয়</div>
+  <div class="card">
+    <div class="card-h">🔢 দুটি সেটের সূত্র</div>
+    <div class="fbox"><div class="fl">মূল সূত্র</div>n(A∪B) = n(A)+n(B)−n(A∩B)</div>
+    <table class="tbl"><thead><tr><th>সূত্র</th><th>মান</th></tr></thead><tbody>
+      <tr><td>n(A−B)</td><td>n(A)−n(A∩B)</td></tr>
+      <tr><td>n(B−A)</td><td>n(B)−n(A∩B)</td></tr>
+      <tr><td>n(A△B)</td><td>n(A)+n(B)−2n(A∩B)</td></tr>
+      <tr><td>n(Aᶜ)</td><td>n(U)−n(A)</td></tr>
+      <tr><td>n(Aᶜ∩Bᶜ)</td><td>n(U)−n(A∪B)</td></tr>
+      <tr><td>n(Aᶜ∪Bᶜ)</td><td>n(U)−n(A∩B)</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card">
+    <div class="card-h">🔢 তিনটি সেটের সূত্র</div>
+    <div class="fbox"><div class="fl">মূল সূত্র</div>
+      n(A∪B∪C) = n(A)+n(B)+n(C)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;−n(A∩B)−n(B∩C)−n(A∩C)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+n(A∩B∩C)
+    </div>
+    <div class="ebox"><div class="el">ছায়া MCQ (Q.41) ✦</div>
+      <p>কলকাতায় ১০০৩ পরিবার: ৬৩টির রেডিও বা টিভি নেই, ৭৯৪টির রেডিও, ১৮৭টির টিভি।</p>
+      <p style="font-family:'DM Mono',monospace;color:var(--teal3);margin-top:6px">n(R∪T)=1003−63=940<br>n(R∩T)=794+187−940=41 ✓</p>
+    </div>
+    <div class="venn-wrap">
+      <svg width="290" height="210" viewBox="0 0 290 210">
+        <rect x="3" y="3" width="284" height="204" rx="7" fill="none" stroke="rgba(0,180,200,0.28)" stroke-width="1" stroke-dasharray="5,3"/>
+        <text x="268" y="17" fill="rgba(0,180,200,0.5)" font-size="10" font-family="DM Mono">U</text>
+        <circle cx="145" cy="80" r="65" fill="rgba(0,180,200,0.11)" stroke="#00b4c8" stroke-width="2"/>
+        <circle cx="102" cy="148" r="65" fill="rgba(245,200,66,0.08)" stroke="#f5c842" stroke-width="2"/>
+        <circle cx="188" cy="148" r="65" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="2"/>
+        <text x="145" y="30" fill="#00b4c8" font-size="12" text-anchor="middle" font-family="DM Mono" font-weight="bold">A</text>
+        <text x="53" y="196" fill="#f5c842" font-size="12" font-family="DM Mono" font-weight="bold">B</text>
+        <text x="228" y="196" fill="#a78bfa" font-size="12" font-family="DM Mono" font-weight="bold">C</text>
+        <text x="145" y="123" fill="#fff" font-size="8" text-anchor="middle" font-family="DM Mono">A∩B∩C</text>
+        <text x="115" y="102" fill="#adf" font-size="8" text-anchor="middle" font-family="DM Mono">A∩B</text>
+        <text x="175" y="102" fill="#adf" font-size="8" text-anchor="middle" font-family="DM Mono">A∩C</text>
+        <text x="145" y="162" fill="#adf" font-size="8" text-anchor="middle" font-family="DM Mono">B∩C</text>
+        <text x="145" y="56" fill="rgba(0,180,200,0.7)" font-size="8" text-anchor="middle" font-family="DM Mono">শুধু A</text>
+        <text x="74" y="172" fill="rgba(245,200,66,0.7)" font-size="8" text-anchor="middle" font-family="DM Mono">শুধু B</text>
+        <text x="216" y="172" fill="rgba(167,139,250,0.7)" font-size="8" text-anchor="middle" font-family="DM Mono">শুধু C</text>
+      </svg>
+    </div>
+  </div>
+  <div id="mt-cnt"></div>
+  <div class="nbbtns"><button class="btns" onclick="gConcept('dual')">← আগের</button><button class="btnp" onclick="gTab('quiz',document.querySelectorAll('.ntab')[3])">Quiz দাও 🎯</button></div>
+</div>
+
+</div><!-- end tab-learn -->
+
+<!-- ====== LAWS TAB ====== -->
+<div id="tab-laws" class="tabp">
+  <div class="sh2" style="margin-bottom:18px">⚖️ সেটের বীজগাণিতিক সূত্রাবলী</div>
+  <div class="lgrid">
+    <div class="lc"><div class="ln">① Idempotent</div><div class="lf">A∪A=A &nbsp; A∩A=A</div><div class="ld">নিজের সাথে যোগ বা গুণ করলে অপরিবর্তিত</div></div>
+    <div class="lc"><div class="ln">② Commutative</div><div class="lf">A∪B=B∪A &nbsp; A∩B=B∩A</div><div class="ld">ক্রম পরিবর্তনে ফলাফল একই</div></div>
+    <div class="lc"><div class="ln">③ Associative</div><div class="lf">(A∪B)∪C=A∪(B∪C)<br>(A∩B)∩C=A∩(B∩C)</div><div class="ld">গোষ্ঠীবদ্ধকরণ পরিবর্তনে একই</div></div>
+    <div class="lc"><div class="ln">④ Distributive</div><div class="lf">A∪(B∩C)=(A∪B)∩(A∪C)<br>A∩(B∪C)=(A∩B)∪(A∩C)</div><div class="ld">বণ্টন সূত্র</div></div>
+    <div class="lc" style="border-color:rgba(231,76,60,0.4)"><div class="ln" style="color:var(--red)">⑤ De Morgan's ★</div><div class="lf">(A∪B)ᶜ=Aᶜ∩Bᶜ<br>(A∩B)ᶜ=Aᶜ∪Bᶜ</div><div class="ld">সবচেয়ে গুরুত্বপূর্ণ! পরীক্ষায় বারবার আসে</div></div>
+    <div class="lc"><div class="ln">⑥ Identity</div><div class="lf">A∪∅=A &nbsp; A∩U=A</div><div class="ld">পরিচয় উপাদান</div></div>
+    <div class="lc"><div class="ln">⑦ Complement</div><div class="lf">A∪Aᶜ=U &nbsp; A∩Aᶜ=∅<br>(Aᶜ)ᶜ=A</div><div class="ld">পূরক সূত্র</div></div>
+    <div class="lc"><div class="ln">⑧ Domination</div><div class="lf">A∪U=U &nbsp; A∩∅=∅</div><div class="ld">U ও ∅ সব শোষণ করে</div></div>
+    <div class="lc"><div class="ln">⑨ Absorption</div><div class="lf">A∪(A∩B)=A<br>A∩(A∪B)=A</div><div class="ld">শোষণ সূত্র</div></div>
+    <div class="lc"><div class="ln">⑩ Double Complement</div><div class="lf">(Aᶜ)ᶜ=A<br>∅ᶜ=U &nbsp; Uᶜ=∅</div><div class="ld">দুবার পূরক = মূল সেট</div></div>
+  </div>
+</div>
+
+<!-- ====== COUNTING TAB ====== -->
+<div id="tab-counting" class="tabp">
+  <div class="sh2" style="margin-bottom:18px">🔢 পদসংখ্যা গণনা সরঞ্জাম</div>
+  <div class="card">
+    <div class="card-h">দুটি সেটের গণনা</div>
+    <div class="tgrid">
+      <div><label class="tlbl">n(A)</label><input type="number" class="tinp" id="i2a" oninput="c2()" placeholder="যেমন: 20"></div>
+      <div><label class="tlbl">n(B)</label><input type="number" class="tinp" id="i2b" oninput="c2()" placeholder="যেমন: 15"></div>
+      <div><label class="tlbl">n(A∩B)</label><input type="number" class="tinp" id="i2ab" oninput="c2()" placeholder="যেমন: 7"></div>
+      <div><label class="tlbl">n(U) (ঐচ্ছিক)</label><input type="number" class="tinp" id="i2u" oninput="c2()" placeholder="যেমন: 50"></div>
+    </div>
+    <div class="tres" id="r2"></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="card-h">তিনটি সেটের গণনা</div>
+    <div class="tgrid">
+      <div><label class="tlbl">n(A)</label><input type="number" class="tinp" id="i3a" oninput="c3()"></div>
+      <div><label class="tlbl">n(B)</label><input type="number" class="tinp" id="i3b" oninput="c3()"></div>
+      <div><label class="tlbl">n(C)</label><input type="number" class="tinp" id="i3c" oninput="c3()"></div>
+      <div><label class="tlbl">n(A∩B)</label><input type="number" class="tinp" id="i3ab" oninput="c3()"></div>
+      <div><label class="tlbl">n(B∩C)</label><input type="number" class="tinp" id="i3bc" oninput="c3()"></div>
+      <div><label class="tlbl">n(A∩C)</label><input type="number" class="tinp" id="i3ac" oninput="c3()"></div>
+      <div><label class="tlbl">n(A∩B∩C)</label><input type="number" class="tinp" id="i3abc" oninput="c3()"></div>
+      <div><label class="tlbl">n(U) (ঐচ্ছিক)</label><input type="number" class="tinp" id="i3u" oninput="c3()"></div>
+    </div>
+    <div class="tres" id="r3"></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="card-h">সূচক সেটের পদসংখ্যা</div>
+    <div class="tgrid"><div><label class="tlbl">n(A)=m</label><input type="number" class="tinp" id="ip" oninput="cp()" placeholder="যেমন: 3"></div></div>
+    <div class="tres" id="rp"></div>
+  </div>
+</div>
+
+<!-- ====== QUIZ TAB ====== -->
+<div id="tab-quiz" class="tabp">
+  <div class="sh2" style="margin-bottom:6px">❓ Full Quiz — সেট তত্ত্ব</div>
+  <p style="color:var(--gray);font-size:.8rem;margin-bottom:18px">সব topic মিলিয়ে 25টি MCQ প্রশ্ন। ছায়া গণিত থেকে বাছাই করা।</p>
+  <div id="quiz-main">
+    <div class="qt-hd">
+      <div><div class="qt-score">স্কোর: <span id="qscore" style="color:var(--teal)">0</span>/25</div><div style="font-size:.72rem;color:var(--gray);margin-top:2px" id="qprog">প্রশ্ন 1/25</div></div>
+      <div id="qtimer" class="qt-timer">⏱ 40s</div>
+    </div>
+    <div class="qt-prog"><div class="qt-pf" id="qpbar" style="width:4%"></div></div>
+    <div id="qarea"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:12px;flex-wrap:wrap;gap:7px">
+      <button class="btns" onclick="qSkip()">এড়িয়ে যাও</button>
+      <button class="btnp" id="qnext" onclick="qNext()" style="display:none">পরবর্তী →</button>
+    </div>
+  </div>
+  <div class="qt-result" id="quiz-res">
+    <div style="font-size:2.4rem;margin-bottom:7px">🏆</div>
+    <div class="qt-rs"><span id="qfinal">0</span>/25</div>
+    <div class="qt-rm" id="qmsg"></div>
+    <div class="qt-rsub" id="qsub"></div>
+    <div class="bk" id="qbk"></div>
+    <div style="margin-top:18px;display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
+      <button class="btnp" onclick="initQuiz()">আবার দাও</button>
+      <button class="btns" onclick="gTab('learn',document.querySelectorAll('.ntab')[0])">পড়াশোনায় ফিরো</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== EXERCISE TAB ====== -->
+<div id="tab-exercise" class="tabp">
+  <div class="sh2" style="margin-bottom:6px">📝 অনুশীলনী — ছায়া গণিত MCQ</div>
+  <p style="color:var(--gray);font-size:.8rem;margin-bottom:18px">ছায়া গণিত বইয়ের প্রশ্নগুলো সরাসরি অনুশীলন করো:</p>
+  <div id="exarea"></div>
+</div>
+
+<!-- ====== GAME TAB ====== -->
+<div id="tab-game" class="tabp">
+  <div class="sh2" style="margin-bottom:4px">🎮 জুটি মেলাও</div>
+  <p style="color:var(--gray);font-size:.8rem;margin-bottom:16px">সেটের সংকেত ও বাংলা নাম মেলাও। দুটো কার্ড উল্টে একই জুটি খোঁজো।</p>
+  <div style="background:var(--navy3);border:1px solid rgba(0,180,200,0.14);border-radius:13px;padding:20px">
+    <div class="gstats">
+      <div class="gs"><div class="gsv" id="gm">0</div><div class="gsl">মিলেছে</div></div>
+      <div class="gs"><div class="gsv" id="gv">0</div><div class="gsl">চেষ্টা</div></div>
+      <div class="gs"><div class="gsv" id="gt">0</div><div class="gsl">সেকেন্ড</div></div>
+    </div>
+    <div class="gbrd" id="gbrd" style="margin-top:16px"></div>
+    <div style="text-align:center;margin-top:16px"><button class="btnp" onclick="initGame()">নতুন খেলা</button></div>
+  </div>
+</div>
+
+</main>
+</div><!-- end layout -->
+
+<script>
+// =========================================================
+// MINI TEST DATA — 5 questions each
+// =========================================================
+const MTD = {
+  def:[
+    {t:'mcq',q:'নিচের কোনটি সেট?',o:['ভালো ছাত্রদের দল','লম্বা মানুষদের দল','১০-এর চেয়ে ছোট জোড় সংখ্যা','সুন্দর গাছের দল'],a:2,e:'১০-এর চেয়ে ছোট জোড় সংখ্যা সু-সংজ্ঞাত — নিঃসন্দেহে বলা যায় কোনটি এই সেটে আছে।'},
+    {t:'tf',q:'বিবৃতি: "সুন্দর ফুলের সংগ্রহ" একটি সেট।',a:false,e:'"সুন্দর" সু-সংজ্ঞাত নয়, তাই এটি সেট নয়।'},
+    {t:'mcq',q:'A={1,2,3,4,5} হলে নিচের কোনটি সঠিক?',o:['6∈A','3∈A','5∉A','A={1,2,3}'],a:1,e:'3 সেট A-র উপাদান, তাই 3∈A সঠিক।'},
+    {t:'fib',q:'A={2,4,6,8} সেটে ___ টি উপাদান আছে।',a:'4',e:'সেটটিতে 4টি উপাদান: 2,4,6,8'},
+    {t:'tf',q:'বিবৃতি: সেট সাধারণত বড় হাতের অক্ষর দিয়ে প্রকাশ করা হয়।',a:true,e:'হ্যাঁ, সেট A,B,C,S,U ইত্যাদি বড় হাতের অক্ষরে লেখা হয়।'}
+  ],
+  repr:[
+    {t:'mcq',q:'A={x:x জোড় প্রাকৃতিক সংখ্যা, x≤8} তালিকা পদ্ধতিতে লিখলে—',o:['{1,3,5,7}','{2,4,6,8}','{2,4,6,8,10}','{1,2,3,4}'],a:1,e:'জোড় প্রাকৃতিক সংখ্যা ≤8 হলো 2,4,6,8।'},
+    {t:'tf',q:'বিবৃতি: {x:x²=4} = {2,-2}',a:true,e:'x²=4 হলে x=2 বা x=-2, তাই {2,-2}।'},
+    {t:'mcq',q:'সেট-গঠন পদ্ধতিতে ":" চিহ্নের অর্থ—',o:['সমান','এবং','যেখানে / such that','বা'],a:2,e:'":" মানে "such that" বা "যেখানে"।'},
+    {t:'fib',q:'ভেনচিত্রে সার্বিক সেট U কে ___ দিয়ে প্রকাশ করা হয়।',a:'আয়তক্ষেত্র',e:'ভেনচিত্রে U = আয়তক্ষেত্র, অন্য সেট = বৃত্ত।'},
+    {t:'mcq',q:'ℕ={1,2,3,...} সেট-গঠন পদ্ধতিতে কোনটি সঠিক?',o:['{x:x<0}','{x:x স্বাভাবিক সংখ্যা}','{x:x জোড়}','{x:x ঋণাত্মক}'],a:1,e:'ℕ হলো স্বাভাবিক সংখ্যার সেট।'}
+  ],
+  types:[
+    {t:'mcq',q:'নিচের কোনটি শূন্য সেট?',o:['{0}','{x:x²=-1,x∈ℝ}','{x:x পূর্ণসংখ্যা,1<x<3}','{{}}'],a:1,e:'বাস্তব সংখ্যায় x²=-1-র কোনো সমাধান নেই → শূন্য সেট।'},
+    {t:'tf',q:'বিবৃতি: {1,2,3} এবং {3,2,1} দুটি সমান সেট।',a:true,e:'সেটে ক্রম বিবেচ্য নয়, তাই এরা সমান।'},
+    {t:'mcq',q:'পাঁচটি পদবিশিষ্ট সেটের যথার্থ উপসেট সংখ্যা—',o:['৫','১০','৩২','৩১'],a:3,e:'যথার্থ উপসেট = 2⁵−1 = 31।'},
+    {t:'fib',q:'চারটি পদবিশিষ্ট সেটের মোট উপসেটের সংখ্যা = ___',a:'16',e:'n=4, উপসেট = 2⁴ = 16'},
+    {t:'mcq',q:'{x:x বাস্তব, 0<x≤1} — কোন ধরনের সেট?',o:['সসীম','শূন্য','অসীম','একপদী'],a:2,e:'0 থেকে 1-র মধ্যে অসংখ্য বাস্তব সংখ্যা → অসীম সেট।'}
+  ],
+  sub:[
+    {t:'mcq',q:'যদি A⊆B এবং B⊆C হয়, তবে—',o:['A=C','A⊆C','C⊆A','A∩C=∅'],a:1,e:'Transitivity: A⊆B,B⊆C ⟹ A⊆C।'},
+    {t:'tf',q:'বিবৃতি: শূন্য সেট যেকোনো সেটের উপসেট।',a:true,e:'∅⊆A সবসময় সত্য।'},
+    {t:'mcq',q:'যদি x∈A ⟹ x∈B হয়, তবে—',o:['A=B','A⊂B','A⊆B','B⊆A'],a:2,e:'প্রতিটি উপাদান B-তেও থাকলে A⊆B।'},
+    {t:'fib',q:'A={a,b,c,d} হলে মোট উপসেট = ___',a:'16',e:'n(A)=4, উপসেট = 2⁴ = 16'},
+    {t:'mcq',q:'A={1,2} হলে নিচের কোনটি সত্য?',o:['{1,2}∈A','{1}⊆A','2⊆A','{1,2,3}⊆A'],a:1,e:'{1}⊆A কারণ 1∈A।'}
+  ],
+  pow:[
+    {t:'mcq',q:'A={1,2,3} হলে n(P(A))=?',o:['3','6','8','16'],a:2,e:'n(A)=3, n(P(A))=2³=8'},
+    {t:'tf',q:'বিবৃতি: n(A)=m হলে n(P(A))=2m',a:false,e:'সঠিক সূত্র: n(P(A))=2ᵐ, 2m নয়।'},
+    {t:'mcq',q:'A={3,5,6} হলে n(P(P(A)))=?',o:['8','16','256','64'],a:2,e:'n(A)=3, n(P(A))=8, n(P(P(A)))=2⁸=256'},
+    {t:'fib',q:'4 পদবিশিষ্ট সেটের যথার্থ উপসেট = ___',a:'15',e:'2⁴−1=15'},
+    {t:'mcq',q:'সার্বিক সেট কোন অক্ষরে প্রকাশ পায়?',o:['A','U বা S','P','ℕ'],a:1,e:'সার্বিক সেট U বা S দ্বারা প্রকাশিত।'}
+  ],
+  uni:[
+    {t:'mcq',q:'A={1,2,3,4},B={3,4,5,6} হলে A∪B=?',o:['{3,4}','{1,2,5,6}','{1,2,3,4,5,6}','{1,2}'],a:2,e:'A∪B = উভয়ের সব উপাদান = {1,2,3,4,5,6}'},
+    {t:'mcq',q:'A={1,2,3,4},B={3,4,5,6} হলে A∩B=?',o:['{3,4}','{1,2,5,6}','{1,2,3,4,5,6}','∅'],a:0,e:'A∩B = উভয়ে আছে এমন = {3,4}'},
+    {t:'tf',q:'বিবৃতি: A∪U=U',a:true,e:'Domination Law: A∪U=U'},
+    {t:'fib',q:'n(A)=20,n(B)=15,n(A∩B)=7 হলে n(A∪B)=___',a:'28',e:'n(A∪B)=20+15−7=28'},
+    {t:'mcq',q:'A∩∅=?',o:['A','U','∅','Aᶜ'],a:2,e:'Identity Law: A∩∅=∅'}
+  ],
+  diff:[
+    {t:'mcq',q:'A={1,2,3,4,5},B={3,4,5,6,7} হলে A−B=?',o:['{1,2}','{6,7}','{3,4,5}','{1,2,6,7}'],a:0,e:'A−B = A-তে আছে কিন্তু B-তে নেই = {1,2}'},
+    {t:'tf',q:'বিবৃতি: A−B = B−A সবসময় সত্য।',a:false,e:'সাধারণত A−B ≠ B−A।'},
+    {t:'mcq',q:'n(A−B)=?',o:['n(A)−n(B)','n(A)−n(A∩B)','n(B)−n(A∩B)','n(A)+n(B)'],a:1,e:'n(A−B)=n(A)−n(A∩B)'},
+    {t:'mcq',q:'A={1,2,3,4},B={3,4,5,6} হলে A△B=?',o:['{3,4}','{1,2,5,6}','{1,2,3,4,5,6}','{1,2}'],a:1,e:'A△B=(A−B)∪(B−A)={1,2}∪{5,6}={1,2,5,6}'},
+    {t:'fib',q:'A−B = A ∩ ___',a:'Bᶜ',e:'A−B = A∩Bᶜ'}
+  ],
+  comp:[
+    {t:'mcq',q:'U={1..10},A={1,3,5,7,9} হলে Aᶜ=?',o:['{2,4,6,8,10}','{1,3,5,7,9}','{1,2,3}','∅'],a:0,e:'Aᶜ=U−A = জোড় সংখ্যা = {2,4,6,8,10}'},
+    {t:'tf',q:'বিবৃতি: A∩Aᶜ=U',a:false,e:'A∩Aᶜ=∅, A∪Aᶜ=U'},
+    {t:'mcq',q:'(Aᶜ)ᶜ=?',o:['∅','U','A','Aᶜ'],a:2,e:'দ্বৈত পূরক: (Aᶜ)ᶜ=A'},
+    {t:'mcq',q:'(A∪B)ᶜ=? (ডি-মর্গান)',o:['Aᶜ∪Bᶜ','Aᶜ∩Bᶜ','A∩B','A∪B'],a:1,e:'ডি-মর্গান: (A∪B)ᶜ=Aᶜ∩Bᶜ'},
+    {t:'fib',q:'n(U)=50,n(A)=30 হলে n(Aᶜ)=___',a:'20',e:'n(Aᶜ)=n(U)−n(A)=50−30=20'}
+  ],
+  disj:[
+    {t:'tf',q:'বিবৃতি: A={1,2,3},B={4,5,6} → A ও B বিচ্ছেদ সেট।',a:true,e:'A∩B=∅, তাই বিচ্ছেদ সেট।'},
+    {t:'mcq',q:'বিচ্ছেদ সেটে n(A∪B)=?',o:['n(A)−n(B)','n(A)+n(B)','n(A)×n(B)','0'],a:1,e:'A∩B=∅ হলে n(A∪B)=n(A)+n(B)'},
+    {t:'mcq',q:'A∩B=∅ হলে A ও B হল—',o:['সমান সেট','বিচ্ছেদ সেট','সমতুল্য সেট','উপসেট'],a:1,e:'A∩B=∅ → বিচ্ছেদ সেট'},
+    {t:'fib',q:'A−B=φ হবে যদি A ___ B',a:'⊆',e:'A−B=∅ ⟺ A⊆B'},
+    {t:'mcq',q:'(A∩B)ᶜ=? (ডি-মর্গান)',o:['Aᶜ∩Bᶜ','Aᶜ∪Bᶜ','A∪B','A∩B'],a:1,e:'ডি-মর্গান: (A∩B)ᶜ=Aᶜ∪Bᶜ'}
+  ],
+  dual:[
+    {t:'mcq',q:'A∪∅=A-র দ্বৈত হবে—',o:['A∩∅=∅','A∩U=A','A∪U=U','A∩∅=A'],a:1,e:'দ্বৈত: ∪→∩,∅→U → A∩U=A'},
+    {t:'tf',q:'বিবৃতি: A∪(B∩C)=(A∪B)∩(A∪C) — এটি বণ্টন সূত্র।',a:true,e:'হ্যাঁ, Distributive Law।'},
+    {t:'mcq',q:'(A∪B)ᶜ=Aᶜ∩Bᶜ — কোন সূত্র?',o:['বিনিময়','সংযোগী','ডি-মর্গান','বণ্টন'],a:2,e:'ডি-মর্গানের প্রথম সূত্র।'},
+    {t:'mcq',q:'A∩(A∪B)=? (Absorption)',o:['B','A','A∪B','A∩B'],a:1,e:'শোষণ সূত্র: A∩(A∪B)=A'},
+    {t:'fib',q:'A∪(B∩C)-র দ্বৈত = A ___ (B ___ C)',a:'∩ (B ∪ C)',e:'∪→∩,∩→∪ → A∩(B∪C)'}
+  ],
+  cnt:[
+    {t:'mcq',q:'n(A)=5,n(B)=7,n(A∪B)=8 হলে n(A∩B)=?',o:['2','3','4','5'],a:2,e:'n(A∩B)=5+7−8=4'},
+    {t:'mcq',q:'কলকাতায় 1003 পরিবারে 63টির রেডিও বা টিভি নেই,794টির রেডিও আছে। উভয়ই আছে কতটির?',o:['41','63','187','940'],a:0,e:'n(R∪T)=940, n(R∩T)=794+187−940=41'},
+    {t:'fib',q:'n(A)=15,n(B)=12,n(A∩B)=5 হলে n(A∪B)=___',a:'22',e:'15+12−5=22'},
+    {t:'mcq',q:'n(A△B)=?',o:['n(A)+n(B)−n(A∩B)','n(A)+n(B)−2n(A∩B)','n(A)−n(B)','n(A∩B)'],a:1,e:'n(A△B)=n(A)+n(B)−2n(A∩B)'},
+    {t:'mcq',q:'70 জন ছাত্র। 45 জন ইংরেজি, 30 জন হিন্দি পড়ে। উভয় পড়ে কতজন?',o:['5 জন','15 জন','25 জন','40 জন'],a:0,e:'45+30−70=5 জন'}
+  ]
+};
+
+// =========================================================
+// MINI TEST ENGINE
+// =========================================================
+const mts = {}; // state per concept
+
+function buildMT(cid) {
+  const qs = MTD[cid];
+  mts[cid] = {q:0, score:0, done:false};
+  const el = document.getElementById('mt-'+cid);
+  if (!el) return;
+  el.innerHTML = `
+    <div class="mt">
+      <div class="mt-hd">
+        <span class="mt-badge">MINI TEST</span>
+        <span class="mt-title" id="mtt-${cid}">যাচাই করো</span>
+      </div>
+      <div class="mt-info">
+        <span id="mtp-${cid}">প্রশ্ন 1/5</span>
+        <span id="mts-${cid}" style="color:var(--teal)">স্কোর: 0/5</span>
+      </div>
+      <div id="mtq-${cid}"></div>
+      <div class="mt-res" id="mtr-${cid}">
+        <div class="mt-rs" id="mtrs-${cid}">0/5</div>
+        <div class="mt-rm" id="mtrm-${cid}"></div>
+        <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <button class="btnp" onclick="restartMT('${cid}')">আবার চেষ্টা</button>
+        </div>
+      </div>
+    </div>`;
+  showMTQ(cid);
+}
+
+function showMTQ(cid) {
+  const s = mts[cid]; const qs = MTD[cid];
+  if (s.q >= qs.length) { finMT(cid); return; }
+  const q = qs[s.q]; s.answered = false;
+  document.getElementById('mtp-'+cid).textContent = `প্রশ্ন ${s.q+1}/5`;
+  let html = `<div class="mtq"><div class="mqn">প্রশ্ন ${s.q+1} / 5</div><div class="mqt">${q.q}</div>`;
+  if (q.t === 'mcq') {
+    html += `<div class="mcq-opts">`;
+    q.o.forEach((o,i) => {html += `<button class="mopt" onclick="answerMCQ('${cid}',${i})">${String.fromCharCode(65+i)}. ${o}</button>`;});
+    html += `</div>`;
+  } else if (q.t === 'tf') {
+    html += `<div class="tf-row"><button class="tfbtn" onclick="answerTF('${cid}',true)">✓ সত্য</button><button class="tfbtn" onclick="answerTF('${cid}',false)">✗ মিথ্যা</button></div>`;
+  } else {
+    html += `<div class="fib-row"><input type="text" class="fibinp" id="fib-${cid}" placeholder="উত্তর লেখো..."/><button class="fibsub" onclick="answerFIB('${cid}')">জমা</button></div>`;
+  }
+  html += `<div class="mexp" id="mex-${cid}">💡 ${q.e}</div></div>`;
+  document.getElementById('mtq-'+cid).innerHTML = html;
+  // focus fib
+  if (q.t === 'fib') {
+    setTimeout(() => { const fi = document.getElementById('fib-'+cid); if(fi) fi.focus(); }, 80);
+  }
+}
+
+function answerMCQ(cid, i) {
+  const s = mts[cid]; if (s.answered) return; s.answered = true;
+  const q = MTD[cid][s.q];
+  const btns = document.querySelectorAll(`#mtq-${cid} .mopt`);
+  btns.forEach(b => b.disabled = true);
+  if (i === q.a) { btns[i].classList.add('ok'); s.score++; showT('✓ সঠিক!'); }
+  else { btns[i].classList.add('no'); btns[q.a].classList.add('ok'); showT('✗ ভুল!'); }
+  document.getElementById('mex-'+cid).classList.add('show');
+  document.getElementById('mts-'+cid).textContent = `স্কোর: ${s.score}/5`;
+  setTimeout(() => { s.q++; showMTQ(cid); }, 1700);
+}
+
+function answerTF(cid, val) {
+  const s = mts[cid]; if (s.answered) return; s.answered = true;
+  const q = MTD[cid][s.q];
+  const btns = document.querySelectorAll(`#mtq-${cid} .tfbtn`);
+  btns.forEach(b => b.disabled = true);
+  const right = val === q.a;
+  btns[val?0:1].classList.add(right?'ok':'no');
+  if (!right) btns[q.a?0:1].classList.add('ok');
+  if (right) { s.score++; showT('✓ সঠিক!'); } else showT('✗ ভুল!');
+  document.getElementById('mex-'+cid).classList.add('show');
+  document.getElementById('mts-'+cid).textContent = `স্কোর: ${s.score}/5`;
+  setTimeout(() => { s.q++; showMTQ(cid); }, 1700);
+}
+
+function answerFIB(cid) {
+  const s = mts[cid]; if (s.answered) return;
+  const q = MTD[cid][s.q];
+  const inp = document.getElementById('fib-'+cid);
+  if (!inp) return;
+  const uv = inp.value.trim().toLowerCase();
+  const cv = q.a.toString().toLowerCase();
+  s.answered = true; inp.disabled = true;
+  const sub = inp.parentElement.querySelector('.fibsub'); if(sub) sub.disabled=true;
+  const right = uv === cv || uv.replace(/\s/g,'') === cv.replace(/\s/g,'');
+  inp.style.borderColor = right ? 'var(--green)' : 'var(--red)';
+  if (right) { s.score++; showT('✓ সঠিক!'); } else showT('✗ সঠিক: '+q.a);
+  document.getElementById('mex-'+cid).classList.add('show');
+  document.getElementById('mts-'+cid).textContent = `স্কোর: ${s.score}/5`;
+  setTimeout(() => { s.q++; showMTQ(cid); }, 1900);
+}
+
+function finMT(cid) {
+  const s = mts[cid];
+  document.getElementById('mtq-'+cid).innerHTML = '';
+  const pct = Math.round(s.score/5*100);
+  document.getElementById('mtrs-'+cid).textContent = `${s.score}/5`;
+  document.getElementById('mtrm-'+cid).textContent = pct>=80?'🌟 দারুণ!':pct>=60?'👍 ভালো!':'📚 আরেকবার পড়ো।';
+  document.getElementById('mtr-'+cid).classList.add('show');
+  markV(cid);
+}
+
+function restartMT(cid) {
+  mts[cid] = {q:0,score:0,done:false,answered:false};
+  document.getElementById('mtr-'+cid).classList.remove('show');
+  document.getElementById('mts-'+cid).textContent = 'স্কোর: 0/5';
+  showMTQ(cid);
+}
+
+// =========================================================
+// CONCEPT NAVIGATION
+// =========================================================
+const cpList = ['def','repr','types','sub','pow','uni','diff','comp','disj','dual','cnt'];
+const visited = new Set();
+
+function gConcept(id) {
+  document.querySelectorAll('.cp').forEach(c => c.classList.remove('on'));
+  document.getElementById('cp-'+id).classList.add('on');
+  document.querySelectorAll('.sbi').forEach(s => s.classList.remove('on'));
+  document.getElementById('si-'+id).classList.add('on');
+  // sync mobile bar
+  document.querySelectorAll('.mtopbtn').forEach(b => b.classList.remove('on'));
+  const mb = document.querySelector(`.mtopbtn[onclick*="'${id}'"]`);
+  if (mb) mb.classList.add('on');
+  visited.add(id);
+  markV(id);
+  if (!mts[id]) buildMT(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (id==='uni') { setTimeout(initVenn,120); }
+}
+
+function gConceptMob(id, btn) {
+  document.querySelectorAll('.mtopbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  gConcept(id);
+}
+
+function markV(id) {
+  visited.add(id);
+  const pct = Math.round(visited.size/cpList.length*100);
+  const w = Math.min(pct,100)+'%';
+  document.getElementById('pf').style.width = w;
+  document.getElementById('pt').textContent = `${visited.size}/${cpList.length}`;
+  // sync mobile strip
+  const mf = document.getElementById('mob-pf');
+  const mt2 = document.getElementById('mob-pt');
+  if(mf) mf.style.width = w;
+  if(mt2) mt2.textContent = `${visited.size}/${cpList.length}`;
+}
+
+// =========================================================
+// TAB NAVIGATION
+// =========================================================
+function gTab(id, btn) {
+  document.querySelectorAll('.tabp').forEach(t => t.classList.remove('on'));
+  document.getElementById('tab-'+id).classList.add('on');
+  document.querySelectorAll('.ntab').forEach(t => t.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  // mobile bars: show only on learn tab
+  const mbar = document.getElementById('mob-learn-bar');
+  const mprog = document.getElementById('mob-prog');
+  if (mbar)  mbar.style.display  = (id==='learn') ? '' : 'none';
+  if (mprog) mprog.style.display = (id==='learn') ? '' : 'none';
+  if (id==='quiz') initQuiz();
+  if (id==='game') initGame();
+  if (id==='exercise') buildExercise();
+  if (id==='learn') { setTimeout(initVenn,120); }
+}
+
+// =========================================================
+// VENN INTERACTIVE — proper SVG clipPath shading
+// =========================================================
+const vInfo = {
+  union:{desc:'A ∪ B = A ও B উভয়ের সকল উপাদান | n(A∪B) = n(A)+n(B)−n(A∩B)'},
+  inter:{desc:'A ∩ B = A ও B উভয়েরই সাধারণ উপাদান'},
+  aonly:{desc:'A − B = A-তে আছে কিন্তু B-তে নেই | n(A−B) = n(A)−n(A∩B)'},
+  bonly:{desc:'B − A = B-তে আছে কিন্তু A-তে নেই | n(B−A) = n(B)−n(A∩B)'},
+  acomp:{desc:'Aᶜ = U-তে আছে কিন্তু A-তে নেই | n(Aᶜ) = n(U)−n(A)'},
+  bcomp:{desc:'Bᶜ = U-তে আছে কিন্তু B-তে নেই | n(Bᶜ) = n(U)−n(B)'},
+  sym:{desc:'A △ B = শুধুমাত্র একটিতে আছে | n(A△B)=n(A)+n(B)−2n(A∩B)'},
+  disj:{desc:'বিচ্ছেদ সেট: A∩B=∅, কোনো সাধারণ উপাদান নেই | n(A∪B)=n(A)+n(B)'}
+};
+
+function initVenn() {
+  const btn = document.querySelector('.vbtn.on');
+  if (!btn) {
+    const first = document.querySelector('.vbtn');
+    if (first) doVenn('union', first);
+  }
+}
+
+function doVenn(type, btn) {
+  document.querySelectorAll('.vbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('vdesc').textContent = vInfo[type].desc;
+
+  const W=300, H=180;
+  // cx1, cx2 vary for disjoint
+  const disj = (type==='disj');
+  const cx1 = disj ? 80 : 115;
+  const cx2 = disj ? 220 : 185;
+  const cy = 90, r = 62;
+
+  // navy bg color for masking
+  const bg = '#0f2342';
+  const hl  = 'rgba(0,180,200,0.65)';
+  const hl2 = 'rgba(245,200,66,0.55)';
+  const dim = 'rgba(0,180,200,0.09)';
+  const dim2= 'rgba(245,200,66,0.08)';
+
+  let inner = '';
+
+  if (type === 'union') {
+    inner = `
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="${hl}" stroke="#00b4c8" stroke-width="2"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${hl}" stroke="#f5c842" stroke-width="2"/>`;
+  } else if (type === 'inter') {
+    // Only intersection highlighted: draw both dim circles, then highlight B clipped to A
+    inner = `
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="${dim}" stroke="#00b4c8" stroke-width="2"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${dim2}" stroke="#f5c842" stroke-width="2"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="rgba(0,200,100,0.7)" clip-path="url(#vca)" stroke="none"/>`;
+  } else if (type === 'aonly') {
+    // Highlight A, then paint B's area (clipped to A) with bg to remove intersection
+    inner = `
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="${hl}" stroke="#00b4c8" stroke-width="2"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${bg}" clip-path="url(#vca)" stroke="none"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${dim2}" stroke="#f5c842" stroke-width="2"/>`;
+  } else if (type === 'bonly') {
+    inner = `
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${hl2}" stroke="#f5c842" stroke-width="2"/>
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="${bg}" clip-path="url(#vcb)" stroke="none"/>
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="${dim}" stroke="#00b4c8" stroke-width="2"/>`;
+  } else if (type === 'acomp') {
+    // Entire rect teal, A hole in it
+    inner = `
+      <rect x="3" y="3" width="${W-6}" height="${H-6}" rx="7" fill="rgba(0,180,200,0.45)" stroke="none"/>
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="${bg}" stroke="#00b4c8" stroke-width="2.5"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="rgba(245,200,66,0.08)" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="${cx1}" y="${cy+4}" fill="#00b4c8" font-size="12" text-anchor="middle" font-family="DM Mono">A</text>`;
+  } else if (type === 'bcomp') {
+    inner = `
+      <rect x="3" y="3" width="${W-6}" height="${H-6}" rx="7" fill="rgba(245,200,66,0.45)" stroke="none"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${bg}" stroke="#f5c842" stroke-width="2.5"/>
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="rgba(0,180,200,0.08)" stroke="#00b4c8" stroke-width="1.5"/>
+      <text x="${cx2}" y="${cy+4}" fill="#f5c842" font-size="12" text-anchor="middle" font-family="DM Mono">B</text>`;
+  } else if (type === 'sym') {
+    // Highlight both, then remove intersection
+    inner = `
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="${hl}" stroke="#00b4c8" stroke-width="2"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${hl2}" stroke="#f5c842" stroke-width="2"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${bg}" clip-path="url(#vca)" stroke="none"/>`;
+  } else if (type === 'disj') {
+    inner = `
+      <circle cx="${cx1}" cy="${cy}" r="${r}" fill="${hl}" stroke="#00b4c8" stroke-width="2"/>
+      <circle cx="${cx2}" cy="${cy}" r="${r}" fill="${hl2}" stroke="#f5c842" stroke-width="2"/>`;
+  }
+
+  // Add A,B labels for most types
+  const skipLabels = ['acomp','bcomp'];
+  if (!skipLabels.includes(type)) {
+    inner += `
+      <text x="${cx1-16}" y="${cy+5}" fill="#cce6ff" font-size="13" font-family="DM Mono" font-weight="bold">A</text>
+      <text x="${cx2+8}" y="${cy+5}" fill="#ede0b0" font-size="13" font-family="DM Mono" font-weight="bold">B</text>`;
+  }
+
+  const svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <clipPath id="vca"><circle cx="${cx1}" cy="${cy}" r="${r}"/></clipPath>
+      <clipPath id="vcb"><circle cx="${cx2}" cy="${cy}" r="${r}"/></clipPath>
+    </defs>
+    <rect x="3" y="3" width="${W-6}" height="${H-6}" rx="7" fill="none" stroke="rgba(0,180,200,0.32)" stroke-width="1.2" stroke-dasharray="5,3"/>
+    <text x="${W-14}" y="16" fill="rgba(0,180,200,0.5)" font-size="10" font-family="DM Mono">U</text>
+    ${inner}
+  </svg>`;
+  document.getElementById('vsvg').innerHTML = svg;
+}
+
+// =========================================================
+// COUNTING TOOLS
+// =========================================================
+function c2() {
+  const a=+document.getElementById('i2a').value||0, b=+document.getElementById('i2b').value||0;
+  const ab=+document.getElementById('i2ab').value||0, u=+document.getElementById('i2u').value||0;
+  if (!a&&!b) return;
+  const aub=a+b-ab;
+  let h=`n(A∪B) = ${a}+${b}−${ab} = <strong style="color:var(--teal)">${aub}</strong><br>n(A−B) = ${a}−${ab} = <strong>${a-ab}</strong><br>n(B−A) = ${b}−${ab} = <strong>${b-ab}</strong><br>n(A△B) = ${a}+${b}−2×${ab} = <strong>${a+b-2*ab}</strong>`;
+  if (u) h+=`<br>n(Aᶜ) = ${u}−${a} = <strong>${u-a}</strong><br>n(Bᶜ) = ${u}−${b} = <strong>${u-b}</strong><br>n(Aᶜ∩Bᶜ) = ${u}−${aub} = <strong>${u-aub}</strong>`;
+  const r=document.getElementById('r2'); r.innerHTML=h; r.classList.add('show');
+}
+function c3() {
+  const a=+document.getElementById('i3a').value||0, b=+document.getElementById('i3b').value||0, c=+document.getElementById('i3c').value||0;
+  const ab=+document.getElementById('i3ab').value||0, bc=+document.getElementById('i3bc').value||0, ac=+document.getElementById('i3ac').value||0, abc=+document.getElementById('i3abc').value||0;
+  const u=+document.getElementById('i3u').value||0;
+  if (!a&&!b&&!c) return;
+  const res=a+b+c-ab-bc-ac+abc;
+  let h=`n(A∪B∪C) = ${a}+${b}+${c}−${ab}−${bc}−${ac}+${abc} = <strong style="color:var(--teal)">${res}</strong>`;
+  if (u) h+=`<br>কোনোটিতে নেই = ${u}−${res} = <strong>${u-res}</strong>`;
+  const r=document.getElementById('r3'); r.innerHTML=h; r.classList.add('show');
+}
+function cp() {
+  const n=+document.getElementById('ip').value;
+  if (isNaN(n)||n<0) return;
+  const p=Math.pow(2,n);
+  const pp = n<=10 ? Math.pow(2,p) : '2^'+p;
+  const r=document.getElementById('rp');
+  r.innerHTML=`n(P(A)) = 2^${n} = <strong style="color:var(--teal)">${p}</strong><br>যথার্থ উপসেট = ${p}−1 = <strong>${p-1}</strong><br>n(P(P(A))) = 2^${p} = <strong>${pp}</strong>`;
+  r.classList.add('show');
+}
+
+// =========================================================
+// FULL QUIZ DATA (25 Qs)
+// =========================================================
+const QD = [
+  {q:'চারটি পদবিশিষ্ট কোনো সেটের উপসেটগুলির সংখ্যা হল—',o:['৪','৮','১৬','৬৪'],a:2,e:'2⁴=16'},
+  {q:'পাঁচটি পদবিশিষ্ট সেটের যথার্থ উপসেটের সংখ্যা—',o:['৫','১০','৩২','৩১'],a:3,e:'2⁵−1=31'},
+  {q:'যদি x∈A ⟹ x∈B হয়, তবে—',o:['A=B','A⊂B','A⊆B','B⊆A'],a:2,e:'প্রতিটি উপাদান B-তেও থাকলে A⊆B'},
+  {q:'যদি A∩B=B হয়, তবে—',o:['A⊆B','B⊆A','A=B','A=∅'],a:1,e:'A∩B=B মানে B-র সব উপাদান A-তে → B⊆A'},
+  {q:'A ও B বিচ্ছেদ সেট হলে n(A∪B)=?',o:['n(A)+n(B)','n(A)−n(B)','0','এদের কোনোটিই নয়'],a:0,e:'A∩B=∅ হলে n(A∪B)=n(A)+n(B)'},
+  {q:'যে-কোনো দুটি সেটে n(A)+n(B)−n(A∩B)=?',o:['n(A∪B)','n(A)−n(B)','φ','এদের কোনোটিই নয়'],a:0,e:'Inclusion-Exclusion সূত্র'},
+  {q:'A∪U=U-এর দ্বৈত অভেদ—',o:['A∩U=U','A∪φ=φ','A∪φ=A','A∩φ=φ'],a:3,e:'∪→∩,U→∅: A∩∅=∅'},
+  {q:'A={1,2,3} হলে n(P(A))=?',o:['3','6','8','16'],a:2,e:'2³=8'},
+  {q:'(A∪B)ᶜ=?',o:['Aᶜ∪Bᶜ','Aᶜ∩Bᶜ','A∩B','A∪B'],a:1,e:'ডি-মর্গান: (A∪B)ᶜ=Aᶜ∩Bᶜ'},
+  {q:'A={1,2,3,4},B={2,3,4,5},C={1,3,4,5,6,7} হলে A−(B∩C)=?',o:['{1}','{2}','{1,2}','{{1},{2}}'],a:2,e:'B∩C={3,4,5}, A−{3,4,5}={1,2}'},
+  {q:'যদি A⊆B এবং B⊆C হয়—',o:['A=C','A⊆C','C⊆A','A∩C=∅'],a:1,e:'Transitivity: A⊆B,B⊆C ⟹ A⊆C'},
+  {q:'n(A−B)=?',o:['n(A)−n(B)','n(A)+n(B)−2n(A∩B)','n(A)−n(A∩B)','n(B)−n(A∩B)'],a:2,e:'n(A−B)=n(A)−n(A∩B)'},
+  {q:'S={1..5},A={3,4,5},B={1,4,5} হলে (A∪B)ᶜ=?',o:['{2}','{1,2}','{1,3,4,5}','এদের কোনোটিই নয়'],a:0,e:'A∪B={1,3,4,5},(A∪B)ᶜ=S−{1,3,4,5}={2}'},
+  {q:'A−B=∅ হবে যদি—',o:['A≠B','A⊆B','B⊂A','A∩B=∅'],a:1,e:'A−B=∅ ⟺ A⊆B'},
+  {q:'A∩(A∪B)=? (Absorption Law)',o:['B','A','A∪B','A∩B'],a:1,e:'শোষণ সূত্র: A∩(A∪B)=A'},
+  {q:'n(A)=5,n(B)=7,n(A∪B)=8 হলে n(A∩B)=?',o:['2','3','4','5'],a:2,e:'n(A∩B)=5+7−8=4'},
+  {q:'A={1,2,3,4},B={2,3,4,5},C={1,3,4,5,6,7} হলে (A−B)∩(A−C)=?',o:['{1}','{2,3}','{1,2}','{1,4}'],a:0,e:'A−B={1}, A−C={2,3,4}. ∩={1}'},
+  {q:'70 জন শ্রেণিতে 45 জন ইংরেজি, 30 জন হিন্দি পড়ে। উভয় পড়ে কতজন?',o:['৫ জন','১৫ জন','২৫ জন','৪০ জন'],a:0,e:'45+30−70=5 জন'},
+  {q:'A={{1},{2,3}} সেটের পদসংখ্যা কত?',o:['1','2','3','4'],a:1,e:'এই সেটে দুটি উপাদান: {1} এবং {2,3}'},
+  {q:'A∪(B∩C)=(A∪B)∩(A∪C) — কোন সূত্র?',o:['বিনিময়','সংযোগী','বণ্টন','ডি-মর্গান'],a:2,e:'Distributive Law'},
+  {q:'কলকাতায় ১০০৩ পরিবারে ৬৩টির রেডিও বা টিভি নেই,৭৯৪টির রেডিও,১৮৭টির টিভি আছে। উভয়ই আছে কতটির?',o:['৮৫','২২','৪৩','৪১'],a:3,e:'n(R∩T)=794+187−940=41'},
+  {q:'A={3,5},B={1,3,5} হলে A−B=?',o:['∅','{1}','{1,3}','{3,5}'],a:0,e:'A-র সব উপাদান B-তে আছে → A−B=∅'},
+  {q:'n(Aᶜ∩Bᶜ)=?',o:['n(U)−n(A∪B)','n(U)−n(A∩B)','n(A)+n(B)','n(A)−n(B)'],a:0,e:'ডি-মর্গান: Aᶜ∩Bᶜ=(A∪B)ᶜ → n(U)−n(A∪B)'},
+  {q:'(Aᶜ)ᶜ=?',o:['∅','U','A','Aᶜ'],a:2,e:'দ্বৈত পূরক: (Aᶜ)ᶜ=A'},
+  {q:'দুটি সসীম সেট A ও B-এর পদসংখ্যা m ও n। যদি উপসেটের সংখ্যার পার্থক্য 48 হয়, তবে m ও n—',o:['3,6','6,3','4,2','2,4'],a:1,e:'2ᵐ−2ⁿ=48 → 2⁶−2³=64−16=48 ✓ → m=6,n=3'}
+];
+
+let qCur=0, qScore=0, qAns=false, qTI=null;
+
+function initQuiz() {
+  qCur=0; qScore=0; qAns=false;
+  clearInterval(qTI);
+  document.getElementById('quiz-main').style.display='block';
+  document.getElementById('quiz-res').classList.remove('show');
+  document.getElementById('qscore').textContent='0';
+  renderQ();
+}
+
+function renderQ() {
+  if (qCur >= QD.length) { showQR(); return; }
+  const q = QD[qCur]; qAns = false;
+  document.getElementById('qnext').style.display='none';
+  document.getElementById('qprog').textContent=`প্রশ্ন ${qCur+1}/25`;
+  document.getElementById('qpbar').style.width=((qCur+1)/25*100)+'%';
+  let opts='';
+  q.o.forEach((o,i)=>{opts+=`<button class="qopt" onclick="pickQ(${i})">${String.fromCharCode(65+i)}. ${o}</button>`;});
+  document.getElementById('qarea').innerHTML=`<div class="qtq"><div class="qtn">প্রশ্ন ${qCur+1} / 25</div><div class="qtt">${q.q}</div><div class="qt-opts">${opts}</div><div class="qexp" id="qex">💡 ${q.e}</div></div>`;
+  clearInterval(qTI); let t=40;
+  document.getElementById('qtimer').textContent=`⏱ ${t}s`;
+  qTI=setInterval(()=>{t--;document.getElementById('qtimer').textContent=`⏱ ${t}s`;if(t<=0){clearInterval(qTI);if(!qAns){qAns=true;document.getElementById('qnext').style.display='inline-block';}}},1000);
+}
+
+function pickQ(i) {
+  if (qAns) return; qAns=true; clearInterval(qTI);
+  const q=QD[qCur];
+  document.querySelectorAll('.qopt').forEach(b=>b.disabled=true);
+  if (i===q.a){document.querySelectorAll('.qopt')[i].classList.add('ok');qScore++;document.getElementById('qscore').textContent=qScore;showT('✓ সঠিক!');}
+  else{document.querySelectorAll('.qopt')[i].classList.add('no');document.querySelectorAll('.qopt')[q.a].classList.add('ok');showT('✗ ভুল!');}
+  document.getElementById('qex').classList.add('show');
+  document.getElementById('qnext').style.display='inline-block';
+}
+
+function qNext(){qCur++;renderQ();}
+function qSkip(){qCur++;renderQ();}
+
+function showQR(){
+  clearInterval(qTI);
+  document.getElementById('quiz-main').style.display='none';
+  const r=document.getElementById('quiz-res'); r.classList.add('show');
+  document.getElementById('qfinal').textContent=qScore;
+  const pct=Math.round(qScore/25*100);
+  document.getElementById('qmsg').textContent=pct>=80?'🌟 অসাধারণ! তুমি সেট তত্ত্বে দক্ষ!':pct>=60?'👍 ভালো! আরো পড়লেই হবে।':'📚 আরও অনুশীলন দরকার।';
+  document.getElementById('qsub').textContent=`25টির মধ্যে ${qScore}টি সঠিক (${pct}%)`;
+  document.getElementById('qbk').innerHTML=`<div class="bki"><div class="bkn" style="color:var(--green)">${qScore}</div><div class="bkl">সঠিক</div></div><div class="bki"><div class="bkn" style="color:var(--red)">${25-qScore}</div><div class="bkl">ভুল</div></div><div class="bki"><div class="bkn">${pct}%</div><div class="bkl">স্কোর</div></div>`;
+}
+
+// =========================================================
+// EXERCISE (Chhaya MCQ)
+// =========================================================
+const EX = [
+  {q:'1. চারটি পদবিশিষ্ট কোনো সেটের উপসেটগুলির সংখ্যা হল—',o:['৪','৮','১৬','৬৪'],a:2},
+  {q:'2. পাঁচটি পদবিশিষ্ট কোনো সেটের যথার্থ উপসেটগুলির সংখ্যা হল—',o:['৫','১০','৩২','৩১'],a:3},
+  {q:'3. যদি x∈A ⟹ x∈B হয়, তবে—',o:['A=B','A⊂B','A⊆B','B⊆A'],a:2},
+  {q:'4. যদি A⊆B এবং B⊆A হয়, তবে—',o:['A∩B=φ','A=B','A∩B=B','এদের কোনোটিই নয়'],a:1},
+  {q:'5. যদি A ও B দুটি সেটের ক্ষেত্রে A∪B=A∩B হয়, তবে—',o:['A⊆B','B⊆A','A=B','এদের কোনোটিই নয়'],a:2},
+  {q:'6. A−B=φ হবে যদি এবং কেবলমাত্র যদি—',o:['A≠B','A⊂B','B⊂A','A∩B=φ'],a:1},
+  {q:'7. যদি A∩B=B হয়, তবে—',o:['A⊆B','B⊆A','A=B','A=φ'],a:1},
+  {q:'8. A ও B দুটি বিচ্ছেদ সেট হলে n(A∪B)=?',o:['n(A)+n(B)','n(A)−n(B)','0','এদের কোনোটিই নয়'],a:0},
+  {q:'9. যে-কোনো দুটি সেট A ও B-এর ক্ষেত্রে n(A)+n(B)−n(A∩B)=?',o:['n(A∪B)','n(A)−n(B)','φ','এদের কোনোটিই নয়'],a:0},
+  {q:'10. A∪U=U-এর দ্বৈত অভেদ হবে—',o:['A∩U=U','A∪φ=φ','A∪φ=A','A∩φ=φ'],a:3},
+  {q:'11. A∪(B∩C)=(A∪B)∩(A∪C) — এটি কোন সূত্র?',o:['বিনিময়','সংযোগী','বণ্টন','ডি-মর্গান'],a:2},
+  {q:'12. নীচের কোন্ বিবৃতিটি সত্য নয়?',o:['a∈A এবং a∈B হলে A⊆B হবে।','A⊆B এবং B⊆C হলে A⊆C হবে।','A⊆B এবং B⊆A হলে A=B হবে।','A∪φ=φ (যেখানে φ হল শূন্য সেট) হলে A=φ হবে।'],a:0},
+  {q:'28. S={1,2,3,4,5},A={3,4,5},B={1,4,5} হলে (A∪B)ᶜ=?',o:['{2}','{1,2}','{1,3,4,5}','এদের কোনোটিই নয়'],a:0},
+  {q:'29. A={1,2,3,4},B={2,3,4,5},C={1,3,4,5,6,7} হলে A−(B∩C)=?',o:['{1}','{2}','{1,2}','{{1},{2}}'],a:2},
+  {q:'40. একটি শ্রেণিতে 70 জন ছাত্র। 45 জন ইংরেজি ও 30 জন হিন্দি পড়ে। উভয় পড়ে কতজন?',o:['৫ জন','১৫ জন','২৫ জন','৪০ জন'],a:0},
+  {q:'41. কলকাতার 1003টি পরিবারের মধ্যে 63টির রেডিও বা টিভি ছিল না; 794টির রেডিও এবং 187টির টিভি ছিল। কতগুলোর রেডিও এবং টিভি উভয়ই ছিল?',o:['৮৫','২২','৪৩','৪১'],a:3},
+  {q:'42. কোনো বাজার অনুসন্ধানকারী দল 1000 জন ব্যবহারকারীর তথ্যানুসন্ধান করল। 720 জন A সামগ্রী এবং 450 জন B সামগ্রী পছন্দ করে। কমপক্ষে কতজন উভয় সামগ্রীই পছন্দ করে?',o:['৫৮৫','১৭০','২৭০','১৭০'],a:1},
+];
+
+let exBuilt = false;
+function buildExercise() {
+  if (exBuilt) return; exBuilt = true;
+  const area = document.getElementById('exarea');
+  area.innerHTML = '';
+  EX.forEach((ex, idx) => {
+    let opts = ex.o.map((o,i) => `<button class="exopt" onclick="checkEx(${idx},${i},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+    area.innerHTML += `<div class="excard" id="exc-${idx}"><div class="exqt">${ex.q}</div><div class="exopts">${opts}</div></div>`;
+  });
+}
+
+const exDone = {};
+function checkEx(idx, i, btn) {
+  if (exDone[idx]) return; exDone[idx]=true;
+  const ex = EX[idx];
+  const card = document.getElementById('exc-'+idx);
+  card.querySelectorAll('.exopt').forEach(b=>b.disabled=true);
+  if (i===ex.a){btn.classList.add('ok');showT('✓ সঠিক!');}
+  else{btn.classList.add('no');card.querySelectorAll('.exopt')[ex.a].classList.add('ok');showT('✗ ভুল!');}
+}
+
+// =========================================================
+// GAME
+// =========================================================
+const GP = [
+  ['A∪B','সংযোগ সেট'],['A∩B','ছেদ সেট'],['Aᶜ','পূরক সেট'],['A−B','সেটের অন্তর'],
+  ['A△B','প্রতিসম অন্তর'],['P(A)','সূচক সেট'],['A∩B=∅','বিচ্ছেদ সেট'],['2ⁿ','উপসেট সংখ্যা'],
+];
+let gFlp=[],gMat=0,gMov=0,gTI2=null,gSec=0,gCan=true;
+
+function initGame(){
+  clearInterval(gTI2);gFlp=[];gMat=0;gMov=0;gSec=0;gCan=true;
+  ['gm','gv','gt'].forEach(id=>document.getElementById(id).textContent='0');
+  const all=[];
+  GP.forEach((p,i)=>{all.push({id:i,txt:p[0],pair:i});all.push({id:i+100,txt:p[1],pair:i});});
+  for(let i=all.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[all[i],all[j]]=[all[j],all[i]];}
+  const bd=document.getElementById('gbrd'); bd.innerHTML='';
+  all.forEach(c=>{
+    const d=document.createElement('div');d.className='gc';d.dataset.pair=c.pair;d.textContent='?';
+    d.onclick=()=>flipG(d,c);bd.appendChild(d);
+  });
+  gTI2=setInterval(()=>{gSec++;document.getElementById('gt').textContent=gSec;},1000);
+}
+
+function flipG(div,card){
+  if(!gCan||div.classList.contains('flip')||div.classList.contains('match'))return;
+  div.textContent=card.txt;div.classList.add('flip');gFlp.push({div,card});
+  if(gFlp.length===2){
+    gCan=false;gMov++;document.getElementById('gv').textContent=gMov;
+    const[a,b]=gFlp;
+    if(a.card.pair===b.card.pair){
+      a.div.classList.add('match');b.div.classList.add('match');
+      gMat++;document.getElementById('gm').textContent=gMat;
+      gFlp=[];gCan=true;
+      if(gMat===GP.length){clearInterval(gTI2);showT('🎉 অভিনন্দন! সব জুটি মিলেছে!');}
+    } else {
+      setTimeout(()=>{
+        a.div.classList.add('bad');b.div.classList.add('bad');
+        setTimeout(()=>{a.div.textContent='?';b.div.textContent='?';a.div.classList.remove('flip','bad');b.div.classList.remove('flip','bad');gFlp=[];gCan=true;},550);
+      },380);
+    }
+  }
+}
+
+// =========================================================
+// ACCORDION
+// =========================================================
+function togAcc(h){const b=h.nextElementSibling;const o=h.classList.contains('op');h.classList.toggle('op',!o);b.classList.toggle('op',!o);}
+
+// =========================================================
+// TOAST
+// =========================================================
+function showT(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+// =========================================================
+// INIT on load
+// =========================================================
+window.addEventListener('DOMContentLoaded', () => {
+  // Build mini test for first concept
+  buildMT('def');
+  // Init venn after short delay
+  setTimeout(() => {
+    const first = document.querySelector('.vbtn');
+    if (first) doVenn('union', first);
+  }, 300);
+});
+</script>
+</body>
+</html>
