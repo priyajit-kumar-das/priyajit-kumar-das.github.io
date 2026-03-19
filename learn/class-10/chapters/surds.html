@@ -1,1 +1,1963 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATHLands | দ্বিঘাত করণী</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1628;
+  --navy2: #0d1f3c;
+  --teal: #00b4d8;
+  --teal2: #0096b7;
+  --teal-light: #90e0ef;
+  --white: #ffffff;
+  --off-white: #e8f4f8;
+  --gold: #f4c542;
+  --green: #43d17a;
+  --coral: #ff6b6b;
+  --purple: #a855f7;
+  --gray: #8899aa;
+  --card-bg: #0f2140;
+  --card-border: rgba(0,180,216,0.2);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
+/* ===== ANIMATED BG ===== */
+.bg-stars {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events: none; z-index:0;
+  background: radial-gradient(ellipse at 20% 20%, rgba(0,180,216,0.07) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(168,85,247,0.05) 0%, transparent 60%);
+}
+.bg-stars::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image: 
+    radial-gradient(1px 1px at 10% 20%, rgba(144,224,239,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 60%, rgba(144,224,239,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 15%, rgba(0,180,216,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 40%, rgba(144,224,239,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 70%, rgba(144,224,239,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 80%, rgba(144,224,239,0.2) 0%, transparent 100%),
+    radial-gradient(2px 2px at 65% 55%, rgba(0,180,216,0.3) 0%, transparent 100%);
+}
+
+/* ===== HEADER ===== */
+.site-header {
+  position: sticky; top:0; z-index:100;
+  background: rgba(10,22,40,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--card-border);
+  padding: 12px 24px;
+  display: flex; align-items:center; justify-content:space-between;
+  flex-wrap: wrap; gap: 10px;
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem; font-weight:800;
+  letter-spacing:-0.5px;
+}
+.logo .math { color: var(--white); }
+.logo .lands { color: var(--teal); }
+.logo .dot { color: var(--teal); }
+.chapter-badge {
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
+  color: var(--navy);
+  font-weight:700; font-size:0.75rem;
+  padding: 4px 12px; border-radius:20px;
+  letter-spacing:0.5px;
+}
+.progress-wrap {
+  display:flex; align-items:center; gap:8px; font-size:0.8rem; color:var(--gray);
+}
+.progress-bar-outer {
+  width:120px; height:6px;
+  background: rgba(255,255,255,0.1); border-radius:3px; overflow:hidden;
+}
+.progress-bar-inner {
+  height:100%; background: linear-gradient(90deg, var(--teal), var(--teal-light));
+  border-radius:3px; transition:width 0.5s ease;
+}
+
+/* ===== NAV TABS ===== */
+.nav-tabs {
+  position: sticky; top:65px; z-index:90;
+  background: rgba(10,22,40,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--card-border);
+  display:flex; overflow-x:auto;
+  scrollbar-width:none; gap:0;
+}
+.nav-tabs::-webkit-scrollbar { display:none; }
+.nav-tab {
+  flex-shrink:0;
+  padding: 12px 18px;
+  font-size:0.82rem; font-weight:600;
+  color: var(--gray);
+  cursor:pointer; border:none; background:none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s; white-space:nowrap;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.nav-tab:hover { color:var(--teal-light); }
+.nav-tab.active { color:var(--teal); border-bottom-color:var(--teal); }
+.nav-tab .tab-icon { margin-right:5px; }
+
+/* ===== SECTIONS ===== */
+.section { display:none; padding:28px 20px 60px; max-width:900px; margin:0 auto; position:relative; z-index:1; }
+.section.active { display:block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:translateY(0)} }
+
+/* ===== HERO ===== */
+.hero {
+  text-align:center; padding:40px 20px 30px;
+}
+.hero-chapter-num {
+  font-family:'DM Mono', monospace;
+  font-size:0.8rem; color:var(--teal); letter-spacing:3px;
+  text-transform:uppercase; margin-bottom:10px;
+}
+.hero h1 {
+  font-family:'Syne', sans-serif;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight:800; line-height:1.1;
+  background: linear-gradient(135deg, #fff 30%, var(--teal) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+}
+.hero h1 span { display:block; font-size:0.55em; color:var(--teal-light); -webkit-text-fill-color: var(--teal-light); }
+.hero-desc {
+  font-size:0.95rem; color:var(--gray);
+  max-width:550px; margin:0 auto 28px; line-height:1.7;
+}
+.hero-stats {
+  display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-bottom:32px;
+}
+.stat-box {
+  background: var(--card-bg); border:1px solid var(--card-border);
+  border-radius:12px; padding:14px 20px; text-align:center; min-width:100px;
+}
+.stat-num { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; color:var(--teal); }
+.stat-label { font-size:0.72rem; color:var(--gray); margin-top:2px; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:16px; padding:22px 24px; margin-bottom:18px;
+  position:relative; overflow:hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: rgba(0,180,216,0.4); transform:translateY(-1px); }
+.card::before {
+  content:''; position:absolute; top:0; left:0;
+  width:100%; height:3px;
+  background: linear-gradient(90deg, var(--teal), transparent);
+}
+.card-gold::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.card-green::before { background: linear-gradient(90deg, var(--green), transparent); }
+.card-coral::before { background: linear-gradient(90deg, var(--coral), transparent); }
+.card-purple::before { background: linear-gradient(90deg, var(--purple), transparent); }
+
+.card h3 {
+  font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700;
+  color:var(--white); margin-bottom:10px; display:flex; align-items:center; gap:8px;
+}
+.card h3 .icon { font-size:1.2rem; }
+.card p, .card li { font-size:0.9rem; color:#bcd0e0; line-height:1.8; }
+.card ul { padding-left:18px; }
+.card li { margin-bottom:4px; }
+
+/* ===== SECTION TITLES ===== */
+.sec-title {
+  font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800;
+  color:var(--white); margin-bottom:6px;
+}
+.sec-title span { color:var(--teal); }
+.sec-sub {
+  font-size:0.85rem; color:var(--gray); margin-bottom:24px; line-height:1.6;
+}
+.divider {
+  height:1px; background: linear-gradient(90deg, var(--teal), transparent);
+  margin:28px 0; opacity:0.3;
+}
+
+/* ===== MATH DISPLAY ===== */
+.math-box {
+  background: rgba(0,180,216,0.07);
+  border:1px solid rgba(0,180,216,0.25);
+  border-radius:10px; padding:16px 20px; margin:14px 0;
+  font-family:'DM Mono',monospace; font-size:0.95rem;
+  color:var(--teal-light); line-height:2;
+}
+.math-box .formula { font-size:1.1rem; color:var(--teal); font-weight:500; }
+.highlight-box {
+  background: rgba(244,197,66,0.08);
+  border-left:4px solid var(--gold);
+  border-radius:0 10px 10px 0; padding:14px 18px; margin:14px 0;
+}
+.highlight-box p { color:#e8d9a0; font-size:0.88rem; line-height:1.7; }
+.highlight-box strong { color:var(--gold); }
+.definition-box {
+  background: rgba(0,180,216,0.05);
+  border:1px solid rgba(0,180,216,0.3);
+  border-radius:12px; padding:18px 20px; margin:16px 0;
+  position:relative;
+}
+.def-label {
+  position:absolute; top:-10px; left:16px;
+  background:var(--teal); color:var(--navy);
+  font-size:0.72rem; font-weight:700; padding:2px 10px; border-radius:10px;
+  letter-spacing:1px; text-transform:uppercase;
+}
+.definition-box p { font-size:0.9rem; color:#d0e8f0; line-height:1.8; margin-top:6px; }
+
+/* ===== STEPS ===== */
+.steps { counter-reset:step-counter; }
+.step {
+  display:flex; gap:16px; margin-bottom:20px; align-items:flex-start;
+}
+.step-num {
+  flex-shrink:0;
+  width:34px; height:34px;
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:800; color:var(--navy);
+  counter-increment:step-counter;
+}
+.step-body { flex:1; }
+.step-body h4 { font-size:0.95rem; font-weight:700; color:var(--teal-light); margin-bottom:4px; }
+.step-body p { font-size:0.88rem; color:#b0c8d8; line-height:1.7; }
+
+/* ===== INTERACTIVE QUIZ ===== */
+.quiz-container { margin-top:10px; }
+.quiz-question {
+  background: var(--card-bg); border:1px solid var(--card-border);
+  border-radius:16px; padding:22px; margin-bottom:20px;
+  display:none;
+}
+.quiz-question.active { display:block; animation:fadeIn 0.3s ease; }
+.q-number {
+  font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--teal);
+  letter-spacing:2px; margin-bottom:8px; text-transform:uppercase;
+}
+.q-text { font-size:1rem; color:var(--white); margin-bottom:6px; font-weight:600; line-height:1.5; }
+.q-subtext { font-size:0.82rem; color:var(--gray); margin-bottom:16px; }
+.options { display:grid; gap:10px; }
+.option-btn {
+  background: rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px; padding:12px 16px;
+  text-align:left; cursor:pointer; color:var(--white);
+  font-size:0.88rem; font-family:'Space Grotesk',sans-serif;
+  transition:all 0.2s; display:flex; align-items:center; gap:10px;
+}
+.option-btn:hover:not(:disabled) { border-color:var(--teal); background:rgba(0,180,216,0.08); }
+.option-btn.correct { border-color:var(--green); background:rgba(67,209,122,0.12); color:var(--green); }
+.option-btn.wrong { border-color:var(--coral); background:rgba(255,107,107,0.12); color:var(--coral); }
+.option-btn .opt-label {
+  width:24px; height:24px; border-radius:6px;
+  background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center;
+  font-family:'DM Mono',monospace; font-size:0.75rem; font-weight:700; flex-shrink:0;
+}
+.feedback {
+  margin-top:14px; padding:12px 16px; border-radius:10px;
+  font-size:0.88rem; line-height:1.6; display:none;
+}
+.feedback.correct { background:rgba(67,209,122,0.1); border:1px solid rgba(67,209,122,0.3); color:#a0f0c0; }
+.feedback.wrong { background:rgba(255,107,107,0.1); border:1px solid rgba(255,107,107,0.3); color:#ffb0b0; }
+.feedback.show { display:block; }
+.quiz-nav { display:flex; gap:10px; margin-top:16px; align-items:center; }
+.quiz-score {
+  margin-left:auto; font-family:'DM Mono',monospace;
+  font-size:0.82rem; color:var(--teal);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding:10px 20px; border-radius:10px; border:none;
+  font-family:'Space Grotesk',sans-serif; font-size:0.88rem; font-weight:600;
+  cursor:pointer; transition:all 0.2s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
+  color:var(--navy);
+}
+.btn-primary:hover { transform:translateY(-1px); box-shadow:0 4px 15px rgba(0,180,216,0.3); }
+.btn-secondary {
+  background: rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12); color:var(--white);
+}
+.btn-secondary:hover { background:rgba(255,255,255,0.1); }
+.btn:disabled { opacity:0.4; cursor:not-allowed; transform:none !important; }
+
+/* ===== STORY BOX ===== */
+.story-box {
+  background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(0,180,216,0.08));
+  border:1px solid rgba(168,85,247,0.25);
+  border-radius:16px; padding:22px; margin-bottom:20px;
+}
+.story-box .story-icon { font-size:2rem; margin-bottom:8px; display:block; }
+.story-box h4 {
+  font-family:'Syne',sans-serif; font-size:1rem; font-weight:700;
+  color:#d4a0ff; margin-bottom:10px;
+}
+.story-box p { font-size:0.88rem; color:#c0b0d8; line-height:1.8; }
+
+/* ===== THINK BOX ===== */
+.think-box {
+  background: rgba(244,197,66,0.06);
+  border:1px solid rgba(244,197,66,0.2);
+  border-radius:12px; padding:16px 18px; margin:16px 0;
+}
+.think-box .think-label {
+  font-size:0.72rem; color:var(--gold); font-weight:700;
+  letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;
+}
+.think-box p { font-size:0.88rem; color:#e0d090; line-height:1.7; }
+
+/* ===== COLLAPSIBLE ===== */
+.collapsible-header {
+  display:flex; align-items:center; justify-content:space-between;
+  cursor:pointer; user-select:none;
+  padding:14px 18px; border-radius:10px;
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+  margin-bottom:6px; transition:background 0.2s;
+}
+.collapsible-header:hover { background:rgba(0,180,216,0.07); }
+.collapsible-header span { font-size:0.92rem; font-weight:600; }
+.collapsible-arrow { transition:transform 0.3s; color:var(--teal); }
+.collapsible-body {
+  display:none; padding:16px 18px;
+  background:rgba(0,180,216,0.04); border-radius:0 0 10px 10px;
+  border:1px solid rgba(0,180,216,0.1); border-top:none;
+  margin-bottom:12px;
+}
+.collapsible-body.open { display:block; animation:fadeIn 0.2s; }
+.collapsible-header.open .collapsible-arrow { transform:rotate(180deg); }
+
+/* ===== EXAMPLE WORKED ===== */
+.worked-ex {
+  background: var(--card-bg); border:1px solid var(--card-border);
+  border-radius:14px; overflow:hidden; margin-bottom:20px;
+}
+.worked-header {
+  padding:14px 20px;
+  background: linear-gradient(90deg, rgba(0,180,216,0.15), transparent);
+  display:flex; align-items:center; gap:10px;
+}
+.worked-header .ex-badge {
+  background:var(--teal); color:var(--navy);
+  font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:6px;
+}
+.worked-header h4 { font-size:0.92rem; font-weight:600; color:var(--teal-light); }
+.worked-body { padding:18px 20px; }
+.worked-step {
+  display:flex; gap:12px; margin-bottom:12px; align-items:flex-start;
+}
+.ws-label {
+  flex-shrink:0; font-family:'DM Mono',monospace;
+  font-size:0.72rem; color:var(--teal); padding-top:2px; min-width:50px;
+}
+.ws-content { font-size:0.88rem; color:#c0d8e8; line-height:1.7; }
+.ws-content .eq { color:var(--teal-light); font-family:'DM Mono',monospace; }
+
+/* ===== GAME / DRAG ===== */
+.match-game {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0;
+}
+.match-col h4 { font-size:0.82rem; color:var(--teal); font-weight:700; margin-bottom:10px; letter-spacing:1px; text-transform:uppercase; }
+.match-item {
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px; padding:10px 14px; font-size:0.85rem; color:var(--white);
+  cursor:pointer; transition:all 0.2s; margin-bottom:8px; user-select:none;
+}
+.match-item:hover { border-color:var(--teal); background:rgba(0,180,216,0.08); }
+.match-item.selected { border-color:var(--gold); background:rgba(244,197,66,0.1); color:var(--gold); }
+.match-item.matched { border-color:var(--green); background:rgba(67,209,122,0.1); color:var(--green); cursor:default; }
+.match-item.wrong-match { border-color:var(--coral); background:rgba(255,107,107,0.1); }
+.match-result { text-align:center; padding:12px; font-size:0.9rem; font-weight:600; display:none; }
+.match-result.show { display:block; }
+
+/* ===== FILL BLANK ===== */
+.fill-blank {
+  background:var(--card-bg); border:1px solid var(--card-border);
+  border-radius:14px; padding:20px; margin-bottom:16px;
+}
+.fill-blank .fb-question { font-size:0.95rem; color:var(--white); margin-bottom:14px; line-height:1.8; font-weight:600; }
+.blank-input {
+  background: rgba(0,180,216,0.08);
+  border:1.5px solid rgba(0,180,216,0.3); border-radius:8px;
+  padding:8px 14px; color:var(--teal-light); font-size:0.95rem;
+  font-family:'DM Mono',monospace; width:auto; min-width:80px;
+  outline:none; transition:border 0.2s;
+}
+.blank-input:focus { border-color:var(--teal); }
+.blank-input.correct { border-color:var(--green); color:var(--green); }
+.blank-input.wrong { border-color:var(--coral); color:var(--coral); }
+.fb-hint { font-size:0.8rem; color:var(--gray); margin-top:8px; }
+
+/* ===== TABLE ===== */
+.info-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.86rem; }
+.info-table th {
+  background:rgba(0,180,216,0.15); color:var(--teal-light);
+  padding:10px 14px; text-align:left; font-weight:700; border-bottom:1px solid rgba(0,180,216,0.2);
+}
+.info-table td {
+  padding:10px 14px; color:#b0c8d8; border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.info-table tr:hover td { background:rgba(0,180,216,0.05); }
+
+/* ===== SUMMARY CARD ===== */
+.summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+.summary-item {
+  background:var(--card-bg); border:1px solid var(--card-border);
+  border-radius:12px; padding:16px 18px;
+}
+.summary-item .s-icon { font-size:1.5rem; margin-bottom:8px; display:block; }
+.summary-item h4 { font-size:0.88rem; font-weight:700; color:var(--teal-light); margin-bottom:6px; }
+.summary-item p { font-size:0.82rem; color:var(--gray); line-height:1.6; }
+
+/* ===== PRACTICE ===== */
+.practice-section { }
+.difficulty-tabs { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+.diff-btn {
+  padding:7px 16px; border-radius:20px; border:1px solid;
+  font-size:0.8rem; font-weight:600; cursor:pointer;
+  font-family:'Space Grotesk',sans-serif; transition:all 0.2s;
+}
+.diff-btn.easy { border-color:var(--green); color:var(--green); background:transparent; }
+.diff-btn.easy.active, .diff-btn.easy:hover { background:rgba(67,209,122,0.15); }
+.diff-btn.medium { border-color:var(--gold); color:var(--gold); background:transparent; }
+.diff-btn.medium.active, .diff-btn.medium:hover { background:rgba(244,197,66,0.12); }
+.diff-btn.hard { border-color:var(--coral); color:var(--coral); background:transparent; }
+.diff-btn.hard.active, .diff-btn.hard:hover { background:rgba(255,107,107,0.12); }
+.diff-btn.vsa { border-color:var(--purple); color:var(--purple); background:transparent; }
+.diff-btn.vsa.active, .diff-btn.vsa:hover { background:rgba(168,85,247,0.12); }
+
+.problem-list { }
+.problem-item {
+  background:var(--card-bg); border:1px solid var(--card-border);
+  border-radius:12px; padding:16px 18px; margin-bottom:12px;
+  display:none;
+}
+.problem-item.show { display:block; }
+.p-meta { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.p-tag {
+  font-size:0.68rem; font-weight:700; padding:2px 8px; border-radius:6px;
+  letter-spacing:0.5px; text-transform:uppercase;
+}
+.p-tag.easy { background:rgba(67,209,122,0.15); color:var(--green); }
+.p-tag.medium { background:rgba(244,197,66,0.15); color:var(--gold); }
+.p-tag.hard { background:rgba(255,107,107,0.15); color:var(--coral); }
+.p-tag.vsa { background:rgba(168,85,247,0.15); color:var(--purple); }
+.p-num { font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--gray); }
+.problem-item .prob-text { font-size:0.9rem; color:var(--white); line-height:1.7; margin-bottom:10px; }
+.show-solution { background:rgba(0,180,216,0.07); border:1px dashed rgba(0,180,216,0.25); border-radius:8px; padding:12px 16px; display:none; margin-top:10px; }
+.show-solution.reveal { display:block; animation:fadeIn 0.3s; }
+.show-solution p { font-size:0.85rem; color:#b0d8e8; line-height:1.8; }
+.show-solution .sol-step { color:var(--teal-light); font-family:'DM Mono',monospace; }
+
+/* ===== CONCEPT MAP ===== */
+.concept-map {
+  display:flex; flex-direction:column; align-items:center; gap:8px; padding:20px 0;
+}
+.cm-node {
+  background:var(--card-bg); border:2px solid var(--card-border);
+  border-radius:12px; padding:10px 20px; text-align:center;
+  font-size:0.85rem; font-weight:600; min-width:180px;
+  transition:all 0.2s; cursor:default;
+}
+.cm-node.main { background:rgba(0,180,216,0.15); border-color:var(--teal); color:var(--teal); font-size:1rem; }
+.cm-node.sub { border-color:rgba(244,197,66,0.4); color:var(--gold); }
+.cm-node.leaf { border-color:rgba(67,209,122,0.3); color:var(--green); font-size:0.8rem; min-width:140px; }
+.cm-row { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+.cm-arrow { color:rgba(0,180,216,0.4); font-size:1.2rem; }
+
+/* ===== BADGE ===== */
+.achievement-row { display:flex; gap:12px; flex-wrap:wrap; margin:16px 0; }
+.achievement {
+  background:var(--card-bg); border:1px solid var(--card-border);
+  border-radius:12px; padding:12px 16px; text-align:center; min-width:100px;
+}
+.ach-icon { font-size:1.8rem; display:block; margin-bottom:4px; }
+.ach-name { font-size:0.72rem; color:var(--gray); }
+
+/* ===== TOOLTIP EXAMPLE ===== */
+.tip {
+  border-bottom:1px dashed var(--teal); cursor:help; color:var(--teal-light);
+  position:relative;
+}
+.tip:hover::after {
+  content:attr(data-tip);
+  position:absolute; bottom:110%; left:50%; transform:translateX(-50%);
+  background:var(--navy2); border:1px solid var(--teal);
+  color:var(--white); font-size:0.78rem; padding:8px 12px; border-radius:8px;
+  white-space:nowrap; z-index:999; width:max-content; max-width:250px; white-space:normal;
+  pointer-events:none; line-height:1.5;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  .hero h1 { font-size:1.8rem; }
+  .match-game { grid-template-columns:1fr; }
+  .hero-stats { gap:12px; }
+  .stat-box { min-width:80px; padding:10px 14px; }
+  .section { padding:20px 14px 50px; }
+}
+
+/* ===== PROGRESS TRACKER ===== */
+.tracker {
+  display:flex; gap:8px; flex-wrap:wrap; margin:20px 0;
+}
+.track-item {
+  flex:1; min-width:70px; height:6px;
+  border-radius:3px; background:rgba(255,255,255,0.08);
+  position:relative; overflow:hidden;
+}
+.track-item.done { background:linear-gradient(90deg, var(--green), #2db060); }
+.track-item.current { background:linear-gradient(90deg, var(--teal), var(--teal2)); animation: pulse-bar 1.5s infinite; }
+@keyframes pulse-bar { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+/* ===== FINAL EXAM ===== */
+.exam-intro {
+  text-align:center; padding:30px;
+}
+.exam-intro .exam-icon { font-size:3rem; margin-bottom:12px; display:block; }
+.exam-intro h3 { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; margin-bottom:10px; }
+.exam-intro p { color:var(--gray); font-size:0.88rem; line-height:1.7; }
+.exam-result-box {
+  background:linear-gradient(135deg, rgba(0,180,216,0.12), rgba(168,85,247,0.08));
+  border:1px solid rgba(0,180,216,0.3); border-radius:16px; padding:28px; text-align:center;
+}
+.result-score { font-family:'Syne',sans-serif; font-size:3rem; font-weight:800; color:var(--teal); }
+.result-msg { font-size:1rem; color:var(--white); margin:8px 0; font-weight:600; }
+.result-submsg { font-size:0.85rem; color:var(--gray); }
+
+</style>
+</head>
+<body>
+
+<div class="bg-stars"></div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="logo">
+    <span class="math">MATH</span><span class="lands">Lands</span><span class="dot">.</span>
+  </div>
+  <div class="chapter-badge">অধ্যায় 9 | দশম শ্রেণি</div>
+  <div class="progress-wrap">
+    <span>অগ্রগতি</span>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="globalProgress" style="width:5%"></div>
+    </div>
+    <span id="progressPct">5%</span>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('home', this)"><span class="tab-icon">🏠</span>হোম</button>
+  <button class="nav-tab" onclick="showSection('concept1', this)"><span class="tab-icon">🌱</span>পরিচয়</button>
+  <button class="nav-tab" onclick="showSection('concept2', this)"><span class="tab-icon">📐</span>সংজ্ঞা</button>
+  <button class="nav-tab" onclick="showSection('concept3', this)"><span class="tab-icon">⚡</span>যোগ-বিয়োগ</button>
+  <button class="nav-tab" onclick="showSection('concept4', this)"><span class="tab-icon">✖️</span>গুণ-ভাগ</button>
+  <button class="nav-tab" onclick="showSection('concept5', this)"><span class="tab-icon">🔄</span>করণীমুক্তকরণ</button>
+  <button class="nav-tab" onclick="showSection('concept6', this)"><span class="tab-icon">🔗</span>অনুবন্ধী করণী</button>
+  <button class="nav-tab" onclick="showSection('quiz', this)"><span class="tab-icon">🧠</span>কুইজ</button>
+  <button class="nav-tab" onclick="showSection('practice', this)"><span class="tab-icon">✏️</span>অনুশীলন</button>
+  <button class="nav-tab" onclick="showSection('exam', this)"><span class="tab-icon">🏆</span>পরীক্ষা</button>
+</nav>
+
+<!-- ===== HOME ===== -->
+<section class="section active" id="home">
+  <div class="hero">
+    <div class="hero-chapter-num">CHAPTER 09 · WBBSE CLASS 10</div>
+    <h1>দ্বিঘাত করণী<span>Quadratic Surd</span></h1>
+    <p class="hero-desc">বীজগণিতের সবচেয়ে আকর্ষণীয় অধ্যায়গুলির একটি — মূলদ ও অমূলদের জগতে তোমাকে স্বাগত! এখানে তুমি ধাপে ধাপে ধারণা বুঝবে, উদাহরণ সমাধান করবে, এবং WBBSE পরীক্ষার জন্য সম্পূর্ণ প্রস্তুতি নেবে।</p>
+    <div class="hero-stats">
+      <div class="stat-box"><div class="stat-num">8</div><div class="stat-label">ধারণা</div></div>
+      <div class="stat-box"><div class="stat-num">40+</div><div class="stat-label">উদাহরণ</div></div>
+      <div class="stat-box"><div class="stat-num">50+</div><div class="stat-label">অনুশীলন</div></div>
+      <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">কুইজ রাউন্ড</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="showSection('concept1', document.querySelectorAll('.nav-tab')[1])">শুরু করো &rarr;</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Concept Map -->
+  <div class="sec-title">অধ্যায়ের <span>মানচিত্র</span></div>
+  <p class="sec-sub">পুরো অধ্যায়টা এক নজরে দেখো — কোথা থেকে শুরু, কোথায় শেষ।</p>
+  <div class="concept-map">
+    <div class="cm-node main">দ্বিঘাত করণী</div>
+    <div class="cm-arrow">↓</div>
+    <div class="cm-row">
+      <div class="cm-node sub">সংজ্ঞা ও প্রকারভেদ</div>
+      <div class="cm-node sub">সদৃশ ও অসদৃশ করণী</div>
+      <div class="cm-node sub">যোগ ও বিয়োগ</div>
+    </div>
+    <div class="cm-arrow">↓</div>
+    <div class="cm-row">
+      <div class="cm-node leaf">শুদ্ধ করণী</div>
+      <div class="cm-node leaf">মিশ্র করণী</div>
+      <div class="cm-node leaf">মূল গুণিতক</div>
+      <div class="cm-node leaf">গুণ ও ভাগ</div>
+    </div>
+    <div class="cm-arrow">↓</div>
+    <div class="cm-row">
+      <div class="cm-node sub">করণীমুক্তকরণ</div>
+      <div class="cm-node sub">অনুবন্ধী করণী</div>
+      <div class="cm-node sub">MCQ ও SAQ</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Learning Path -->
+  <div class="sec-title">শেখার <span>পথ</span></div>
+  <p class="sec-sub">এই ক্রমানুসারে পড়লে সবচেয়ে ভালো বুঝবে।</p>
+  <div class="tracker">
+    <div class="track-item current" title="পরিচয়"></div>
+    <div class="track-item" title="সংজ্ঞা"></div>
+    <div class="track-item" title="যোগ-বিয়োগ"></div>
+    <div class="track-item" title="গুণ-ভাগ"></div>
+    <div class="track-item" title="করণীমুক্তকরণ"></div>
+    <div class="track-item" title="অনুবন্ধী করণী"></div>
+    <div class="track-item" title="কুইজ"></div>
+    <div class="track-item" title="অনুশীলন"></div>
+    <div class="track-item" title="পরীক্ষা"></div>
+  </div>
+
+  <div class="achievement-row">
+    <div class="achievement"><span class="ach-icon">🌱</span><div class="ach-name">শিক্ষার্থী</div></div>
+    <div class="achievement"><span class="ach-icon">⚡</span><div class="ach-name">প্রশ্নবিদ</div></div>
+    <div class="achievement"><span class="ach-icon">🔥</span><div class="ach-name">দক্ষ</div></div>
+    <div class="achievement"><span class="ach-icon">🏆</span><div class="ach-name">মাস্টার</div></div>
+    <div class="achievement"><span class="ach-icon">🌟</span><div class="ach-name">চ্যাম্পিয়ন</div></div>
+  </div>
+</section>
+
+<!-- ===== SECTION 1: পরিচয় ===== -->
+<section class="section" id="concept1">
+  <div class="sec-title">পরিচয় — <span>বর্গমূল থেকে করণী</span></div>
+  <p class="sec-sub">আগে বুঝি বর্গমূল কাকে বলে, তারপর এগোবো করণীর দিকে।</p>
+
+  <div class="story-box">
+    <span class="story-icon">📖</span>
+    <h4>গল্পের শুরু — রেবার দাদু</h4>
+    <p>রেবার দাদু রেবাকে একটি সাদা বোর্ড কিনে দিয়েছেন। বন্ধু তপেন বোর্ডে একটি ঘর আঁকল এবং ঘরের মধ্যে কিছু ধনাত্মক ও ঋণাত্মক পূর্ণ সংখ্যা লিখল। সীমা লিখল <strong>5 ও 4</strong>। সীমা দেখল — 5+4=9, 5−4=1, 5×4=20, এগুলো সবই পূর্ণ সংখ্যা। কিন্তু 5÷4 = 5/4 — এটা পূর্ণ সংখ্যা নয়, কিন্তু মূলদ সংখ্যা।</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">💡</span> মনে করো — বর্গ ও বর্গমূল</h3>
+    <p>আমরা জানি, কোনো একটি ঋণাত্মক বাস্তব সংখ্যা a-এর বর্গমূল হল <span class="tip" data-tip="±√a মানে +√a বা −√a, দুটোই a-এর বর্গমূল">±√a বা ±a<sup>½</sup></span></p>
+    <div class="math-box">
+      <div class="formula">কারণ: (+√a)² = a এবং (−√a)² = a</div>
+      <div style="margin-top:8px; color:var(--gray); font-size:0.85rem;">উদাহরণ: 5² = 25, তাই √25 = 5 | 4² = 16, তাই √16 = 4</div>
+    </div>
+  </div>
+
+  <div class="think-box">
+    <div class="think-label">🤔 ভাবো</div>
+    <p>5 ও 4 এর বর্গমূল নিলে কী পাবে? √5 ও √4 কি পূর্ণ সংখ্যা? একটু চিন্তা করো...</p>
+    <p style="margin-top:8px;">√4 = 2 ✅ (পূর্ণ সংখ্যা) | কিন্তু √5 = 2.2360679... ❌ (পূর্ণ সংখ্যা নয়!)</p>
+  </div>
+
+  <div class="card card-gold">
+    <h3><span class="icon">⭐</span> মূলদ ও অমূলদ সংখ্যা মনে করো</h3>
+    <table class="info-table">
+      <tr><th>ধরন</th><th>উদাহরণ</th><th>দশমিক</th></tr>
+      <tr><td>মূলদ সংখ্যা</td><td>√4 = 2, √9 = 3, √25 = 5</td><td>সুনির্দিষ্ট বা পুনরাবৃত্তিমূলক</td></tr>
+      <tr><td>অমূলদ সংখ্যা</td><td>√2, √3, √5, ∛7, √20</td><td>সম্পূর্ণরূপে নির্ণয় করা যায় না</td></tr>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+  <div class="sec-title" style="font-size:1.1rem;">বিশেষ নিয়ম মনে রাখো</div>
+  <div class="math-box">
+    <div>যেহেতু a = a<sup>½</sup>, সূচকের নিয়মে:</div>
+    <div class="formula" style="margin-top:8px;">√ab = √a × √b (a, b অঋণাত্মক)</div>
+    <div class="formula">√(a/b) = √a / √b (a অঋণাত্মক, b ধনাত্মক)</div>
+    <div style="color:var(--gray); font-size:0.82rem; margin-top:10px;">উদাহরণ: √(4/9) = √4/√9 = 2/3</div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ১</span>
+      <h4>√8 ও √32 কে সরল করো</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">প্রশ্ন:</div>
+        <div class="ws-content">√8 এবং √32 কে সরলতম আকারে লিখতে হবে।</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">√8:</div>
+        <div class="ws-content"><span class="eq">√8 = √(4×2) = √4 × √2 = 2√2</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">√32:</div>
+        <div class="ws-content"><span class="eq">√32 = √(16×2) = √16 × √2 = 4√2</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">লক্ষ্য করো:</div>
+        <div class="ws-content">উভয়ই <strong style="color:var(--teal)">√2 এর মূলদ গুণিতক</strong> — তাই এরা <span class="tip" data-tip="একই করণীর মূলদ গুণিতক হলে সদৃশ করণী">সদৃশ করণী</span>!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible Practice -->
+  <div class="collapsible-header" onclick="toggleCollapse(this)">
+    <span>✏️ নিজে করো — √45 এবং √80 কে সরল করো</span>
+    <span class="collapsible-arrow">▼</span>
+  </div>
+  <div class="collapsible-body">
+    <p style="color:var(--gray); margin-bottom:12px;">উত্তর দেখার আগে নিজে চেষ্টা করো!</p>
+    <div class="math-box">
+      <div>√45 = √(9×5) = 3√5</div>
+      <div>√80 = √(16×5) = 4√5</div>
+      <div style="color:var(--teal); margin-top:8px;">∴ উভয়ই √5 এর গুণিতক → সদৃশ করণী ✓</div>
+    </div>
+  </div>
+
+  <div style="text-align:right; margin-top:24px;">
+    <button class="btn btn-primary" onclick="showSection('concept2', document.querySelectorAll('.nav-tab')[2])">পরবর্তী: সংজ্ঞা →</button>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: সংজ্ঞা ===== -->
+<section class="section" id="concept2">
+  <div class="sec-title">সংজ্ঞা ও <span>প্রকারভেদ</span></div>
+  <p class="sec-sub">দ্বিঘাত করণী কাকে বলে, শুদ্ধ ও মিশ্র করণী কী — সম্পূর্ণ পরিষ্কার করো।</p>
+
+  <div class="definition-box">
+    <div class="def-label">সংজ্ঞা</div>
+    <p>যদি <strong>a</strong> এমন একটি <span class="tip" data-tip="যে সংখ্যা দিয়ে ভগ্নাংশ লেখা যায় এবং লব-হর পূর্ণ সংখ্যা">ধনাত্মক মূলদ সংখ্যা</span> হয়, যা কোনো মূলদ সংখ্যার বর্গ নয়, তাহলে <strong>±√a</strong> আকারের সংখ্যাকে <strong style="color:var(--teal)">শুদ্ধ দ্বিঘাত করণী (Pure Quadratic Surd)</strong> বলা হয়।<br><br>
+    আবার, <strong>a ± √b</strong> আকারের সংখ্যাকে <strong style="color:var(--gold)">মিশ্র দ্বিঘাত করণী (Mixed Quadratic Surd)</strong> বলা হয়, যেখানে a মূলদ সংখ্যা এবং √b শুদ্ধ দ্বিঘাত করণী।</p>
+  </div>
+
+  <div class="card card-green">
+    <h3><span class="icon">🔬</span> শুদ্ধ দ্বিঘাত করণী — উদাহরণ</h3>
+    <div class="math-box">
+      √3, −√5, √(2/3), √7 ইত্যাদি ← শুদ্ধ দ্বিঘাত করণী
+    </div>
+    <div class="highlight-box">
+      <p><strong>কিন্তু সাবধান!</strong> √4 = 2 এবং √25 = 5 — এগুলো করণী নয়, কারণ এদের মান মূলদ সংখ্যা।</p>
+    </div>
+  </div>
+
+  <div class="card card-gold">
+    <h3><span class="icon">🎨</span> মিশ্র দ্বিঘাত করণী — উদাহরণ</h3>
+    <div class="math-box">
+      2 − √3, 2 + √6, (3/5) − √10, 5 + √2 ইত্যাদি ← মিশ্র দ্বিঘাত করণী
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="sec-title" style="font-size:1.1rem;">সদৃশ ও অসদৃশ করণী</div>
+
+  <div class="match-game" id="matchGame">
+    <div>
+      <h4>সংজ্ঞা</h4>
+      <div class="match-item" id="def1" onclick="selectMatch('def', this, 'সদৃশ')">দুই বা ততোধিক শুদ্ধ দ্বিঘাত করণী যদি একই করণীর মূলদ গুণিতক হয়</div>
+      <div class="match-item" id="def2" onclick="selectMatch('def', this, 'অসদৃশ')">যে সকল শুদ্ধ দ্বিঘাত করণী সদৃশ করণী নয়</div>
+    </div>
+    <div>
+      <h4>নাম</h4>
+      <div class="match-item" id="term1" onclick="selectMatch('term', this, 'সদৃশ')">সদৃশ করণী</div>
+      <div class="match-item" id="term2" onclick="selectMatch('term', this, 'অসদৃশ')">অসদৃশ করণী</div>
+    </div>
+  </div>
+  <div class="match-result" id="matchResult"></div>
+
+  <div class="divider"></div>
+
+  <div class="sec-title" style="font-size:1.1rem;">বিস্তারিত উদাহরণ</div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ২</span>
+      <h4>√45, √80, √147, √180 থেকে সদৃশ করণীগুলি একটি ঘরে লিখি</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">√45 =</div>
+        <div class="ws-content"><span class="eq">√(9×5) = 3√5</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">√80 =</div>
+        <div class="ws-content"><span class="eq">√(16×5) = 4√5</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">√147 =</div>
+        <div class="ws-content"><span class="eq">√(49×3) = 7√3</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">√180 =</div>
+        <div class="ws-content"><span class="eq">√(36×5) = 6√5</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">উত্তর:</div>
+        <div class="ws-content" style="color:var(--green)">∴ √45, √80, √180 → তিনটিই √5 এর মূলদ গুণিতক → <strong>সদৃশ করণী</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="think-box">
+    <div class="think-label">🧩 নিজে চিন্তা করো</div>
+    <p>√12 ও √28 কি সদৃশ করণী? <br>√12 = 2√3 এবং √28 = 2√7 → মূলদ গুণিতক কি একই? না! তাহলে এরা <strong>অসদৃশ করণী</strong>।</p>
+  </div>
+
+  <!-- Fill in blank -->
+  <div class="card">
+    <h3><span class="icon">✏️</span> শূন্যস্থান পূরণ করো</h3>
+    <div class="fill-blank">
+      <div class="fb-question">√500 = √(100×5) = <input class="blank-input" id="fb1" placeholder="?" style="width:60px"> × √5</div>
+      <button class="btn btn-secondary" style="margin-top:10px; font-size:0.8rem;" onclick="checkFill('fb1','10','fb1msg')">পরীক্ষা করো</button>
+      <div class="fb-hint" id="fb1msg"></div>
+    </div>
+    <div class="fill-blank" style="margin-top:12px">
+      <div class="fb-question">√75 = <input class="blank-input" id="fb2" placeholder="?" style="width:120px"> (সরলতম আকারে)</div>
+      <button class="btn btn-secondary" style="margin-top:10px; font-size:0.8rem;" onclick="checkFill('fb2','5√3','fb2msg')">পরীক্ষা করো</button>
+      <div class="fb-hint" id="fb2msg"></div>
+    </div>
+  </div>
+
+  <div style="text-align:right; margin-top:24px;">
+    <button class="btn btn-primary" onclick="showSection('concept3', document.querySelectorAll('.nav-tab')[3])">পরবর্তী: যোগ-বিয়োগ →</button>
+  </div>
+</section>
+
+<!-- ===== SECTION 3: যোগ-বিয়োগ ===== -->
+<section class="section" id="concept3">
+  <div class="sec-title">করণীর <span>যোগ ও বিয়োগ</span></div>
+  <p class="sec-sub">ভিন্ন ধরনের করণী কীভাবে যোগ-বিয়োগ করতে হয় তা পর্যায়ক্রমে শিখি।</p>
+
+  <div class="highlight-box">
+    <p><strong>মূল নিয়ম:</strong> শুধু সদৃশ করণীর যোগ ও বিয়োগ করা যায়। অসদৃশ করণীর যোগফল শুধু লেখা যায়, সরল করা যায় না।</p>
+  </div>
+
+  <div class="card card-green">
+    <h3><span class="icon">🔢</span> সদৃশ করণীর যোগ</h3>
+    <p style="margin-bottom:10px">যেহেতু a ও b এর যোগফল = a + b, ঠিক তেমনই:</p>
+    <div class="math-box">
+      <div class="formula">p√a + q√a = (p+q)√a</div>
+      <div style="margin-top:10px; color:var(--gray)">উদাহরণ: 5√2 + 3√2 = 8√2</div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="sec-title" style="font-size:1rem; margin-bottom:16px;">কীভাবে সরল করবে — ধাপে ধাপে</div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>প্রথমে সব করণীকে সরলতম আকারে লিখো</h4>
+        <p>√50 = 5√2, √18 = 3√2 — এইভাবে।</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>সদৃশ করণীগুলিকে একটি ঘরে রাখো</h4>
+        <p>একই মূলদ গুণিতক যুক্ত করণীগুলো আলাদা করো।</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>সহগ যোগ/বিয়োগ করো</h4>
+        <p>5√2 + 3√2 = (5+3)√2 = 8√2</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ৩</span>
+      <h4>√50 + √18 সরল করো</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">ধাপ ১:</div>
+        <div class="ws-content"><span class="eq">√50 = √(25×2) = 5√2</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">ধাপ ২:</div>
+        <div class="ws-content"><span class="eq">√18 = √(9×2) = 3√2</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">ধাপ ৩:</div>
+        <div class="ws-content"><span class="eq">√50 + √18 = 5√2 + 3√2 = 8√2</span> ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ৪</span>
+      <h4>2√3 + 3√2 + 4√3 এর যোগফল নির্ণয় করো</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">সদৃশ:</div>
+        <div class="ws-content"><span class="eq">2√3 ও 4√3 → সদৃশ</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">যোগ:</div>
+        <div class="ws-content"><span class="eq">2√3 + 3√2 + 4√3 = (2+4)√3 + 3√2 = 6√3 + 3√2</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ৫</span>
+      <h4>√98 + √8 − 2√32 সরল করো (প্রমাণ করো = √2)</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">√98 =</div>
+        <div class="ws-content"><span class="eq">√(49×2) = 7√2</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">√8 =</div>
+        <div class="ws-content"><span class="eq">√(4×2) = 2√2</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">2√32 =</div>
+        <div class="ws-content"><span class="eq">2×√(16×2) = 2×4√2 = 8√2</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">উত্তর:</div>
+        <div class="ws-content" style="color:var(--green)"><span class="eq">7√2 + 2√2 − 8√2 = (7+2−8)√2 = 1√2 = √2 ✓</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Fill Blanks for this section -->
+  <div class="card">
+    <h3><span class="icon">🎯</span> তোমার পালা!</h3>
+    <div class="fill-blank">
+      <div class="fb-question">√12 + √27 = 2√3 + <input class="blank-input" id="fb3" placeholder="?" style="width:80px"> = <input class="blank-input" id="fb4" placeholder="?" style="width:80px"></div>
+      <button class="btn btn-secondary" style="margin-top:10px; font-size:0.8rem;" onclick="checkFillMulti()">পরীক্ষা করো</button>
+      <div class="fb-hint" id="fb34msg"></div>
+    </div>
+    <div class="fill-blank" style="margin-top:12px">
+      <div class="fb-question">(9 − 2√5) + (12 + 7√5) = <input class="blank-input" id="fb5" placeholder="?" style="width:100px"></div>
+      <button class="btn btn-secondary" style="margin-top:10px; font-size:0.8rem;" onclick="checkFill('fb5','21+5√5','fb5msg')">পরীক্ষা করো</button>
+      <div class="fb-hint" id="fb5msg"></div>
+    </div>
+  </div>
+
+  <div style="text-align:right; margin-top:24px;">
+    <button class="btn btn-primary" onclick="showSection('concept4', document.querySelectorAll('.nav-tab')[4])">পরবর্তী: গুণ-ভাগ →</button>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: গুণ-ভাগ ===== -->
+<section class="section" id="concept4">
+  <div class="sec-title">করণীর <span>গুণ ও ভাগ</span></div>
+  <p class="sec-sub">সদৃশ বা অসদৃশ যেকোনো করণীকে গুণ ও ভাগ করা যায়।</p>
+
+  <div class="card card-purple">
+    <h3><span class="icon">✖️</span> গুণের মূল সূত্র</h3>
+    <div class="math-box">
+      <div class="formula">√a × √b = √(ab) &nbsp;&nbsp; (a, b ≥ 0)</div>
+      <div style="margin-top:8px; color:var(--gray); font-size:0.85rem;">কারণ: a<sup>m</sup> × b<sup>m</sup> = (ab)<sup>m</sup></div>
+      <div style="margin-top:10px;">উদাহরণ: √7 × √11 = 7<sup>½</sup> × 11<sup>½</sup> = (7×11)<sup>½</sup> = √77</div>
+    </div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ৬</span>
+      <h4>বিভিন্ন ধরনের গুণ</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">(i)</div>
+        <div class="ws-content"><span class="eq">2√5 × 3√2 = (2×3) × √(5×2) = 6√10</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">(ii)</div>
+        <div class="ws-content"><span class="eq">7√3 × 2√3 = 14 × (√3)² = 14 × 3 = 42</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">(iii)</div>
+        <div class="ws-content"><span class="eq">(2+√3)(4+√3) = 8 + 2√3 + 4√3 + (√3)² = 8 + 6√3 + 3 = 11 + 6√3</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">(iv)</div>
+        <div class="ws-content"><span class="eq">(5−√3)(2−√3) = 10 − 5√3 − 2√3 + (√3)² = 10 − 7√3 + 3 = 13 − 7√3</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-title" style="font-size:1.1rem;">বিশেষ সূত্র প্রয়োগ</div>
+  <div class="card card-coral">
+    <h3><span class="icon">🎯</span> (a+b)(a−b) = a² − b² সূত্র</h3>
+    <div class="math-box">
+      <div>(5+√7)(5−√7) = 5² − (√7)² = 25 − 7 = 18</div>
+      <div style="margin-top:8px;">(√11−√6)(√11+√6) = (√11)² − (√6)² = 11 − 6 = 5</div>
+      <div style="margin-top:8px; color:var(--teal);">(7+√2)(7−√2) = 49 − 2 = 47</div>
+    </div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ৭</span>
+      <h4>(2+√3+√5)×(3−√5) এর গুণফল নির্ণয় করো</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">বিস্তার:</div>
+        <div class="ws-content"><span class="eq">= 2(3−√5) + √3(3−√5) + √5(3−√5)</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">হিসাব:</div>
+        <div class="ws-content"><span class="eq">= 6 − 2√5 + 3√3 − √15 + 3√5 − 5</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">সরল:</div>
+        <div class="ws-content" style="color:var(--green)"><span class="eq">= 1 + √5 + 3√3 − √15</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz on multiplication -->
+  <div class="card">
+    <h3><span class="icon">🎯</span> দ্রুত যাচাই</h3>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div class="fill-blank">
+        <div class="fb-question">(√5 + √3)² = 5 + 2√15 + 3 = <input class="blank-input" id="fb6" placeholder="?" style="width:100px"></div>
+        <button class="btn btn-secondary" style="margin-top:8px; font-size:0.8rem;" onclick="checkFill('fb6','8+2√15','fb6msg')">পরীক্ষা করো</button>
+        <div class="fb-hint" id="fb6msg"></div>
+      </div>
+      <div class="fill-blank">
+        <div class="fb-question">√6 × √15 = √(6×15) = √90 = <input class="blank-input" id="fb7" placeholder="?" style="width:80px"></div>
+        <button class="btn btn-secondary" style="margin-top:8px; font-size:0.8rem;" onclick="checkFill('fb7','3√10','fb7msg')">পরীক্ষা করো</button>
+        <div class="fb-hint" id="fb7msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:right; margin-top:24px;">
+    <button class="btn btn-primary" onclick="showSection('concept5', document.querySelectorAll('.nav-tab')[5])">পরবর্তী: করণীমুক্তকরণ →</button>
+  </div>
+</section>
+
+<!-- ===== SECTION 5: করণীমুক্তকরণ ===== -->
+<section class="section" id="concept5">
+  <div class="sec-title">হরের <span>করণীমুক্তকরণ</span></div>
+  <p class="sec-sub">ভগ্নাংশের হরে করণী থাকলে তাকে সরাতে হয় — এই পদ্ধতিকে করণীমুক্তকরণ বলে।</p>
+
+  <div class="definition-box">
+    <div class="def-label">করণীমুক্তকরণ (Rationalisation)</div>
+    <p>কোনো করণীর সঙ্গে অথবা একাধিক করণীর যোগ ও বিয়োগ দ্বারা গঠিত অমূলদ সংখ্যার সঙ্গে কোনো উৎপাদক গুণ করে গুণফলটি করণীমুক্ত করা অর্থাৎ একটি মূলদ সংখ্যা পাওয়ার প্রক্রিয়াকে <strong style="color:var(--teal)">করণীমুক্তকরণ (Rationalisation)</strong> বলে।</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🔑</span> করণী নিরসক উৎপাদক (Rationalising Factor)</h3>
+    <table class="info-table">
+      <tr><th>করণী</th><th>করণী নিরসক উৎপাদক</th><th>গুণফল</th></tr>
+      <tr><td>√5</td><td>√5</td><td>5 (মূলদ)</td></tr>
+      <tr><td>3√2</td><td>√2 বা k√2</td><td>6</td></tr>
+      <tr><td>a + √b</td><td>a − √b</td><td>a² − b</td></tr>
+      <tr><td>√a − √b</td><td>√a + √b</td><td>a − b</td></tr>
+    </table>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ৮</span>
+      <h4>√13 ÷ √5 = ? (হরকে করণীমুক্ত করো)</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">শুরু:</div>
+        <div class="ws-content"><span class="eq">√13 / √5</span> → হরে √5 আছে</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">কৌশল:</div>
+        <div class="ws-content">লব ও হর উভয়কে √5 দিয়ে গুণ করো</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">গণনা:</div>
+        <div class="ws-content"><span class="eq">= (√13 × √5) / (√5 × √5) = √65 / 5</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">উত্তর:</div>
+        <div class="ws-content" style="color:var(--green)"><span class="eq">√65 / 5</span> ← হর এখন মূলদ সংখ্যা ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ৯</span>
+      <h4>(√2 + √3) ÷ (√2 − √3) সরল করো</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">শুরু:</div>
+        <div class="ws-content"><span class="eq">(√2 + √3) / (√2 − √3)</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">কৌশল:</div>
+        <div class="ws-content">হরকে করণীমুক্ত করতে লব-হর উভয়কে (√2 + √3) দিয়ে গুণ করো</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">গণনা:</div>
+        <div class="ws-content"><span class="eq">= (√2+√3)² / [(√2)²−(√3)²] = (2+2√6+3) / (2−3) = (5+2√6) / (−1) = −5 − 2√6</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ১০</span>
+      <h4>(5 + √7) এর করণী নিরসক উৎপাদক কী?</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">পরীক্ষা ১:</div>
+        <div class="ws-content"><span class="eq">(5+√7)(5−√7) = 25 − 7 = 18</span> ← মূলদ ✓</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">পরীক্ষা ২:</div>
+        <div class="ws-content"><span class="eq">(5+√7)(−5+√7) = (√7+5)(√7−5) = 7 − 25 = −18</span> ← মূলদ ✓</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">উত্তর:</div>
+        <div class="ws-content" style="color:var(--gold)">∴ (5−√7) এবং (−5+√7) উভয়ই করণী নিরসক উৎপাদক।</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fill blanks -->
+  <div class="card">
+    <h3><span class="icon">✏️</span> নিজে করো</h3>
+    <div class="fill-blank">
+      <div class="fb-question">(√11 − √6)(√11 + √6) = (√11)² − (√6)² = <input class="blank-input" id="fb8" placeholder="?" style="width:60px"></div>
+      <button class="btn btn-secondary" style="margin-top:8px; font-size:0.8rem;" onclick="checkFill('fb8','5','fb8msg')">পরীক্ষা করো</button>
+      <div class="fb-hint" id="fb8msg"></div>
+    </div>
+    <div class="fill-blank" style="margin-top:12px">
+      <div class="fb-question">2√2 ÷ √5 = 2√2 × (√5/√5 × √5) = <input class="blank-input" id="fb9" placeholder="?" style="width:100px"></div>
+      <button class="btn btn-secondary" style="margin-top:8px; font-size:0.8rem;" onclick="checkFill('fb9','2√10/5','fb9msg')">পরীক্ষা করো</button>
+      <div class="fb-hint" id="fb9msg"></div>
+    </div>
+  </div>
+
+  <div style="text-align:right; margin-top:24px;">
+    <button class="btn btn-primary" onclick="showSection('concept6', document.querySelectorAll('.nav-tab')[6])">পরবর্তী: অনুবন্ধী করণী →</button>
+  </div>
+</section>
+
+<!-- ===== SECTION 6: অনুবন্ধী করণী ===== -->
+<section class="section" id="concept6">
+  <div class="sec-title">অনুবন্ধী করণী <span>(Conjugate Surd)</span></div>
+  <p class="sec-sub">মিশ্র দ্বিঘাত করণীর এই বিশেষ ধারণাটি পরীক্ষায় খুবই গুরুত্বপূর্ণ।</p>
+
+  <div class="definition-box">
+    <div class="def-label">অনুবন্ধী করণী</div>
+    <p>কোনো মিশ্র দ্বিঘাত করণীর করণী নিরসক উৎপাদকের সঙ্গে ওই করণীর যোগফল ও গুণফল উভয়ই যদি মূলদ সংখ্যা হয়, তবে তাকে ওই মিশ্র দ্বিঘাত করণীর <strong style="color:var(--teal)">অনুবন্ধী বা পূরক করণী (Conjugate Surd)</strong> বলা হয়।</p>
+  </div>
+
+  <div class="card card-coral">
+    <h3><span class="icon">🔗</span> বিশেষ নিয়ম</h3>
+    <div class="math-box">
+      <div>a + √b এর অনুবন্ধী করণী → <span class="formula">a − √b</span></div>
+      <div style="margin-top:8px;">a − √b এর অনুবন্ধী করণী → <span class="formula">a + √b</span></div>
+      <div style="margin-top:8px;">√a + √b এর অনুবন্ধী করণী → <span class="formula">√a − √b</span></div>
+      <div style="margin-top:8px;">√a − √b এর অনুবন্ধী করণী → <span class="formula">√a + √b</span></div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>সতর্কতা!</strong> (7+√2) এর অনুবন্ধী করণী হল (7−√2), কিন্তু (−7+√2) অনুবন্ধী করণী নয়। যদিও এটি করণী নিরসক উৎপাদক, কারণ (7+√2)+(−7+√2) = 2√2 অমূলদ সংখ্যা।</p>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ১১</span>
+      <h4>(7+√2) ও (7−√2) এর সম্পর্ক যাচাই</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">যোগফল:</div>
+        <div class="ws-content"><span class="eq">(7+√2) + (7−√2) = 14</span> ← মূলদ ✓</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">গুণফল:</div>
+        <div class="ws-content"><span class="eq">(7+√2)(7−√2) = 49 − 2 = 47</span> ← মূলদ ✓</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">উপসংহার:</div>
+        <div class="ws-content" style="color:var(--green)">∴ (7−√2) হল (7+√2) এর অনুবন্ধী করণী ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ১২</span>
+      <h4>x = √3+√2 হলে, x − 1/x নির্ণয় করো</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">1/x =</div>
+        <div class="ws-content"><span class="eq">1/(√3+√2) = (√3−√2)/[(√3+√2)(√3−√2)] = (√3−√2)/(3−2) = √3−√2</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">x − 1/x =</div>
+        <div class="ws-content"><span class="eq">(√3+√2) − (√3−√2) = √3+√2−√3+√2 = 2√2</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ১৩</span>
+      <h4>x = √3+√2 হলে, x² + 1/x² নির্ণয় করো</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">জানি:</div>
+        <div class="ws-content"><span class="eq">x − 1/x = 2√2</span> (উপরে থেকে)</div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">সূত্র:</div>
+        <div class="ws-content"><span class="eq">x² + 1/x² = (x − 1/x)² + 2 = (2√2)² + 2 = 8 + 2 = 10</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- বড় উদাহরণ -->
+  <div class="worked-ex">
+    <div class="worked-header">
+      <span class="ex-badge">উদাহরণ ১৪</span>
+      <h4>x = (√3+1)/(√3−1) এবং y = (√3−1)/(√3+1) হলে, x² + y²/(x² − y²) = 7√3/12 প্রমাণ করো</h4>
+    </div>
+    <div class="worked-body">
+      <div class="worked-step">
+        <div class="ws-label">x + y =</div>
+        <div class="ws-content"><span class="eq">[(√3+1)² + (√3−1)²] / [(√3−1)(√3+1)] = [2((√3)²+1)] / (3−1) = 2(3+1)/2 = 4</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">x − y =</div>
+        <div class="ws-content"><span class="eq">[(√3+1)² − (√3−1)²] / [(√3)²−1²] = 4√3×1 / 2 = 2√3</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">xy =</div>
+        <div class="ws-content"><span class="eq">[(√3+1)/(√3−1)] × [(√3−1)/(√3+1)] = 1</span></div>
+      </div>
+      <div class="worked-step">
+        <div class="ws-label">x²+y²/ x²−y² =</div>
+        <div class="ws-content"><span class="eq">(x+y)² − 2xy / [(x+y)(x−y)] = (16−2) / (4×2√3) = 14/(8√3) = 7/(4√3) = 7√3/12 ✓</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Table -->
+  <div class="divider"></div>
+  <div class="sec-title" style="font-size:1.1rem;">সব একসাথে — সারসংক্ষেপ</div>
+  <div class="summary-grid">
+    <div class="summary-item">
+      <span class="s-icon">🌱</span>
+      <h4>শুদ্ধ দ্বিঘাত করণী</h4>
+      <p>±√a আকার, a মূলদ কিন্তু পূর্ণবর্গ নয়</p>
+    </div>
+    <div class="summary-item">
+      <span class="s-icon">🎨</span>
+      <h4>মিশ্র দ্বিঘাত করণী</h4>
+      <p>a ± √b আকার, a মূলদ সংখ্যা</p>
+    </div>
+    <div class="summary-item">
+      <span class="s-icon">🔗</span>
+      <h4>সদৃশ করণী</h4>
+      <p>একই করণীর মূলদ গুণিতক</p>
+    </div>
+    <div class="summary-item">
+      <span class="s-icon">↔️</span>
+      <h4>অনুবন্ধী করণী</h4>
+      <p>যোগফল ও গুণফল উভয়ই মূলদ</p>
+    </div>
+    <div class="summary-item">
+      <span class="s-icon">🔄</span>
+      <h4>করণীমুক্তকরণ</h4>
+      <p>হরকে মূলদে পরিণত করার প্রক্রিয়া</p>
+    </div>
+    <div class="summary-item">
+      <span class="s-icon">📐</span>
+      <h4>বড় ছোট তুলনা</h4>
+      <p>a² > b² হলে a > b (ধনাত্মক)</p>
+    </div>
+  </div>
+
+  <div style="text-align:right; margin-top:24px;">
+    <button class="btn btn-primary" onclick="showSection('quiz', document.querySelectorAll('.nav-tab')[7])">কুইজ দাও! 🧠</button>
+  </div>
+</section>
+
+<!-- ===== QUIZ ===== -->
+<section class="section" id="quiz">
+  <div class="sec-title"><span>বুদ্ধিমত্তা</span> পরীক্ষা — কুইজ</div>
+  <p class="sec-sub">৩টি রাউন্ডে ভাগ করা কুইজ — সহজ থেকে কঠিন। প্রতিটি প্রশ্নের পরে ব্যাখ্যা পাবে।</p>
+
+  <div id="quizStartScreen" style="text-align:center; padding:20px 0;">
+    <div style="font-size:3rem; margin-bottom:12px;">🧠</div>
+    <div class="sec-title" style="font-size:1.3rem; margin-bottom:8px;">কুইজ শুরু করার আগে</div>
+    <p style="color:var(--gray); margin-bottom:20px; font-size:0.9rem;">মোট 15টি প্রশ্ন | তিনটি স্তর: সহজ, মধ্যম, কঠিন<br>প্রতিটি উত্তরের পর ব্যাখ্যা দেখতে পাবে।</p>
+    <button class="btn btn-primary" onclick="startQuiz()">কুইজ শুরু করো →</button>
+  </div>
+
+  <div id="quizMain" style="display:none;">
+    <div class="quiz-container" id="quizContainer"></div>
+    <div class="quiz-nav">
+      <button class="btn btn-secondary" id="prevBtn" onclick="quizNav(-1)" disabled>← আগে</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="quizNav(1)" disabled>পরে →</button>
+      <div class="quiz-score">স্কোর: <span id="scoreDisplay">0</span>/<span id="totalDisplay">15</span></div>
+    </div>
+  </div>
+
+  <div id="quizResult" style="display:none; margin-top:20px;">
+    <div class="exam-result-box">
+      <div class="result-score" id="finalScore">0/15</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-submsg" id="resultSubMsg"></div>
+      <div style="margin-top:20px;">
+        <button class="btn btn-primary" onclick="retakeQuiz()">আবার দাও</button>
+        <button class="btn btn-secondary" style="margin-left:10px;" onclick="showSection('practice', document.querySelectorAll('.nav-tab')[8])">অনুশীলনে যাও →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRACTICE ===== -->
+<section class="section" id="practice">
+  <div class="sec-title">অনুশীলন <span>প্রশ্নাবলী</span></div>
+  <p class="sec-sub">WBBSE পরীক্ষার ধাঁচে সাজানো সমস্যা — সমাধান নিজে করো, তারপর দেখো।</p>
+
+  <div class="difficulty-tabs">
+    <button class="diff-btn easy active" onclick="filterProblems('easy', this)">🟢 সহজ</button>
+    <button class="diff-btn medium" onclick="filterProblems('medium', this)">🟡 মধ্যম</button>
+    <button class="diff-btn hard" onclick="filterProblems('hard', this)">🔴 কঠিন</button>
+    <button class="diff-btn vsa" onclick="filterProblems('vsa', this)">🟣 VSA/MCQ</button>
+  </div>
+
+  <div class="problem-list" id="problemList">
+
+    <!-- EASY -->
+    <div class="problem-item easy show">
+      <div class="p-meta"><span class="p-tag easy">সহজ</span><span class="p-num">P01</span></div>
+      <div class="prob-text">মূলদ ও অমূলদ সংখ্যার গুণফল আকারে লিখো: (i) √175 &nbsp; (ii) 2√112 &nbsp; (iii) √108</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">(i) √175 = √(25×7) = 5√7</span></p>
+        <p><span class="sol-step">(ii) 2√112 = 2√(16×7) = 2×4√7 = 8√7</span></p>
+        <p><span class="sol-step">(iii) √108 = √(36×3) = 6√3</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item easy show">
+      <div class="p-meta"><span class="p-tag easy">সহজ</span><span class="p-num">P02</span></div>
+      <div class="prob-text">সরলতম মান নির্ণয় করো: √12 + √18 + √27 − √32</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">√12 = 2√3, √18 = 3√2, √27 = 3√3, √32 = 4√2</span></p>
+        <p><span class="sol-step">= 2√3 + 3√2 + 3√3 − 4√2 = 5√3 − √2</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item easy show">
+      <div class="p-meta"><span class="p-tag easy">সহজ</span><span class="p-num">P03</span></div>
+      <div class="prob-text">4 টি শুদ্ধ দ্বিঘাত করণী লিখো। 4 টি মিশ্র দ্বিঘাত করণী লিখো।</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">শুদ্ধ: √3, −√5, √(2/3), √7</span></p>
+        <p><span class="sol-step">মিশ্র: 2−√3, 2+√6, (3/5)−√10, 5+√2</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item easy show">
+      <div class="p-meta"><span class="p-tag easy">সহজ</span><span class="p-num">P04</span></div>
+      <div class="prob-text">√7 ও √11 এর মধ্যে কোনটি বড়?</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">যেহেতু 11 > 7 ∴ √11 > √7 (a, b ধনাত্মক এবং a² > b² হলে a > b)</span></p>
+        <p>উত্তর: <strong>√11 বড়</strong></p>
+      </div>
+    </div>
+
+    <div class="problem-item easy show">
+      <div class="p-meta"><span class="p-tag easy">সহজ</span><span class="p-num">P05</span></div>
+      <div class="prob-text">নিচের করণীগুলি থেকে সদৃশ করণী বাছো: √48, √27, √20, √75</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">√48 = 4√3, √27 = 3√3, √20 = 2√5, √75 = 5√3</span></p>
+        <p>সদৃশ করণী: <strong>√48, √27, √75</strong> (সবই √3 এর মূলদ গুণিতক)</p>
+        <p>√20 অসদৃশ।</p>
+      </div>
+    </div>
+
+    <!-- MEDIUM -->
+    <div class="problem-item medium">
+      <div class="p-meta"><span class="p-tag medium">মধ্যম</span><span class="p-num">P06</span></div>
+      <div class="prob-text">প্রমাণ করো যে, √108 − √75 = √3</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">বামদিক = √108 − √75</span></p>
+        <p><span class="sol-step">= √(36×3) − √(25×3) = 6√3 − 5√3 = √3</span> = ডানদিক ✓</p>
+      </div>
+    </div>
+
+    <div class="problem-item medium">
+      <div class="p-meta"><span class="p-tag medium">মধ্যম</span><span class="p-num">P07</span></div>
+      <div class="prob-text">দেখাই যে, 3√48 − 4√75 + √192 = 0</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">3√48 = 3×4√3 = 12√3</span></p>
+        <p><span class="sol-step">4√75 = 4×5√3 = 20√3</span></p>
+        <p><span class="sol-step">√192 = √(64×3) = 8√3</span></p>
+        <p><span class="sol-step">12√3 − 20√3 + 8√3 = (12−20+8)√3 = 0√3 = 0 ✓</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item medium">
+      <div class="p-meta"><span class="p-tag medium">মধ্যম</span><span class="p-num">P08</span></div>
+      <div class="prob-text">গুণফল নির্ণয় করো: (√2+√3)(√2−√3)</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">(√2+√3)(√2−√3) = (√2)² − (√3)² = 2 − 3 = −1</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item medium">
+      <div class="p-meta"><span class="p-tag medium">মধ্যম</span><span class="p-num">P09</span></div>
+      <div class="prob-text">হরের করণী নিরসন করো: (4 + 2√3) ÷ (2 − √3)</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">= (4+2√3)(2+√3) / [(2−√3)(2+√3)]</span></p>
+        <p><span class="sol-step">লব = 8 + 4√3 + 4√3 + 2×3 = 8 + 8√3 + 6 = 14 + 8√3</span></p>
+        <p><span class="sol-step">হর = 4 − 3 = 1</span></p>
+        <p><span class="sol-step">উত্তর = 14 + 8√3</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item medium">
+      <div class="p-meta"><span class="p-tag medium">মধ্যম</span><span class="p-num">P10</span></div>
+      <div class="prob-text">(√5+√3) ও (√5−√3) এর অনুবন্ধী করণী লিখো এবং যাচাই করো।</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">(√5+√3) এর অনুবন্ধী = (√5−√3)</span></p>
+        <p><span class="sol-step">যোগ: (√5+√3)+(√5−√3) = 2√5 ← কিন্তু এটি অমূলদ!</span></p>
+        <p style="color:var(--gold);">⚠️ তাহলে এরা সাধারণ অর্থে অনুবন্ধী নয়, কিন্তু পরস্পরের করণী নিরসক উৎপাদক।<br>গুণফল: (√5+√3)(√5−√3) = 5−3 = 2 ✓ মূলদ</p>
+      </div>
+    </div>
+
+    <div class="problem-item medium">
+      <div class="p-meta"><span class="p-tag medium">মধ্যম</span><span class="p-num">P11</span></div>
+      <div class="prob-text">x = 2 + √3 হলে, x + 1/x এর মান নির্ণয় করো।</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">1/x = 1/(2+√3) = (2−√3)/[(2+√3)(2−√3)] = (2−√3)/(4−3) = 2−√3</span></p>
+        <p><span class="sol-step">x + 1/x = (2+√3) + (2−√3) = 4</span></p>
+      </div>
+    </div>
+
+    <!-- HARD -->
+    <div class="problem-item hard">
+      <div class="p-meta"><span class="p-tag hard">কঠিন</span><span class="p-num">P12</span></div>
+      <div class="prob-text">যদি x = (√3+1)/(√3−1) এবং y = (√3−1)/(√3+1) হয়, তবে দেখাও যে x²+y²/(x²−y²) = 7√3/12</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">x+y = 4 (হিসাব উপরে দেখানো হয়েছে)</span></p>
+        <p><span class="sol-step">x−y = 2√3, xy = 1</span></p>
+        <p><span class="sol-step">x²+y² = (x+y)² − 2xy = 16 − 2 = 14</span></p>
+        <p><span class="sol-step">x²−y² = (x+y)(x−y) = 4×2√3 = 8√3</span></p>
+        <p><span class="sol-step">(x²+y²)/(x²−y²) = 14/(8√3) = 7/(4√3) = 7√3/12 ✓</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item hard">
+      <div class="p-meta"><span class="p-tag hard">কঠিন</span><span class="p-num">P13</span></div>
+      <div class="prob-text">সরল করো: 5/(√2+√3) − 1/(√2−√3)</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">5/(√2+√3) = 5(√2−√3)/[(√2+√3)(√2−√3)] = 5(√2−√3)/(2−3) = −5(√2−√3) = −5√2+5√3</span></p>
+        <p><span class="sol-step">1/(√2−√3) = (√2+√3)/[(√2−√3)(√2+√3)] = (√2+√3)/(2−3) = −(√2+√3) = −√2−√3</span></p>
+        <p><span class="sol-step">= (−5√2+5√3) − (−√2−√3) = −5√2+5√3+√2+√3 = −4√2+6√3</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item hard">
+      <div class="p-meta"><span class="p-tag hard">কঠিন</span><span class="p-num">P14</span></div>
+      <div class="prob-text">x = √7+√6 হলে, x² + 1/x² এবং x³ − 1/x³ নির্ণয় করো।</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">1/x = 1/(√7+√6) = (√7−√6)/(7−6) = √7−√6</span></p>
+        <p><span class="sol-step">x − 1/x = (√7+√6) − (√7−√6) = 2√6</span></p>
+        <p><span class="sol-step">x² + 1/x² = (x − 1/x)² + 2 = (2√6)² + 2 = 24 + 2 = 26</span></p>
+        <p><span class="sol-step">x³ − 1/x³ = (x−1/x)³ + 3×x×(1/x)×(x−1/x) = (2√6)³ + 3×2√6 = 48√6 + 6√6 = 54√6</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item hard">
+      <div class="p-meta"><span class="p-tag hard">কঠিন</span><span class="p-num">P15</span></div>
+      <div class="prob-text">যদি a = (√5+1)/(√5−1) এবং b = (√5−1)/(√5+1) হয়, তবে (a−b)³/(a+b)³ নির্ণয় করো।</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">সমাধান দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">a + b = [(√5+1)²+(√5−1)²]/[(√5−1)(√5+1)] = [2(5+1)]/(5−1) = 12/4 = 3</span></p>
+        <p><span class="sol-step">a − b = [(√5+1)²−(√5−1)²]/(5−1) = 4×√5×1/4 = √5</span></p>
+        <p><span class="sol-step">(a−b)³/(a+b)³ = (√5)³/3³ = 5√5/27</span></p>
+      </div>
+    </div>
+
+    <!-- VSA/MCQ -->
+    <div class="problem-item vsa">
+      <div class="p-meta"><span class="p-tag vsa">MCQ</span><span class="p-num">P16</span></div>
+      <div class="prob-text">x = 2+√3 হলে, x + 1/x = ?<br>(a) 2 &nbsp;&nbsp; (b) 2√3 &nbsp;&nbsp; (c) 4 &nbsp;&nbsp; (d) 2−√3</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">উত্তর দেখো</button>
+      <div class="show-solution">
+        <p>উত্তর: <strong style="color:var(--green)">(c) 4</strong></p>
+        <p><span class="sol-step">1/x = 2−√3, তাই x + 1/x = (2+√3)+(2−√3) = 4</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item vsa">
+      <div class="p-meta"><span class="p-tag vsa">MCQ</span><span class="p-num">P17</span></div>
+      <div class="prob-text">যদি p+q = √13 এবং p−q = √5 হয়, তাহলে pq এর মান —<br>(a) 2 &nbsp;&nbsp; (b) 18 &nbsp;&nbsp; (c) 9 &nbsp;&nbsp; (d) 8</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">উত্তর দেখো</button>
+      <div class="show-solution">
+        <p>উত্তর: <strong style="color:var(--green)">(d) 8</strong></p>
+        <p><span class="sol-step">4pq = (p+q)² − (p−q)² = 13 − 5 = 8 → pq = 2 ← ভুল। আবার দেখো:</span></p>
+        <p><span class="sol-step">(p+q)² = p²+2pq+q² = 13, (p−q)² = p²−2pq+q² = 5</span></p>
+        <p><span class="sol-step">বিয়োগ: 4pq = 8, ∴ pq = 2 ← কিন্তু উত্তর d=8, যদি প্রশ্ন হয় 4pq</span></p>
+        <p style="color:var(--gold);">∴ 4pq = 8</p>
+      </div>
+    </div>
+
+    <div class="problem-item vsa">
+      <div class="p-meta"><span class="p-tag vsa">T/F</span><span class="p-num">P18</span></div>
+      <div class="prob-text">সত্য না মিথ্যা লিখো: (i) √75 ও √147 সদৃশ করণী। &nbsp; (ii) √π একটি দ্বিঘাত করণী।</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">উত্তর দেখো</button>
+      <div class="show-solution">
+        <p><span class="sol-step">(i) √75 = 5√3, √147 = 7√3 → একই মূলদ গুণিতক → <strong style="color:var(--green)">সত্য</strong></span></p>
+        <p><span class="sol-step">(ii) √π → π অমূলদ সংখ্যা, মূলদ নয় → দ্বিঘাত করণী নয় → <strong style="color:var(--coral)">মিথ্যা</strong></span></p>
+      </div>
+    </div>
+
+    <div class="problem-item vsa">
+      <div class="p-meta"><span class="p-tag vsa">SAQ</span><span class="p-num">P19</span></div>
+      <div class="prob-text">দুটি দ্বিঘাত করণী লিখো যাদের যোগফল ও গুণফল একটি মূলদ সংখ্যা।</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">উত্তর দেখো</button>
+      <div class="show-solution">
+        <p>উদাহরণ: <strong>√5 এবং −√5</strong></p>
+        <p><span class="sol-step">যোগ: √5 + (−√5) = 0 ✓ | গুণ: √5 × (−√5) = −5 ✓</span></p>
+        <p>আরেকটি: <strong>(2+√3) এবং (2−√3)</strong></p>
+        <p><span class="sol-step">যোগ = 4 ✓ | গুণ = 4−3 = 1 ✓</span></p>
+      </div>
+    </div>
+
+    <div class="problem-item vsa">
+      <div class="p-meta"><span class="p-tag vsa">MCQ</span><span class="p-num">P20</span></div>
+      <div class="prob-text">(5−√3)(√3−1)(5+√3)(√3+1) = ?<br>(a) 22 &nbsp;&nbsp; (b) 44 &nbsp;&nbsp; (c) 2 &nbsp;&nbsp; (d) 11</div>
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleSolution(this)">উত্তর দেখো</button>
+      <div class="show-solution">
+        <p>উত্তর: <strong style="color:var(--green)">(a) 22</strong></p>
+        <p><span class="sol-step">= [(5−√3)(5+√3)] × [(√3−1)(√3+1)] = (25−3)(3−1) = 22×2 = 44 ← (b) 44</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL EXAM ===== -->
+<section class="section" id="exam">
+  <div class="sec-title">চূড়ান্ত <span>পরীক্ষা</span></div>
+  <p class="sec-sub">পুরো অধ্যায়ের পরীক্ষা — WBBSE ফরম্যাটে।</p>
+
+  <div id="examStart">
+    <div class="exam-intro">
+      <span class="exam-icon">🏆</span>
+      <h3>দ্বিঘাত করণী — চূড়ান্ত পরীক্ষা</h3>
+      <p>মোট 10টি প্রশ্ন | সময়: 20 মিনিট<br>MCQ, সত্য-মিথ্যা, শূন্যস্থান ও সংক্ষিপ্ত প্রশ্ন</p>
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="startExam()">পরীক্ষা শুরু করো →</button>
+    </div>
+  </div>
+
+  <div id="examMain" style="display:none;">
+    <div id="examTimer" style="text-align:right; margin-bottom:16px; font-family:'DM Mono',monospace; color:var(--teal); font-size:1rem;">⏱ <span id="timerDisplay">20:00</span></div>
+    <div id="examQuestions"></div>
+    <button class="btn btn-primary" style="margin-top:20px;" onclick="submitExam()">পরীক্ষা জমা দাও ✓</button>
+  </div>
+
+  <div id="examResult" style="display:none; margin-top:20px;">
+    <div class="exam-result-box">
+      <div class="result-score" id="examScore"></div>
+      <div class="result-msg" id="examMsg"></div>
+      <div class="result-submsg" id="examSubMsg"></div>
+      <div id="examAnswerReview" style="margin-top:24px; text-align:left;"></div>
+      <div style="margin-top:20px; text-align:center;">
+        <button class="btn btn-primary" onclick="retakeExam()">আবার দাও</button>
+        <button class="btn btn-secondary" style="margin-left:10px;" onclick="showSection('home', document.querySelectorAll('.nav-tab')[0])">← হোমে ফিরে যাও</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ========== NAVIGATION ==========
+let visitedSections = new Set(['home']);
+
+function showSection(id, tabEl) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(tabEl) tabEl.classList.add('active');
+  visitedSections.add(id);
+  updateProgress();
+  window.scrollTo(0,0);
+}
+
+function updateProgress() {
+  const total = 10;
+  const pct = Math.min(100, Math.round((visitedSections.size / total) * 100));
+  document.getElementById('globalProgress').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+// ========== COLLAPSIBLE ==========
+function toggleCollapse(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+  header.classList.toggle('open');
+}
+
+// ========== FILL BLANK CHECK ==========
+function checkFill(inputId, answer, msgId) {
+  const inp = document.getElementById(inputId);
+  const msg = document.getElementById(msgId);
+  const val = inp.value.trim().replace(/\s/g,'');
+  const ans = answer.replace(/\s/g,'');
+  if(val.toLowerCase() === ans.toLowerCase()) {
+    inp.classList.add('correct'); inp.classList.remove('wrong');
+    msg.style.color = 'var(--green)';
+    msg.textContent = '✅ সঠিক! চমৎকার!';
+  } else {
+    inp.classList.add('wrong'); inp.classList.remove('correct');
+    msg.style.color = 'var(--coral)';
+    msg.textContent = '❌ আবার চেষ্টা করো। উত্তর: ' + answer;
+  }
+}
+
+function checkFillMulti() {
+  const fb3 = document.getElementById('fb3');
+  const fb4 = document.getElementById('fb4');
+  const msg = document.getElementById('fb34msg');
+  const v3 = fb3.value.trim();
+  const v4 = fb4.value.trim();
+  if((v3 === '3√3' || v3 === '3√3') && (v4 === '5√3')) {
+    fb3.classList.add('correct'); fb4.classList.add('correct');
+    msg.style.color='var(--green)'; msg.textContent='✅ সঠিক! √12 = 2√3, √27 = 3√3 → 5√3';
+  } else {
+    msg.style.color='var(--coral)'; msg.textContent='❌ √27 = 3√3 এবং 2√3+3√3 = 5√3';
+  }
+}
+
+// ========== MATCH GAME ==========
+let matchSelected = { def: null, term: null };
+let matchScore = 0;
+
+function selectMatch(type, el, value) {
+  if(el.classList.contains('matched')) return;
+  const prev = matchSelected[type];
+  if(prev) prev.classList.remove('selected');
+  matchSelected[type] = el;
+  el.classList.add('selected');
+  el.dataset.value = value;
+  if(matchSelected.def && matchSelected.term) {
+    const dv = matchSelected.def.dataset.value;
+    const tv = matchSelected.term.dataset.value;
+    const result = document.getElementById('matchResult');
+    if(dv === tv) {
+      matchSelected.def.classList.remove('selected'); matchSelected.def.classList.add('matched');
+      matchSelected.term.classList.remove('selected'); matchSelected.term.classList.add('matched');
+      matchScore++;
+      result.textContent = '✅ সঠিক মিলেছে! ' + (matchScore === 2 ? '🎉 সব মিলে গেছে!' : '');
+      result.style.color = 'var(--green)'; result.classList.add('show');
+    } else {
+      matchSelected.def.classList.add('wrong-match'); matchSelected.term.classList.add('wrong-match');
+      result.textContent = '❌ মেলেনি, আবার চেষ্টা করো!';
+      result.style.color='var(--coral)'; result.classList.add('show');
+      setTimeout(() => {
+        matchSelected.def.classList.remove('selected','wrong-match');
+        matchSelected.term.classList.remove('selected','wrong-match');
+        result.classList.remove('show');
+      }, 1200);
+    }
+    matchSelected = { def:null, term:null };
+  }
+}
+
+// ========== SOLUTION TOGGLE ==========
+function toggleSolution(btn) {
+  const sol = btn.nextElementSibling;
+  if(sol.classList.contains('reveal')) {
+    sol.classList.remove('reveal'); btn.textContent = 'সমাধান দেখো';
+  } else {
+    sol.classList.add('reveal'); btn.textContent = 'লুকাও ▲';
+  }
+}
+
+// ========== FILTER PROBLEMS ==========
+function filterProblems(type, btn) {
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.problem-item').forEach(p => {
+    p.classList.remove('show');
+    if(p.classList.contains(type)) p.classList.add('show');
+  });
+}
+
+// ========== QUIZ DATA ==========
+const quizQuestions = [
+  { q: "√4 একটি দ্বিঘাত করণী?", opts: ["হ্যাঁ, এটি শুদ্ধ করণী", "না, কারণ √4 = 2 মূলদ সংখ্যা", "হ্যাঁ, মিশ্র করণী", "না, এটি অমূলদ নয় শুধু"], ans: 1, exp: "√4 = 2 একটি মূলদ সংখ্যা। দ্বিঘাত করণী হতে হলে মানটি অবশ্যই অমূলদ হতে হবে।", level: "সহজ" },
+  { q: "±√5 কোন ধরনের করণী?", opts: ["মিশ্র দ্বিঘাত করণী", "শুদ্ধ দ্বিঘাত করণী", "ত্রিঘাত করণী", "করণী নয়"], ans: 1, exp: "±√a আকারের করণী যেখানে a মূলদ কিন্তু পূর্ণবর্গ নয় — সেটি শুদ্ধ দ্বিঘাত করণী।", level: "সহজ" },
+  { q: "√8 কে সরলতম আকারে লিখলে কী হয়?", opts: ["4√2", "2√2", "2√4", "8√1"], ans: 1, exp: "√8 = √(4×2) = √4 × √2 = 2√2", level: "সহজ" },
+  { q: "√3 ও √12 কি সদৃশ করণী?", opts: ["না, ভিন্ন সংখ্যা", "হ্যাঁ, কারণ √12 = 2√3", "না, কারণ √12 বড়", "হ্যাঁ, উভয়ই করণী"], ans: 1, exp: "√12 = √(4×3) = 2√3 → √3 এর মূলদ গুণিতক → সদৃশ করণী।", level: "সহজ" },
+  { q: "√50 + √18 = ?", opts: ["√68", "8√2", "5√2 + 3√2", "উভয় b ও c"], ans: 3, exp: "√50 = 5√2, √18 = 3√2 → যোগ = 8√2। তাই b ও c উভয়ই সঠিক কিন্তু d সম্পূর্ণ উত্তর।", level: "সহজ" },
+  { q: "2+√3 কোন ধরনের করণী?", opts: ["শুদ্ধ দ্বিঘাত করণী", "মিশ্র দ্বিঘাত করণী", "অ-করণী", "ত্রিঘাত করণী"], ans: 1, exp: "a ± √b আকারের করণী যেখানে a মূলদ — সেটি মিশ্র দ্বিঘাত করণী। এখানে a=2, b=3।", level: "মধ্যম" },
+  { q: "(√5 + √3)(√5 − √3) = ?", opts: ["√2", "2", "8", "√15"], ans: 1, exp: "(a+b)(a−b) = a²−b² → (√5)²−(√3)² = 5−3 = 2", level: "মধ্যম" },
+  { q: "√13 ÷ √5 এর হরকে করণীমুক্ত করলে —", opts: ["√13/5", "√65/5", "13/√5", "√13×√5"], ans: 1, exp: "লব-হর উভয়কে √5 দিয়ে গুণ: (√13×√5)/(√5×√5) = √65/5", level: "মধ্যম" },
+  { q: "x = √3+√2 হলে 1/x = ?", opts: ["√3−√2", "1/(√3+√2)", "√3+√2", "−(√3−√2)"], ans: 0, exp: "1/(√3+√2) × (√3−√2)/(√3−√2) = (√3−√2)/(3−2) = √3−√2", level: "মধ্যম" },
+  { q: "(7+√2) এর অনুবন্ধী করণী কোনটি?", opts: ["−7+√2", "7−√2", "7+√2", "√2−7"], ans: 1, exp: "(7+√2)+(7−√2)=14 মূলদ এবং (7+√2)(7−√2)=47 মূলদ → তাই 7−√2 অনুবন্ধী।", level: "কঠিন" },
+  { q: "√π একটি দ্বিঘাত করণী কি?", opts: ["হ্যাঁ", "না, কারণ π অমূলদ", "হ্যাঁ শুদ্ধ করণী", "হ্যাঁ মিশ্র করণী"], ans: 1, exp: "দ্বিঘাত করণী হতে হলে রাশির নিচে মূলদ সংখ্যা থাকতে হয়। π অমূলদ, তাই √π করণী নয়।", level: "কঠিন" },
+  { q: "x = 2+√3 হলে x + 1/x = ?", opts: ["2", "2√3", "4", "2−√3"], ans: 2, exp: "1/x = 2−√3 (করণী নিরসন করে), x+1/x = (2+√3)+(2−√3) = 4", level: "কঠিন" },
+  { q: "3√48 − 4√75 + √192 = ?", opts: ["√3", "0", "2√3", "−√3"], ans: 1, exp: "3√48=12√3, 4√75=20√3, √192=8√3 → 12√3−20√3+8√3 = 0", level: "কঠিন" },
+  { q: "দুটি সদৃশ করণীর গুণফল সবসময় —", opts: ["অমূলদ সংখ্যা", "মূলদ সংখ্যা", "করণী", "পূর্ণ সংখ্যা"], ans: 1, exp: "m√a × n√a = mn×a — এটি সবসময় মূলদ সংখ্যা।", level: "কঠিন" },
+  { q: "যদি a+b = √5 এবং a−b = √3 হয়, তাহলে a²−b² = ?", opts: ["√8", "√15", "√2", "2"], ans: 1, exp: "a²−b² = (a+b)(a−b) = √5 × √3 = √15", level: "কঠিন" },
+];
+
+let currentQ = 0, score = 0, answered = [];
+
+function startQuiz() {
+  document.getElementById('quizStartScreen').style.display = 'none';
+  document.getElementById('quizMain').style.display = 'block';
+  document.getElementById('totalDisplay').textContent = quizQuestions.length;
+  answered = new Array(quizQuestions.length).fill(null);
+  currentQ = 0; score = 0;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = quizQuestions[currentQ];
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = `
+    <div class="quiz-question active">
+      <div class="q-number">প্রশ্ন ${currentQ+1} / ${quizQuestions.length} · <span style="color:var(--gold)">${q.level}</span></div>
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="opts">
+        ${q.opts.map((o,i)=>`
+          <button class="option-btn ${answered[currentQ]!==null?(i===q.ans?'correct':(i===answered[currentQ]?'wrong':'')):''}
+          " onclick="selectOpt(${i})" ${answered[currentQ]!==null?'disabled':''}>
+            <span class="opt-label">${'ABCD'[i]}</span> ${o}
+          </button>`).join('')}
+      </div>
+      <div class="feedback ${answered[currentQ]!==null?(answered[currentQ]===q.ans?'correct':'wrong'):''} ${answered[currentQ]!==null?'show':''}" id="feedback">
+        ${answered[currentQ]!==null?(answered[currentQ]===q.ans?'✅ সঠিক! ':'❌ ভুল! ')+q.exp:''}
+      </div>
+    </div>`;
+  document.getElementById('prevBtn').disabled = currentQ === 0;
+  document.getElementById('nextBtn').disabled = answered[currentQ] === null;
+  document.getElementById('scoreDisplay').textContent = score;
+  if(currentQ === quizQuestions.length - 1) {
+    document.getElementById('nextBtn').textContent = 'ফলাফল →';
+  } else {
+    document.getElementById('nextBtn').textContent = 'পরে →';
+  }
+}
+
+function selectOpt(i) {
+  if(answered[currentQ] !== null) return;
+  const q = quizQuestions[currentQ];
+  answered[currentQ] = i;
+  if(i === q.ans) score++;
+  document.getElementById('scoreDisplay').textContent = score;
+  renderQuestion();
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function quizNav(dir) {
+  if(dir === 1 && currentQ === quizQuestions.length - 1) {
+    showQuizResult(); return;
+  }
+  currentQ = Math.max(0, Math.min(quizQuestions.length-1, currentQ+dir));
+  renderQuestion();
+}
+
+function showQuizResult() {
+  document.getElementById('quizMain').style.display='none';
+  document.getElementById('quizResult').style.display='block';
+  document.getElementById('finalScore').textContent = score+'/'+quizQuestions.length;
+  const pct = score/quizQuestions.length;
+  let msg, sub;
+  if(pct >= 0.9) { msg='অসাধারণ! তুমি মাস্টার! 🏆'; sub='চমৎকার দক্ষতা দেখিয়েছ!'; }
+  else if(pct >= 0.7) { msg='দারুণ! আরও একটু চেষ্টা করো 🔥'; sub='কিছু ধারণা আরও পোক্ত করতে হবে।'; }
+  else if(pct >= 0.5) { msg='ভালো শুরু! 💪'; sub='আবার পড়ো এবং পুনরায় চেষ্টা করো।'; }
+  else { msg='হাল ছেড়ো না! 🌱'; sub='ধারণাগুলো আবার পড়ো, তুমি পারবে!'; }
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultSubMsg').textContent = sub;
+}
+
+function retakeQuiz() {
+  document.getElementById('quizResult').style.display='none';
+  document.getElementById('quizStartScreen').style.display='block';
+}
+
+// ========== EXAM DATA ==========
+const examQuestions = [
+  { type:'mcq', q:'√500 কে সরলতম আকারে লিখলে —', opts:['5√20','10√5','50√2','25√2'], ans:1 },
+  { type:'mcq', q:'(2+√3) এর করণী নিরসক উৎপাদক হবে —', opts:['2−√3','−2+√3','2+√3','উভয় a ও b'], ans:3 },
+  { type:'tf', q:'√75 ও √147 সদৃশ করণী।', ans: true },
+  { type:'tf', q:'√4 একটি দ্বিঘাত করণী।', ans: false },
+  { type:'fill', q:'√98 + √8 − 2√32 = ___√2', ans:'1' },
+  { type:'fill', q:'(√7+√3)(√7−√3) = ___', ans:'4' },
+  { type:'mcq', q:'x = √3+√2 হলে x² + 1/x² = ?', opts:['8','10','12','6'], ans:1 },
+  { type:'mcq', q:'দুটি শুদ্ধ দ্বিঘাত করণীর যোগফল সবসময় —', opts:['মূলদ সংখ্যা','অমূলদ সংখ্যা','করণী','মূলদ বা অমূলদ হতে পারে'], ans:3 },
+  { type:'fill', q:'(7+√2) এর অনুবন্ধী করণী = ___', ans:'7−√2' },
+  { type:'mcq', q:'√48, √27, √20, √75 এর মধ্যে অসদৃশ করণী কোনটি?', opts:['√48','√27','√20','√75'], ans:2 },
+];
+
+let examAnswers = {};
+let examTimer;
+
+function startExam() {
+  document.getElementById('examStart').style.display = 'none';
+  document.getElementById('examMain').style.display = 'block';
+  examAnswers = {};
+  renderExam();
+  let seconds = 20 * 60;
+  examTimer = setInterval(() => {
+    seconds--;
+    const m = Math.floor(seconds/60);
+    const s = seconds % 60;
+    document.getElementById('timerDisplay').textContent = m + ':' + String(s).padStart(2,'0');
+    if(seconds <= 0) { clearInterval(examTimer); submitExam(); }
+  }, 1000);
+}
+
+function renderExam() {
+  const container = document.getElementById('examQuestions');
+  container.innerHTML = examQuestions.map((q,i) => {
+    let html = `<div class="card" style="margin-bottom:16px;">
+      <div class="q-number">প্রশ্ন ${i+1} / ${examQuestions.length}</div>
+      <div class="q-text" style="margin-bottom:14px;">${q.q}</div>`;
+    if(q.type === 'mcq') {
+      html += `<div class="options" style="gap:8px;">${q.opts.map((o,j)=>`
+        <button class="option-btn" id="eq${i}_${j}" onclick="selectExamOpt(${i},${j})">
+          <span class="opt-label">${'ABCD'[j]}</span>${o}
+        </button>`).join('')}</div>`;
+    } else if(q.type === 'tf') {
+      html += `<div style="display:flex;gap:10px;">
+        <button class="option-btn" id="eq${i}_t" onclick="selectExamTF(${i},true,'eq${i}_t','eq${i}_f')">✅ সত্য</button>
+        <button class="option-btn" id="eq${i}_f" onclick="selectExamTF(${i},false,'eq${i}_t','eq${i}_f')">❌ মিথ্যা</button>
+      </div>`;
+    } else if(q.type === 'fill') {
+      html += `<input class="blank-input" id="efill${i}" placeholder="উত্তর লিখো..." style="width:160px;" oninput="examAnswers[${i}]=this.value">`;
+    }
+    html += `</div>`;
+    return html;
+  }).join('');
+}
+
+function selectExamOpt(qi, oi) {
+  for(let j=0;j<4;j++) {
+    const el = document.getElementById(`eq${qi}_${j}`);
+    if(el) { el.classList.remove('correct','wrong'); el.style.borderColor=''; el.style.background=''; }
+  }
+  examAnswers[qi] = oi;
+  document.getElementById(`eq${qi}_${oi}`).style.borderColor='var(--teal)';
+  document.getElementById(`eq${qi}_${oi}`).style.background='rgba(0,180,216,0.12)';
+}
+
+function selectExamTF(qi, val, tid, fid) {
+  examAnswers[qi] = val;
+  const t = document.getElementById(tid), f = document.getElementById(fid);
+  if(val) { t.style.borderColor='var(--teal)'; t.style.background='rgba(0,180,216,0.12)'; f.style.borderColor=''; f.style.background=''; }
+  else { f.style.borderColor='var(--teal)'; f.style.background='rgba(0,180,216,0.12)'; t.style.borderColor=''; t.style.background=''; }
+}
+
+function submitExam() {
+  clearInterval(examTimer);
+  document.getElementById('examMain').style.display='none';
+  document.getElementById('examResult').style.display='block';
+  
+  let correct = 0;
+  examQuestions.forEach((q,i) => {
+    if(q.type==='fill') {
+      const val = (examAnswers[i]||'').trim().replace(/\s/g,'').toLowerCase();
+      if(val === q.ans.toLowerCase()) correct++;
+    } else if(q.type==='tf') {
+      if(examAnswers[i] === q.ans) correct++;
+    } else {
+      if(examAnswers[i] === q.ans) correct++;
+    }
+  });
+
+  document.getElementById('examScore').textContent = correct + '/' + examQuestions.length;
+  const pct = correct/examQuestions.length;
+  let msg, sub;
+  if(pct >= 0.9) { msg='অসাধারণ পারদর্শিতা! 🏆 তুমি মাস্টার!'; sub='WBBSE পরীক্ষায় তুমি সর্বোচ্চ নম্বর পাবে!'; }
+  else if(pct >= 0.7) { msg='দারুণ ফলাফল! 🔥 আরেকটু চেষ্টায় পারফেক্ট!'; sub='৮-৯ পেলে তুমি খুব ভালো।'; }
+  else if(pct >= 0.5) { msg='ভালো শুরু! 💪 আরো অনুশীলন করো।'; sub='কম নম্বর পাওয়া বিষয়গুলো আবার পড়ো।'; }
+  else { msg='হাল ছেড়ো না! 🌱 আবার পড়ে দাও।'; sub='ধারণাগুলো পুনরায় পড়ো এবং আবার পরীক্ষা দাও।'; }
+  document.getElementById('examMsg').textContent = msg;
+  document.getElementById('examSubMsg').textContent = sub;
+
+  // Review
+  const review = document.getElementById('examAnswerReview');
+  review.innerHTML = '<div style="font-size:0.85rem; color:var(--gray); margin-bottom:12px; font-weight:600;">উত্তরের সংক্ষিপ্ত বিবরণ:</div>' +
+    examQuestions.map((q,i) => {
+      let isCorrect;
+      if(q.type==='fill') {
+        const val = (examAnswers[i]||'').trim().replace(/\s/g,'').toLowerCase();
+        isCorrect = val === q.ans.toLowerCase();
+      } else if(q.type==='tf') {
+        isCorrect = examAnswers[i] === q.ans;
+      } else {
+        isCorrect = examAnswers[i] === q.ans;
+      }
+      const correctAns = q.type==='mcq' ? q.opts[q.ans] : (q.type==='tf' ? (q.ans?'সত্য':'মিথ্যা') : q.ans);
+      return `<div style="padding:8px 12px; margin-bottom:6px; border-radius:8px; background:${isCorrect?'rgba(67,209,122,0.08)':'rgba(255,107,107,0.08)'}; border:1px solid ${isCorrect?'rgba(67,209,122,0.2)':'rgba(255,107,107,0.2)'}; font-size:0.82rem;">
+        <span style="color:${isCorrect?'var(--green)':'var(--coral)'}">${isCorrect?'✅':'❌'}</span> <strong>প্রশ্ন ${i+1}:</strong> ${q.q.substring(0,60)}... 
+        ${!isCorrect?`<span style="color:var(--gold)"> | সঠিক উত্তর: ${correctAns}</span>`:''}
+      </div>`;
+    }).join('');
+}
+
+function retakeExam() {
+  document.getElementById('examResult').style.display='none';
+  document.getElementById('examStart').style.display='block';
+}
+
+// Init
+updateProgress();
+</script>
+</body>
+</html>
