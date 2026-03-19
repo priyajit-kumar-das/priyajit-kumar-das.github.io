@@ -1,1 +1,1436 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#080f1e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>MATHLands – ম্যাট্রিক্স</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;800&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #080f1e;
+  --navy2: #0d1b2e;
+  --teal: #00c4d4;
+  --teal2: #00e5f5;
+  --teal-dim: #00c4d41a;
+  --white: #eef4ff;
+  --gray: #7a90b0;
+  --border: #1a3050;
+  --card: #0d1b2e;
+  --gold: #f0c040;
+  --pink: #ff6b9d;
+  --green: #4ade80;
+  --orange: #fb923c;
+  --nav-h: 64px;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { font-size:16px; }
+body {
+  background:var(--navy);
+  color:var(--white);
+  font-family:'Noto Sans Bengali',sans-serif;
+  min-height:100vh;
+  padding-bottom:var(--nav-h);
+  overflow-x:hidden;
+}
+/* ─── TOPBAR ─── */
+.topbar {
+  position:sticky; top:0; z-index:99;
+  background:rgba(8,15,30,0.97);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px;
+  backdrop-filter:blur(12px);
+}
+.logo { font-family:'Syne',sans-serif; font-size:1.35rem; line-height:1; }
+.logo b { color:#fff; }
+.logo span { color:var(--teal); }
+.prog-wrap { display:flex; align-items:center; gap:8px; }
+.prog-bar { width:80px; height:5px; background:var(--border); border-radius:4px; overflow:hidden; }
+.prog-fill { height:100%; background:linear-gradient(90deg,var(--teal),var(--teal2)); border-radius:4px; transition:width .5s; width:0%; }
+.prog-txt { font-size:0.7rem; color:var(--gray); font-family:'DM Mono',monospace; }
 
+/* ─── BOTTOM NAV ─── */
+.bottom-nav {
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  height:var(--nav-h);
+  background:rgba(8,15,30,0.98);
+  border-top:1px solid var(--border);
+  display:flex;
+  backdrop-filter:blur(12px);
+}
+.nav-item {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:3px; cursor:pointer; padding:4px 2px;
+  border:none; background:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:color .2s;
+}
+.nav-item .ni-icon { font-size:1.25rem; line-height:1; }
+.nav-item .ni-lbl { font-size:0.55rem; color:var(--gray); font-family:'DM Mono',monospace; letter-spacing:.3px; }
+.nav-item.active .ni-icon { filter:drop-shadow(0 0 6px var(--teal)); }
+.nav-item.active .ni-lbl { color:var(--teal); }
+
+/* ─── SCREENS ─── */
+.screen { display:none; padding:16px 14px 24px; animation:fadeUp .35s ease; }
+.screen.active { display:block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+
+/* ─── HERO ─── */
+.hero {
+  text-align:center; padding:28px 16px 22px;
+  background:radial-gradient(ellipse at 50% 0%,#00c4d412,transparent 70%);
+  border-radius:18px; border:1px solid var(--border); margin-bottom:20px;
+}
+.hero-emoji { font-size:2.8rem; margin-bottom:8px; }
+.hero h1 {
+  font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800;
+  background:linear-gradient(135deg,#fff,var(--teal));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  line-height:1.25; margin-bottom:10px;
+}
+.hero p { color:var(--gray); font-size:0.88rem; line-height:1.75; }
+.stats-row { display:flex; justify-content:space-around; margin-top:18px; flex-wrap:wrap; gap:8px; }
+.stat { text-align:center; }
+.stat .n { font-family:'DM Mono',monospace; font-size:1.2rem; color:var(--teal); font-weight:500; }
+.stat .l { font-size:0.65rem; color:var(--gray); }
+
+/* ─── HOME CARDS ─── */
+.home-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:4px; }
+.home-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:16px 12px; cursor:pointer;
+  transition:border-color .2s, transform .15s;
+  active:transform:scale(0.97);
+}
+.home-card:active { transform:scale(0.97); border-color:var(--teal); }
+.home-card .hc-icon { font-size:1.6rem; margin-bottom:8px; }
+.home-card .hc-title { font-size:0.82rem; font-weight:700; margin-bottom:4px; line-height:1.3; }
+.home-card .hc-tag { font-size:0.65rem; color:var(--teal); font-family:'DM Mono',monospace; }
+
+/* ─── STORY BOX ─── */
+.story {
+  background:linear-gradient(135deg,#0d2040,#0d1b2e);
+  border:1px solid var(--teal); border-left:4px solid var(--teal);
+  border-radius:12px; padding:16px; margin-bottom:16px;
+}
+.story .s-head { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.story .s-icon { font-size:1.3rem; }
+.story .s-title { color:var(--teal); font-size:0.88rem; font-weight:700; }
+.story p { color:#b8cce4; font-size:0.85rem; line-height:1.8; }
+
+/* ─── CARD ─── */
+.card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:16px; margin-bottom:14px;
+}
+.card h2 { font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.card h2 .icon {
+  width:30px; height:30px; background:var(--teal-dim);
+  border:1px solid var(--teal); border-radius:8px;
+  display:flex; align-items:center; justify-content:center; font-size:0.9rem;
+}
+.card p, .card .body { color:#adc0d8; font-size:0.85rem; line-height:1.85; }
+.hl {
+  background:var(--teal-dim); border:1px solid var(--teal);
+  border-radius:8px; padding:10px 12px; margin-top:10px;
+  color:var(--teal2); font-size:0.82rem; font-family:'DM Mono',monospace; line-height:1.7;
+}
+
+/* ─── MATRIX VISUAL ─── */
+.m-wrap { display:flex; flex-direction:column; align-items:center; padding:14px 10px; background:var(--navy); border-radius:10px; border:1px solid var(--border); margin:10px 0; }
+.m-vis { display:flex; align-items:center; gap:3px; }
+.m-brac { font-size:2.2rem; color:var(--teal); font-weight:300; line-height:1; }
+.m-grid { display:grid; gap:6px 10px; text-align:center; }
+.mc { color:var(--white); background:var(--teal-dim); padding:5px 8px; border-radius:5px; border:1px solid #1a3555; font-family:'DM Mono',monospace; font-size:0.8rem; min-width:32px; }
+.mc.hi { background:#00c4d428; border-color:var(--teal); color:var(--teal2); }
+.m-lbl { font-size:0.72rem; color:var(--gray); margin-top:7px; }
+.m-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center; margin:10px 0; }
+.m-op { font-size:1.4rem; color:var(--teal); font-weight:700; font-family:'DM Mono',monospace; }
+
+/* ─── TYPE ACCORDION ─── */
+.acc-item {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; margin-bottom:10px; overflow:hidden;
+  transition:border-color .25s;
+}
+.acc-item.open { border-color:var(--teal); }
+.acc-head {
+  display:flex; align-items:center; gap:12px;
+  padding:14px; cursor:pointer; user-select:none;
+}
+.acc-ico {
+  width:38px; height:38px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; font-weight:700; flex-shrink:0;
+}
+.acc-names { flex:1; }
+.acc-names .bn { font-size:0.9rem; font-weight:700; }
+.acc-names .en { font-size:0.7rem; color:var(--gray); font-family:'DM Mono',monospace; }
+.acc-chev { font-size:0.9rem; color:var(--gray); transition:transform .25s; }
+.acc-item.open .acc-chev { transform:rotate(180deg); color:var(--teal); }
+.acc-body { display:none; padding:0 14px 14px; }
+.acc-item.open .acc-body { display:block; }
+.acc-body p { color:#adc0d8; font-size:0.85rem; line-height:1.85; }
+
+/* ─── SECTION TITLE ─── */
+.sec-title {
+  font-size:0.95rem; font-weight:700;
+  color:var(--teal2); margin-bottom:12px;
+  border-left:3px solid var(--teal); padding-left:10px;
+}
+
+/* ─── FORMULA ─── */
+.formula {
+  font-family:'DM Mono',monospace; color:var(--gold);
+  background:#1a1100; padding:10px 12px; border-radius:8px;
+  border:1px solid #3a2800; margin:8px 0; font-size:0.8rem; line-height:1.7;
+}
+
+/* ─── PROP LIST ─── */
+.props { display:flex; flex-direction:column; gap:8px; }
+.prop {
+  display:flex; gap:10px; align-items:flex-start;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:9px; padding:12px;
+}
+.prop-n {
+  width:26px; height:26px; background:var(--teal-dim);
+  border:1px solid var(--teal); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.75rem; color:var(--teal); font-weight:700;
+  flex-shrink:0; font-family:'DM Mono',monospace;
+}
+.prop-t { font-size:0.84rem; color:#adc0d8; line-height:1.8; }
+.pf { font-family:'DM Mono',monospace; color:var(--gold); background:#1a1100; padding:1px 6px; border-radius:4px; font-size:0.8rem; }
+
+/* ─── QUIZ ─── */
+.quiz-wrap { background:linear-gradient(135deg,#0a1825,#0d2040); border:1px solid var(--border); border-radius:14px; padding:16px; margin:14px 0; }
+.quiz-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.quiz-hdr h3 { font-size:0.9rem; font-weight:700; color:var(--teal); }
+.score-tag { background:var(--teal-dim); border:1px solid var(--teal); border-radius:20px; padding:3px 12px; font-size:0.75rem; color:var(--teal); font-family:'DM Mono',monospace; }
+.q-box { background:var(--navy); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:10px; }
+.q-text { font-size:0.88rem; color:var(--white); margin-bottom:12px; line-height:1.85; }
+.opts { display:flex; flex-direction:column; gap:8px; }
+.opt {
+  width:100%; text-align:left; padding:12px 14px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:9px; color:var(--white); cursor:pointer;
+  font-family:'Noto Sans Bengali',sans-serif; font-size:0.85rem;
+  line-height:1.65; transition:border-color .2s;
+  min-height:44px;
+}
+.opt:active:not(:disabled) { border-color:var(--teal); background:var(--teal-dim); }
+.opt.ok { background:#04301a; border-color:var(--green); color:var(--green); }
+.opt.no { background:#300a0a; border-color:#ff4d4d; color:#ff8080; }
+.fb { padding:10px 12px; border-radius:8px; font-size:0.82rem; display:none; line-height:1.7; margin-top:6px; }
+.fb.show { display:block; }
+.fb.ok { background:#04301a; border:1px solid var(--green); color:var(--green); }
+.fb.no { background:#300a0a; border:1px solid #ff4d4d; color:#ff8080; }
+
+/* ─── GAME ─── */
+.game-box { background:var(--navy); border:1px solid var(--border); border-radius:14px; padding:18px; margin:14px 0; text-align:center; }
+.game-box h3 { color:var(--gold); font-size:0.95rem; margin-bottom:4px; }
+.game-box .sub { color:var(--gray); font-size:0.8rem; margin-bottom:14px; line-height:1.6; }
+.g-cell {
+  width:54px; height:54px; background:var(--card);
+  border:2px solid var(--border); border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'DM Mono',monospace; font-size:1rem; cursor:pointer;
+  user-select:none; transition:all .2s; font-weight:500;
+}
+.g-cell:active { border-color:var(--teal); transform:scale(0.95); }
+.g-cell.sel { border-color:var(--teal); background:var(--teal-dim); color:var(--teal2); }
+.g-cell.good { border-color:var(--green); background:#04301a; color:var(--green); }
+.g-cell.bad { border-color:#ff4d4d; background:#300a0a; }
+.gbtn {
+  padding:12px 22px; background:var(--teal); color:var(--navy);
+  border:none; border-radius:9px; cursor:pointer; font-weight:700;
+  font-family:'Noto Sans Bengali',sans-serif; font-size:0.9rem;
+  margin:6px; min-height:44px; transition:transform .15s;
+}
+.gbtn:active { transform:scale(0.96); }
+.gbtn.sec { background:transparent; color:var(--teal); border:1px solid var(--teal); }
+.g-status { font-size:0.88rem; min-height:24px; margin-top:8px; }
+.g-status.ok { color:var(--green); }
+.g-status.no { color:#ff8080; }
+
+/* ─── CALC ─── */
+.calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.calc-input {
+  width:100%; padding:10px; background:var(--card);
+  border:1.5px solid var(--teal); border-radius:8px;
+  color:white; text-align:center; font-size:1.1rem;
+  font-family:'DM Mono',monospace; outline:none;
+  -webkit-appearance:none;
+}
+.calc-input.b { border-color:var(--gold); }
+.calc-out {
+  padding:10px; background:#04301a; border:1.5px solid var(--green);
+  border-radius:8px; color:var(--green); text-align:center;
+  font-size:1.1rem; font-family:'DM Mono',monospace;
+}
+
+/* ─── CHEAT TABLE ─── */
+.c-table { width:100%; border-collapse:collapse; font-size:0.78rem; margin:10px 0; }
+.c-table th { background:#0d2040; color:var(--teal); padding:9px 10px; text-align:left; border-bottom:1px solid var(--teal); }
+.c-table td { padding:9px 10px; border-bottom:1px solid var(--border); color:#adc0d8; line-height:1.65; vertical-align:top; }
+.c-table tr:active td { background:var(--teal-dim); }
+
+/* ─── TAGS ─── */
+.tag { display:inline-block; padding:2px 9px; border-radius:20px; font-size:0.68rem; font-weight:700; margin:2px; font-family:'DM Mono',monospace; }
+.t-t { background:var(--teal-dim); color:var(--teal); border:1px solid var(--teal); }
+.t-g { background:#041a0a; color:var(--green); border:1px solid var(--green); }
+.t-y { background:#1a1100; color:var(--gold); border:1px solid var(--gold); }
+.t-p { background:#200010; color:var(--pink); border:1px solid var(--pink); }
+
+/* ─── DIVIDER ─── */
+.div { height:1px; background:var(--border); margin:18px 0; position:relative; }
+.div::after { content:'✦'; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:var(--navy); padding:0 8px; color:var(--teal); font-size:0.75rem; }
+
+/* ─── NAV BTNS ─── */
+.nav-btns { display:flex; gap:10px; margin-top:24px; }
+.nbtn {
+  flex:1; padding:12px; border-radius:10px; border:1px solid var(--border);
+  background:var(--card); color:var(--white); cursor:pointer;
+  font-family:'Noto Sans Bengali',sans-serif; font-size:0.85rem;
+  min-height:48px; transition:border-color .2s;
+}
+.nbtn:active { border-color:var(--teal); }
+.nbtn.pri { background:var(--teal); color:var(--navy); border-color:var(--teal); font-weight:700; }
+.nbtn.pri:active { background:var(--teal2); }
+
+/* ─── MODAL ─── */
+.modal-ov { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.88); align-items:flex-end; justify-content:center; padding:0; }
+.modal-ov.show { display:flex; }
+.modal { background:var(--card); border:1px solid var(--teal); border-radius:20px 20px 0 0; padding:28px 22px 36px; width:100%; animation:slideUp .35s ease; }
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:none} }
+.modal h3 { color:var(--teal); font-size:1rem; margin-bottom:10px; }
+.modal p { color:#adc0d8; font-size:0.88rem; line-height:1.8; }
+.modal-btn { margin-top:20px; padding:13px; width:100%; background:var(--teal); color:var(--navy); border:none; border-radius:10px; cursor:pointer; font-weight:700; font-size:0.95rem; font-family:'Noto Sans Bengali',sans-serif; min-height:48px; }
+
+/* ─── INLINE MATRIX (inside quiz questions) ─── */
+.imat { display:inline-flex; align-items:center; vertical-align:middle; gap:2px; margin:2px 3px; }
+.imat .m-brac { font-size:1.6rem; color:var(--teal); font-weight:300; line-height:1; }
+.imat .m-grid { display:grid; gap:4px 7px; text-align:center; }
+.imat .mc { padding:3px 6px; font-size:0.76rem; min-width:26px; }
+/* Matrix block inside q-text (centered block) */
+.qmats { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; margin:8px 0 4px; }
+.qmats .eq { font-size:1.2rem; color:var(--teal); font-weight:700; }
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo"><b>MATH</b><span>Lands.</span></div>
+  <div class="prog-wrap">
+    <span class="prog-txt" id="ptxt">0%</span>
+    <div class="prog-bar"><div class="prog-fill" id="pfill"></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SCREEN 0: HOME ══════════════════════════════ -->
+<div class="screen active" id="s0">
+  <div class="hero">
+    <div class="hero-emoji">🌐</div>
+    <h1>ম্যাট্রিক্সের রাজ্যে স্বাগতম!</h1>
+    <p>MATHLands-এর এই বিশেষ জগতে ম্যাট্রিক্সের সব রহস্য শেখো — গল্প, গেম ও WBCHSE প্রশ্ন সহ।</p>
+    <div class="stats-row">
+      <div class="stat"><div class="n">১৫+</div><div class="l">ধারণা</div></div>
+      <div class="stat"><div class="n">৩০+</div><div class="l">প্রশ্ন</div></div>
+      <div class="stat"><div class="n">৩</div><div class="l">গেম</div></div>
+      <div class="stat"><div class="n">১০০%</div><div class="l">বাংলা</div></div>
+    </div>
+  </div>
+
+  <div class="story">
+    <div class="s-head"><span class="s-icon">📖</span><span class="s-title">গল্পের শুরু</span></div>
+    <p>কল্পনা করো একটি মুদির দোকান — ৩ পণ্য (চাল, ডাল, আটা), সোমবার বিক্রি ২০, ১৫, ৩০ কেজি; মঙ্গলবার ১০, ২৫, ২০ কেজি। এই তথ্য সারি-স্তম্ভে সাজালেই হলো একটি <strong style="color:var(--teal)">ম্যাট্রিক্স</strong>! গণিতবিদ আর্থার কেলি ১৮৫৮ সালে এই ধারণাটি প্রতিষ্ঠা করেন।</p>
+  </div>
+
+  <div class="home-grid">
+    <div class="home-card" onclick="goTo(1)">
+      <div class="hc-icon">📐</div>
+      <div class="hc-title">সংজ্ঞা ও ক্রম</div>
+      <div class="hc-tag">শুরু এখানে →</div>
+    </div>
+    <div class="home-card" onclick="goTo(2)">
+      <div class="hc-icon">🔷</div>
+      <div class="hc-title">প্রকারভেদ</div>
+      <div class="hc-tag">১২+ প্রকার</div>
+    </div>
+    <div class="home-card" onclick="goTo(3)">
+      <div class="hc-icon">⚙️</div>
+      <div class="hc-title">ক্রিয়া ও গণনা</div>
+      <div class="hc-tag">যোগ · গুণ</div>
+    </div>
+    <div class="home-card" onclick="goTo(4)">
+      <div class="hc-icon">🔄</div>
+      <div class="hc-title">পরিবর্ত ধর্ম</div>
+      <div class="hc-tag">গুরুত্বপূর্ণ!</div>
+    </div>
+    <div class="home-card" onclick="goTo(5)">
+      <div class="hc-icon">🎮</div>
+      <div class="hc-title">গেম</div>
+      <div class="hc-tag">৩টি গেম</div>
+    </div>
+    <div class="home-card" onclick="goTo(6)">
+      <div class="hc-icon">📝</div>
+      <div class="hc-title">বোর্ড কুইজ</div>
+      <div class="hc-tag">১০ MCQ</div>
+    </div>
+  </div>
+  <div style="margin-top:14px">
+    <div class="home-card" onclick="goTo(7)" style="display:flex;align-items:center;gap:12px">
+      <div class="hc-icon">📋</div>
+      <div><div class="hc-title">চিটশিট — পরীক্ষার আগে দ্রুত দেখো</div><div class="hc-tag">সব সূত্র একসাথে</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SCREEN 1: DEFINITION ══════════════════════════════ -->
+<div class="screen" id="s1">
+  <div class="story">
+    <div class="s-head"><span class="s-icon">🧮</span><span class="s-title">পাঠ ১ — ম্যাট্রিক্স কী?</span></div>
+    <p>তিনজন ছাত্রের গণিত, বিজ্ঞান, বাংলার নম্বর একটি সারণিতে সাজালে যে আয়তাকার সংখ্যার বিন্যাস পাও — সেটাই ম্যাট্রিক্স!</p>
+  </div>
+
+  <div class="card">
+    <h2><div class="icon">📌</div> সংজ্ঞা</h2>
+    <p>বাস্তব বা জটিল সংখ্যার একটি <strong>আয়তাকার বিন্যাসকে</strong> তৃতীয় বন্ধনীতে আবদ্ধ করে ম্যাট্রিক্স বলে।</p>
+    <div class="hl">A = [aᵢⱼ]ₘₓₙ → m সারি (row) ও n স্তম্ভ (column)</div>
+    <p style="margin-top:10px;font-size:0.8rem;color:var(--gray)">aᵢⱼ = i-তম সারি ও j-তম স্তম্ভের উপাদান</p>
+  </div>
+
+  <div class="card">
+    <h2><div class="icon">📏</div> ক্রম (Order)</h2>
+    <p><strong>সারি × স্তম্ভ = ক্রম।</strong> মোট উপাদান = m × n।</p>
+    <div class="m-row">
+      <div class="m-wrap">
+        <div class="m-vis">
+          <span class="m-brac">[</span>
+          <div class="m-grid" style="grid-template-columns:repeat(3,1fr)">
+            <div class="mc">1</div><div class="mc">2</div><div class="mc">3</div>
+            <div class="mc">4</div><div class="mc">5</div><div class="mc">6</div>
+          </div>
+          <span class="m-brac">]</span>
+        </div>
+        <div class="m-lbl">A → ক্রম 2×3</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><div class="icon">🔍</div> উপাদান নির্ণয় — উদাহরণ</h2>
+    <p>A = [aᵢⱼ]₂ₓ₂ যেখানে <span style="color:var(--gold);font-family:'DM Mono',monospace">aᵢⱼ = i + 2j</span></p>
+    <div class="formula">a₁₁ = 1+2(1) = 3 | a₁₂ = 1+2(2) = 5
+a₂₁ = 2+2(1) = 4 | a₂₂ = 2+2(2) = 6</div>
+    <div class="m-wrap">
+      <div class="m-vis">
+        <span class="m-brac">[</span>
+        <div class="m-grid" style="grid-template-columns:repeat(2,1fr)">
+          <div class="mc hi">3</div><div class="mc hi">5</div>
+          <div class="mc hi">4</div><div class="mc hi">6</div>
+        </div>
+        <span class="m-brac">]</span>
+      </div>
+      <div class="m-lbl">A = [i+2j]₂ₓ₂</div>
+    </div>
+    <p style="font-size:0.78rem;color:var(--gray);margin-top:4px">📌 WBCHSE পরীক্ষায় এই ধরন প্রায়ই আসে!</p>
+  </div>
+
+  <!-- Quiz S1 -->
+  <div class="quiz-wrap">
+    <div class="quiz-hdr">
+      <h3>⚡ দ্রুত কুইজ</h3>
+      <span class="score-tag" id="s1-sc">০/২</span>
+    </div>
+    <div class="q-box" id="q1a">
+      <div class="q-text">aᵢⱼ = ½(i+2j)² এবং A একটি 2×2 ম্যাট্রিক্স হলে a₂₁ = ?</div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q1a',false,'a₂₁ = ½(2+2)² = ½×16 = 8')">A) 4</button>
+        <button class="opt" onclick="chk(this,'q1a',true,'✅ সঠিক! a₂₁ = ½(2+2)² = ½×16 = 8')">B) 8</button>
+        <button class="opt" onclick="chk(this,'q1a',false,'a₂₁ = ½(2+2)² = ½×16 = 8')">C) 9</button>
+        <button class="opt" onclick="chk(this,'q1a',false,'a₂₁ = ½(2+2)² = ½×16 = 8')">D) ½</button>
+      </div>
+      <div class="fb" id="q1a-fb"></div>
+    </div>
+    <div class="q-box" id="q1b">
+      <div class="q-text">একটি 3×4 ম্যাট্রিক্সে মোট উপাদান সংখ্যা কত?</div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q1b',false,'3×4 = 12')">A) 7</button>
+        <button class="opt" onclick="chk(this,'q1b',false,'3×4 = 12')">B) 3</button>
+        <button class="opt" onclick="chk(this,'q1b',true,'✅ সঠিক! m×n = 3×4 = 12')">C) 12</button>
+        <button class="opt" onclick="chk(this,'q1b',false,'3×4 = 12')">D) 4</button>
+      </div>
+      <div class="fb" id="q1b-fb"></div>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="nbtn" onclick="goTo(0)">← হোম</button>
+    <button class="nbtn pri" onclick="goTo(2)">প্রকারভেদ →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SCREEN 2: TYPES ══════════════════════════════ -->
+<div class="screen" id="s2">
+  <div class="story">
+    <div class="s-head"><span class="s-icon">🎭</span><span class="s-title">পাঠ ২ — ম্যাট্রিক্সের প্রকারভেদ</span></div>
+    <p>প্রতিটি ব্লকে ট্যাপ করো এবং সেই ধরনের বিশেষত্ব দেখো!</p>
+  </div>
+
+  <!-- Accordions -->
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#00c4d415;border:1px solid var(--teal)">➡️</div>
+      <div class="acc-names"><div class="bn">সারি ম্যাট্রিক্স</div><div class="en">Row Matrix (1×n)</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>মাত্র <strong>একটি সারি</strong> বিশিষ্ট ম্যাট্রিক্স।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc">2</div><div class="mc">-1</div><div class="mc">4</div></div><span class="m-brac">]</span></div><div class="m-lbl">1×3 সারি ম্যাট্রিক্স</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#f0c04015;border:1px solid var(--gold)">⬇️</div>
+      <div class="acc-names"><div class="bn">স্তম্ভ ম্যাট্রিক্স</div><div class="en">Column Matrix (m×1)</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>মাত্র <strong>একটি স্তম্ভ</strong> বিশিষ্ট ম্যাট্রিক্স।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:1fr"><div class="mc">5</div><div class="mc">3</div><div class="mc">-2</div></div><span class="m-brac">]</span></div><div class="m-lbl">3×1 স্তম্ভ ম্যাট্রিক্স</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#ff6b9d15;border:1px solid var(--pink)">⬛</div>
+      <div class="acc-names"><div class="bn">বর্গ ম্যাট্রিক্স</div><div class="en">Square Matrix (m=n)</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>সারির সংখ্যা = স্তম্ভের সংখ্যা। কর্ণ উপাদান: i=j হলে aᵢᵢ।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc hi">1</div><div class="mc">2</div><div class="mc">3</div><div class="mc">4</div><div class="mc hi">5</div><div class="mc">6</div><div class="mc">7</div><div class="mc">8</div><div class="mc hi">9</div></div><span class="m-brac">]</span></div><div class="m-lbl">কর্ণ: 1, 5, 9</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#4ade8015;border:1px solid var(--green)">0️⃣</div>
+      <div class="acc-names"><div class="bn">শূন্য ম্যাট্রিক্স</div><div class="en">Zero / Null Matrix</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>সব উপাদান শূন্য। O দ্বারা প্রকাশ। <span style="color:var(--teal)">A + O = A</span>।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">0</div><div class="mc">0</div><div class="mc">0</div><div class="mc">0</div></div><span class="m-brac">]</span></div><div class="m-lbl">2×2 শূন্য ম্যাট্রিক্স</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#00c4d415;border:1px solid var(--teal);font-size:1rem">\</div>
+      <div class="acc-names"><div class="bn">কর্ণ ম্যাট্রিক্স</div><div class="en">Diagonal Matrix</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>প্রধান কর্ণ ছাড়া সব উপাদান শূন্য। aᵢⱼ=0 (i≠j)।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc hi">4</div><div class="mc">0</div><div class="mc">0</div><div class="mc">0</div><div class="mc hi">-2</div><div class="mc">0</div><div class="mc">0</div><div class="mc">0</div><div class="mc hi">7</div></div><span class="m-brac">]</span></div><div class="m-lbl">diag(4, -2, 7)</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#f0c04015;border:1px solid var(--gold);font-size:0.9rem">k</div>
+      <div class="acc-names"><div class="bn">স্কেলার ম্যাট্রিক্স</div><div class="en">Scalar Matrix</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>কর্ণ ম্যাট্রিক্স যেখানে সব কর্ণ উপাদান সমান (=k)।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc hi">5</div><div class="mc">0</div><div class="mc">0</div><div class="mc">0</div><div class="mc hi">5</div><div class="mc">0</div><div class="mc">0</div><div class="mc">0</div><div class="mc hi">5</div></div><span class="m-brac">]</span></div><div class="m-lbl">k=5 স্কেলার ম্যাট্রিক্স</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#4ade8015;border:1px solid var(--green);font-size:0.9rem">I</div>
+      <div class="acc-names"><div class="bn">একক ম্যাট্রিক্স</div><div class="en">Identity Matrix (k=1)</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>স্কেলার ম্যাট্রিক্স যেখানে k=1। <span style="color:var(--teal)">A·I = I·A = A</span>।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc hi">1</div><div class="mc">0</div><div class="mc">0</div><div class="mc">0</div><div class="mc hi">1</div><div class="mc">0</div><div class="mc">0</div><div class="mc">0</div><div class="mc hi">1</div></div><span class="m-brac">]</span></div><div class="m-lbl">I₃ — 3×3 একক ম্যাট্রিক্স</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#ff6b9d15;border:1px solid var(--pink)">△</div>
+      <div class="acc-names"><div class="bn">ঊর্ধ্ব ত্রিভুজীয়</div><div class="en">Upper Triangular</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>কর্ণের নিচে সব শূন্য। i>j হলে aᵢⱼ=0।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc hi">2</div><div class="mc hi">3</div><div class="mc hi">4</div><div class="mc">0</div><div class="mc hi">5</div><div class="mc hi">6</div><div class="mc">0</div><div class="mc">0</div><div class="mc hi">7</div></div><span class="m-brac">]</span></div><div class="m-lbl">ঊর্ধ্ব ত্রিভুজীয়</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#00c4d415;border:1px solid var(--teal)">▽</div>
+      <div class="acc-names"><div class="bn">নিম্ন ত্রিভুজীয়</div><div class="en">Lower Triangular</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>কর্ণের উপরে সব শূন্য। i&lt;j হলে aᵢⱼ=0।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc hi">1</div><div class="mc">0</div><div class="mc">0</div><div class="mc hi">4</div><div class="mc hi">5</div><div class="mc">0</div><div class="mc hi">7</div><div class="mc hi">8</div><div class="mc hi">9</div></div><span class="m-brac">]</span></div><div class="m-lbl">নিম্ন ত্রিভুজীয়</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#f0c04015;border:1px solid var(--gold)">⟳</div>
+      <div class="acc-names"><div class="bn">পরিবর্ত ম্যাট্রিক্স</div><div class="en">Transpose (A')</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>সারি ↔ স্তম্ভ বদলালে A' পাওয়া যায়। ক্রম m×n → n×m।</p>
+      <div class="m-row">
+        <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc">1</div><div class="mc">2</div><div class="mc">3</div><div class="mc">4</div><div class="mc">5</div><div class="mc">6</div></div><span class="m-brac">]</span></div><div class="m-lbl">A (2×3)</div></div>
+        <div class="m-op">→</div>
+        <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc hi">1</div><div class="mc hi">4</div><div class="mc hi">2</div><div class="mc hi">5</div><div class="mc hi">3</div><div class="mc hi">6</div></div><span class="m-brac">]</span></div><div class="m-lbl">A' (3×2)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#4ade8015;border:1px solid var(--green)">⚖️</div>
+      <div class="acc-names"><div class="bn">প্রতিসম ম্যাট্রিক্স</div><div class="en">Symmetric: A'=A</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p><strong>A' = A</strong>, অর্থাৎ aᵢⱼ = aⱼᵢ সবার জন্য।</p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc">2</div><div class="mc hi">3</div><div class="mc hi">5</div><div class="mc hi">3</div><div class="mc">7</div><div class="mc hi">-1</div><div class="mc hi">5</div><div class="mc hi">-1</div><div class="mc">4</div></div><span class="m-brac">]</span></div><div class="m-lbl">হাইলাইট জোড়াগুলো সমান!</div></div>
+    </div>
+  </div>
+
+  <div class="acc-item" onclick="toggleAcc(this)">
+    <div class="acc-head">
+      <div class="acc-ico" style="background:#ff6b9d15;border:1px solid var(--pink)">✕</div>
+      <div class="acc-names"><div class="bn">বিপ্রতিসম ম্যাট্রিক্স</div><div class="en">Skew-Symmetric: A'=-A</div></div>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body">
+      <p><strong>A' = -A</strong>, aᵢⱼ = -aⱼᵢ। <span style="color:var(--pink)">কর্ণ উপাদান সবসময় 0!</span></p>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc hi">0</div><div class="mc">3</div><div class="mc">-5</div><div class="mc">-3</div><div class="mc hi">0</div><div class="mc">7</div><div class="mc">5</div><div class="mc">-7</div><div class="mc hi">0</div></div><span class="m-brac">]</span></div><div class="m-lbl">HS Model Q '24-এ এসেছে!</div></div>
+    </div>
+  </div>
+
+  <!-- Types Quiz -->
+  <div class="quiz-wrap" style="margin-top:16px">
+    <div class="quiz-hdr"><h3>⚡ প্রকারভেদ কুইজ</h3><span class="score-tag" id="s2-sc">০/৩</span></div>
+    <div class="q-box" id="q2a">
+      <div class="q-text">A প্রতিসম এবং বিপ্রতিসম উভয়ই হলে A = ? (HS Model Q '24)</div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q2a',false,'A=A\' এবং A=-A হলে 2A=O → A=O')">A) কর্ণ ম্যাট্রিক্স</button>
+        <button class="opt" onclick="chk(this,'q2a',false,'')">B) একক ম্যাট্রিক্স</button>
+        <button class="opt" onclick="chk(this,'q2a',true,'✅ সঠিক! A=A\' ও A=-A হলে 2A=O → A=O')">C) শূন্য ম্যাট্রিক্স</button>
+        <button class="opt" onclick="chk(this,'q2a',false,'')">D) এদের কোনোটিই নয়</button>
+      </div>
+      <div class="fb" id="q2a-fb"></div>
+    </div>
+    <div class="q-box" id="q2b">
+      <div class="q-text">বিপ্রতিসম ম্যাট্রিক্সে কর্ণের উপাদান কত?</div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q2b',false,'')">A) 1</button>
+        <button class="opt" onclick="chk(this,'q2b',true,'✅ সঠিক! A\'=-A হলে aᵢᵢ = -aᵢᵢ → 2aᵢᵢ=0 → aᵢᵢ=0')">B) 0</button>
+        <button class="opt" onclick="chk(this,'q2b',false,'')">C) -1</button>
+        <button class="opt" onclick="chk(this,'q2b',false,'')">D) যেকোনো মান</button>
+      </div>
+      <div class="fb" id="q2b-fb"></div>
+    </div>
+    <div class="q-box" id="q2c">
+      <div class="q-text">নিচের ম্যাট্রিক্স A একটি ___?
+        <div class="qmats"><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">2</div><div class="mc">3</div><div class="mc">4</div></div><span class="m-brac">]</span></div><div class="m-lbl">A</div></div></div>
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q2c',false,'কর্ণে ১,৪ আছে, কিন্তু অ-কর্ণে ২,৩≠০')">A) কর্ণ ম্যাট্রিক্স</button>
+        <button class="opt" onclick="chk(this,'q2c',true,'✅ সঠিক! m=n=2, তাই এটি বর্গ ম্যাট্রিক্স।')">B) বর্গ ম্যাট্রিক্স</button>
+        <button class="opt" onclick="chk(this,'q2c',false,'A\'≠A')">C) প্রতিসম ম্যাট্রিক্স</button>
+        <button class="opt" onclick="chk(this,'q2c',false,'')">D) সারি ম্যাট্রিক্স</button>
+      </div>
+      <div class="fb" id="q2c-fb"></div>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="nbtn" onclick="goTo(1)">← সংজ্ঞা</button>
+    <button class="nbtn pri" onclick="goTo(3)">ক্রিয়া →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SCREEN 3: OPERATIONS ══════════════════════════════ -->
+<div class="screen" id="s3">
+  <div class="story">
+    <div class="s-head"><span class="s-icon">⚙️</span><span class="s-title">পাঠ ৩ — ম্যাট্রিক্সের ক্রিয়া</span></div>
+    <p>মনে রেখো — সংখ্যার মতো ম্যাট্রিক্সের সব নিয়ম চলে না!</p>
+  </div>
+
+  <div class="sec-title">১. সমতা (Equality)</div>
+  <div class="card">
+    <p>দুটি ম্যাট্রিক্স সমান যদি ক্রম সমান ও প্রতিটি aᵢⱼ = bᵢⱼ।</p>
+    <p style="margin-top:8px;font-size:0.84rem;color:#adc0d8"><strong>উদাহরণ:</strong> নিচের দুটি ম্যাট্রিক্স সমান হলে x ও y নির্ণয় করো:</p>
+    <div class="m-row" style="margin:10px 0">
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">2x−y</div><div class="mc">5</div><div class="mc">3</div><div class="mc">y</div></div><span class="m-brac">]</span></div></div>
+      <div class="m-op">=</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc hi">6</div><div class="mc hi">5</div><div class="mc hi">3</div><div class="mc hi">-2</div></div><span class="m-brac">]</span></div></div>
+    </div>
+    <div class="formula">সংগত উপাদান তুলনা:
+y = -2  এবং  2x - y = 6
+→ 2x - (-2) = 6  →  2x = 4
+→  x = 2, y = -2</div>
+  </div>
+
+  <div class="div"></div>
+  <div class="sec-title">২. স্কেলার গুণ</div>
+  <div class="card">
+    <p>kA = প্রতিটি উপাদান × k।</p>
+    <div class="m-row">
+      <span style="color:var(--teal);font-family:'DM Mono',monospace;font-size:1.1rem">3 ×</span>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">2</div><div class="mc">3</div><div class="mc">4</div></div><span class="m-brac">]</span></div><div class="m-lbl">A</div></div>
+      <div class="m-op">=</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc hi">3</div><div class="mc hi">6</div><div class="mc hi">9</div><div class="mc hi">12</div></div><span class="m-brac">]</span></div><div class="m-lbl">3A</div></div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+  <div class="sec-title">৩. যোগ — শর্ত: সম-ক্রম!</div>
+  <div class="card">
+    <p style="color:var(--pink);font-size:0.82rem;margin-bottom:8px">⚠️ শুধু সম-ক্রমের ম্যাট্রিক্সই যোগ করা যায়।</p>
+    <div class="m-row">
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">2</div><div class="mc">3</div><div class="mc">4</div></div><span class="m-brac">]</span></div><div class="m-lbl">A</div></div>
+      <div class="m-op">+</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">5</div><div class="mc">-1</div><div class="mc">0</div><div class="mc">3</div></div><span class="m-brac">]</span></div><div class="m-lbl">B</div></div>
+      <div class="m-op">=</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc hi">6</div><div class="mc hi">1</div><div class="mc hi">3</div><div class="mc hi">7</div></div><span class="m-brac">]</span></div><div class="m-lbl">A+B</div></div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+  <div class="sec-title">৪. গুণ (A:m×n, B:n×p → AB:m×p)</div>
+  <div class="card">
+    <p>AB-এর (i,j) উপাদান = A-এর i-তম সারি × B-এর j-তম স্তম্ভ (ডট প্রোডাক্ট)।</p>
+    <div class="formula">(AB)ᵢⱼ = Σₖ aᵢₖ · bₖⱼ</div>
+    <p style="color:var(--pink);font-size:0.82rem;margin:6px 0">⚠️ সাধারণত AB ≠ BA!</p>
+    <p style="font-size:0.84rem;color:#adc0d8;margin:8px 0"><strong>উদাহরণ — ধাপে ধাপে:</strong></p>
+    <div class="m-row">
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">2</div><div class="mc">3</div><div class="mc">4</div></div><span class="m-brac">]</span></div><div class="m-lbl">A</div></div>
+      <div class="m-op">×</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">5</div><div class="mc">6</div><div class="mc">7</div><div class="mc">8</div></div><span class="m-brac">]</span></div><div class="m-lbl">B</div></div>
+      <div class="m-op">=</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc hi">19</div><div class="mc hi">22</div><div class="mc hi">43</div><div class="mc hi">50</div></div><span class="m-brac">]</span></div><div class="m-lbl">AB</div></div>
+    </div>
+    <div class="formula">(AB)₁₁ = 1×5 + 2×7 = 19
+(AB)₁₂ = 1×6 + 2×8 = 22
+(AB)₂₁ = 3×5 + 4×7 = 43
+(AB)₂₂ = 3×6 + 4×8 = 50</div>
+  </div>
+
+  <!-- LIVE CALCULATOR -->
+  <div class="game-box">
+    <h3>🧮 লাইভ গুণ ক্যালকুলেটর</h3>
+    <div class="sub">মান পরিবর্তন করলেই গুণফল আপডেট হবে!</div>
+    <div style="display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap">
+      <div>
+        <div style="font-size:0.72rem;color:var(--teal);margin-bottom:5px;text-align:center">A</div>
+        <div class="calc-grid" style="width:116px">
+          <input class="calc-input" id="a11" type="number" value="1" oninput="calcMul()">
+          <input class="calc-input" id="a12" type="number" value="2" oninput="calcMul()">
+          <input class="calc-input" id="a21" type="number" value="3" oninput="calcMul()">
+          <input class="calc-input" id="a22" type="number" value="4" oninput="calcMul()">
+        </div>
+      </div>
+      <div style="font-size:1.8rem;color:var(--teal)">×</div>
+      <div>
+        <div style="font-size:0.72rem;color:var(--gold);margin-bottom:5px;text-align:center">B</div>
+        <div class="calc-grid" style="width:116px">
+          <input class="calc-input b" id="b11" type="number" value="5" oninput="calcMul()">
+          <input class="calc-input b" id="b12" type="number" value="6" oninput="calcMul()">
+          <input class="calc-input b" id="b21" type="number" value="7" oninput="calcMul()">
+          <input class="calc-input b" id="b22" type="number" value="8" oninput="calcMul()">
+        </div>
+      </div>
+      <div style="font-size:1.8rem;color:var(--teal)">=</div>
+      <div>
+        <div style="font-size:0.72rem;color:var(--green);margin-bottom:5px;text-align:center">AB</div>
+        <div class="calc-grid" style="width:116px">
+          <div class="calc-out" id="r11">19</div>
+          <div class="calc-out" id="r12">22</div>
+          <div class="calc-out" id="r21">43</div>
+          <div class="calc-out" id="r22">50</div>
+        </div>
+      </div>
+    </div>
+    <div id="comm-msg" style="font-size:0.78rem;color:var(--gray);margin-top:12px;line-height:1.5"></div>
+  </div>
+
+  <!-- Ops Quiz -->
+  <div class="quiz-wrap">
+    <div class="quiz-hdr"><h3>⚡ ক্রিয়া কুইজ</h3><span class="score-tag" id="s3-sc">০/৩</span></div>
+    <div class="q-box" id="q3a">
+      <div class="q-text">যদি A − 2B =
+        <div class="qmats">
+          <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">5</div><div class="mc">3</div><div class="mc">7</div></div><span class="m-brac">]</span></div></div>
+          <span class="eq">এবং</span>
+          <span style="color:var(--white);font-size:0.85rem">2A − 3B =</span>
+          <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">-2</div><div class="mc">5</div><div class="mc">0</div><div class="mc">7</div></div><span class="m-brac">]</span></div></div>
+        </div>
+        হলে B = ?
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q3a',false,'')">A) [-4,-5;-6,-7]</button>
+        <button class="opt" onclick="chk(this,'q3a',true,'✅ সঠিক! B = 2(A-2B)-(2A-3B) = [2,10;6,14]-[-2,5;0,7] = [4,5;6,7]')">B) [4,5;6,7]</button>
+        <button class="opt" onclick="chk(this,'q3a',false,'')">C) [0,6;-3,7]</button>
+        <button class="opt" onclick="chk(this,'q3a',false,'')">D) [2,-1;3,2]</button>
+      </div>
+      <div class="fb" id="q3a-fb"></div>
+    </div>
+    <div class="q-box" id="q3b">
+      <div class="q-text">নিচের A ও B-এর গুণফল AB = ?
+        <div class="qmats">
+          <div><div style="font-size:0.7rem;color:var(--teal);text-align:center;margin-bottom:3px">A (1×3)</div><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mc">1</div><div class="mc">2</div><div class="mc">3</div></div><span class="m-brac">]</span></div></div></div>
+          <div style="font-size:1.3rem;color:var(--teal)">×</div>
+          <div><div style="font-size:0.7rem;color:var(--gold);text-align:center;margin-bottom:3px">B (3×1)</div><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:1fr"><div class="mc">2</div><div class="mc">3</div><div class="mc">-1</div></div><span class="m-brac">]</span></div></div></div>
+        </div>
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q3b',false,'')">A) [2,6,-3]</button>
+        <button class="opt" onclick="chk(this,'q3b',true,'✅ সঠিক! AB = 1×2+2×3+3×(-1) = 5 (1×1 ম্যাট্রিক্স)')">B) [5]</button>
+        <button class="opt" onclick="chk(this,'q3b',false,'')">C) 6</button>
+        <button class="opt" onclick="chk(this,'q3b',false,'')">D) সংজ্ঞাযোগ্য নয়</button>
+      </div>
+      <div class="fb" id="q3b-fb"></div>
+    </div>
+    <div class="q-box" id="q3c">
+      <div class="q-text">যদি A =
+        <div class="qmats"><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">4</div><div class="mc">2</div><div class="mc">-1</div><div class="mc">1</div></div><span class="m-brac">]</span></div></div></div>
+        হলে (A − 2I)(A − 3I) = ? <span style="font-size:0.75rem;color:var(--gray)">(NCERT)</span>
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q3c',true,'✅ সঠিক! A-2I=[2,2;-1,-1], A-3I=[1,2;-1,-2]. গুণফল = O (শূন্য ম্যাট্রিক্স)')">A) O (শূন্য)</button>
+        <button class="opt" onclick="chk(this,'q3c',false,'')">B) I</button>
+        <button class="opt" onclick="chk(this,'q3c',false,'')">C) A</button>
+        <button class="opt" onclick="chk(this,'q3c',false,'')">D) 5I</button>
+      </div>
+      <div class="fb" id="q3c-fb"></div>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="nbtn" onclick="goTo(2)">← প্রকারভেদ</button>
+    <button class="nbtn pri" onclick="goTo(4)">পরিবর্ত ধর্ম →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SCREEN 4: TRANSPOSE PROPERTIES ══════════════════════════════ -->
+<div class="screen" id="s4">
+  <div class="story">
+    <div class="s-head"><span class="s-icon">🔄</span><span class="s-title">পাঠ ৪ — পরিবর্ত ধর্মসমূহ</span></div>
+    <p>পরিবর্তের (Transpose) কিছু বিশেষ গুণ পরীক্ষায় খুব কাজে লাগে!</p>
+  </div>
+
+  <div class="props">
+    <div class="prop"><div class="prop-n">১</div><div class="prop-t"><strong>দ্বৈত পরিবর্ত:</strong> <span class="pf">(A')' = A</span></div></div>
+    <div class="prop"><div class="prop-n">২</div><div class="prop-t"><strong>যোগের পরিবর্ত:</strong> <span class="pf">(A+B)' = A'+B'</span></div></div>
+    <div class="prop"><div class="prop-n">৩</div><div class="prop-t"><strong>স্কেলার গুণ:</strong> <span class="pf">(kA)' = k·A'</span></div></div>
+    <div class="prop" style="border-color:var(--gold)"><div class="prop-n" style="border-color:var(--gold);color:var(--gold)">৪</div><div class="prop-t"><strong>গুণের পরিবর্ত (★ গুরুত্বপূর্ণ!):</strong><br><span class="pf">(AB)' = B'A'</span><br><span style="color:var(--pink);font-size:0.78rem">⚠️ ক্রম উল্টে যায়!</span></div></div>
+    <div class="prop"><div class="prop-n">৫</div><div class="prop-t">A প্রতিসম ⟺ <span class="pf">A'=A</span> | বিপ্রতিসম ⟺ <span class="pf">A'=-A</span></div></div>
+    <div class="prop"><div class="prop-n">৬</div><div class="prop-t">যেকোনো বর্গ A = <span class="pf">½(A+A')</span> + <span class="pf">½(A-A')</span><br><span style="color:var(--gray);font-size:0.78rem">(প্রতিসম + বিপ্রতিসম)</span></div></div>
+  </div>
+
+  <div class="sec-title" style="margin-top:20px">প্রমাণ — (AB)' = B'A'</div>
+  <div class="card">
+    <div class="m-row">
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">2</div><div class="mc">3</div><div class="mc">4</div></div><span class="m-brac">]</span></div><div class="m-lbl">A</div></div>
+      <div class="m-op">×</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">5</div><div class="mc">6</div><div class="mc">7</div><div class="mc">8</div></div><span class="m-brac">]</span></div><div class="m-lbl">B</div></div>
+      <div class="m-op">=</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">19</div><div class="mc">22</div><div class="mc">43</div><div class="mc">50</div></div><span class="m-brac">]</span></div><div class="m-lbl">AB</div></div>
+    </div>
+    <p style="font-size:0.82rem;color:#adc0d8;margin:8px 0">বামপক্ষ: (AB)ᵀ →</p>
+    <div class="m-row">
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc hi">19</div><div class="mc hi">43</div><div class="mc hi">22</div><div class="mc hi">50</div></div><span class="m-brac">]</span></div><div class="m-lbl">(AB)'</div></div>
+    </div>
+    <p style="font-size:0.82rem;color:#adc0d8;margin:8px 0">ডানপক্ষ: B'A' →</p>
+    <div class="m-row">
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">5</div><div class="mc">7</div><div class="mc">6</div><div class="mc">8</div></div><span class="m-brac">]</span></div><div class="m-lbl">B'</div></div>
+      <div class="m-op">×</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">3</div><div class="mc">2</div><div class="mc">4</div></div><span class="m-brac">]</span></div><div class="m-lbl">A'</div></div>
+      <div class="m-op">=</div>
+      <div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc hi">19</div><div class="mc hi">43</div><div class="mc hi">22</div><div class="mc hi">50</div></div><span class="m-brac">]</span></div><div class="m-lbl">B'A'</div></div>
+    </div>
+    <p style="color:var(--green);font-size:0.85rem;margin-top:6px">∴ (AB)' = B'A' প্রমাণিত ✅</p>
+  </div>
+
+  <div class="sec-title">PDF উদাহরণ — A'+B' = 2B' সমীকরণ</div>
+  <div class="card">
+    <p>A+B = 2B' এবং 3A+2B = I₃ হলে A ও B নির্ণয় করো।</p>
+    <div class="formula">3(A+B) - (3A+2B) = 6B' - I₃
+→ B = 6B' - I₃   ...(i)
+ট্রান্সপোজ: B' = 6B - I₃
+→ B+I₃ = 6(6B-I₃) → 35B = 7I₃
+→ B = (1/5)I₃, A = (1/5)I₃</div>
+  </div>
+
+  <!-- Transpose Quiz -->
+  <div class="quiz-wrap">
+    <div class="quiz-hdr"><h3>⚡ পরিবর্ত কুইজ</h3><span class="score-tag" id="s4-sc">০/৩</span></div>
+    <div class="q-box" id="q4a">
+      <div class="q-text">(AB)ᵀ = ?</div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q4a',false,'ক্রম উল্টে যায়')">A) A'B'</button>
+        <button class="opt" onclick="chk(this,'q4a',true,'✅ সঠিক! গুণের পরিবর্তে ক্রম উল্টে: B\'A\'')">B) B'A'</button>
+        <button class="opt" onclick="chk(this,'q4a',false,'')">C) AB</button>
+        <button class="opt" onclick="chk(this,'q4a',false,'')">D) BA</button>
+      </div>
+      <div class="fb" id="q4a-fb"></div>
+    </div>
+    <div class="q-box" id="q4b">
+      <div class="q-text">যদি A =
+        <div class="qmats"><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">3</div><div class="mc">-5</div><div class="mc">-4</div><div class="mc">2</div></div><span class="m-brac">]</span></div></div></div>
+        হলে A² − 5A − 14I = ? <span style="font-size:0.75rem;color:var(--gray)">(NCERT)</span>
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q4b',true,'✅ সঠিক! A²=[29,-25;-20,24], 5A=[15,-25;-20,10], A²-5A-14I=[0,0;0,0]=O')">A) O</button>
+        <button class="opt" onclick="chk(this,'q4b',false,'')">B) I</button>
+        <button class="opt" onclick="chk(this,'q4b',false,'')">C) -I</button>
+        <button class="opt" onclick="chk(this,'q4b',false,'')">D) 5A</button>
+      </div>
+      <div class="fb" id="q4b-fb"></div>
+    </div>
+    <div class="q-box" id="q4c">
+      <div class="q-text">যদি A =
+        <div class="qmats"><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">0</div><div class="mc">-1</div><div class="mc">7</div></div><span class="m-brac">]</span></div></div></div>
+        এবং A² − 8A + KI = O হলে K = ?
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chk(this,'q4c',false,'')">A) 6</button>
+        <button class="opt" onclick="chk(this,'q4c',false,'')">B) -6</button>
+        <button class="opt" onclick="chk(this,'q4c',true,'✅ সঠিক! A²=[1,0;-8,49], A²-8A=[-7,0;0,-7]=-7I, তাই K=-7')">C) -7</button>
+        <button class="opt" onclick="chk(this,'q4c',false,'')">D) 7</button>
+      </div>
+      <div class="fb" id="q4c-fb"></div>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="nbtn" onclick="goTo(3)">← ক্রিয়া</button>
+    <button class="nbtn pri" onclick="goTo(5)">গেম →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SCREEN 5: GAMES ══════════════════════════════ -->
+<div class="screen" id="s5">
+  <div class="story">
+    <div class="s-head"><span class="s-icon">🎮</span><span class="s-title">গেম — খেলো ও শেখো!</span></div>
+    <p>তিনটি গেমে নিজেকে যাচাই করো।</p>
+  </div>
+
+  <!-- Game 1 -->
+  <div class="game-box">
+    <h3>🎯 গেম ১: ধরন চেনো!</h3>
+    <div class="sub">ম্যাট্রিক্সটি দেখো এবং সঠিক প্রকার নির্বাচন করো।</div>
+    <div id="g1-mat" style="margin:12px 0"></div>
+    <div id="g1-opts" style="display:flex;flex-direction:column;gap:8px;margin:8px 0"></div>
+    <div class="g-status" id="g1-st"></div>
+    <div style="margin-top:10px;font-size:0.8rem;color:var(--gray)">স্কোর: <span id="g1-sc" style="color:var(--teal);font-family:'DM Mono',monospace">০</span>/<span id="g1-tot">৮</span></div>
+    <button class="gbtn sec" id="g1-next" onclick="nextG1()" style="display:none;margin-top:10px">পরের প্রশ্ন →</button>
+  </div>
+
+  <!-- Game 2 -->
+  <div class="game-box">
+    <h3>🧩 গেম ২: ট্রান্সপোজ সম্পন্ন করো</h3>
+    <div class="sub">A' নির্ণয় করো। '?' তে ট্যাপ করলে উত্তর দেখাবে!</div>
+    <div id="g2-con"></div>
+    <button class="gbtn" onclick="initG2()" style="margin-top:12px">নতুন প্রশ্ন 🔄</button>
+  </div>
+
+  <!-- Game 3 -->
+  <div class="game-box">
+    <h3>⚡ গেম ৩: ৩০ সেকেন্ড চ্যালেঞ্জ!</h3>
+    <div class="sub">যতটা পারো সঠিক উত্তর দাও!</div>
+    <div id="g3-timer" style="font-size:2rem;color:var(--gold);font-family:'DM Mono',monospace;margin:8px 0">৩০</div>
+    <div id="g3-q" style="font-size:0.9rem;color:var(--white);margin-bottom:12px;min-height:44px;line-height:1.7"></div>
+    <div id="g3-opts" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div class="g-status" id="g3-st"></div>
+    <div style="font-size:0.85rem;color:var(--gray);margin-top:8px">স্কোর: <span id="g3-sc" style="color:var(--teal);font-family:'DM Mono',monospace">০</span></div>
+    <button class="gbtn" onclick="startG3()" style="margin-top:12px">শুরু করো! 🚀</button>
+  </div>
+
+  <div class="nav-btns">
+    <button class="nbtn" onclick="goTo(4)">← পরিবর্ত</button>
+    <button class="nbtn pri" onclick="goTo(6)">কুইজ →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SCREEN 6: MAIN QUIZ ══════════════════════════════ -->
+<div class="screen" id="s6">
+  <div class="story">
+    <div class="s-head"><span class="s-icon">📝</span><span class="s-title">WBCHSE বোর্ড কুইজ</span></div>
+    <p>NCERT + WBCHSE + CBSE পরীক্ষার আলোকে ১০টি MCQ।</p>
+  </div>
+
+  <div class="quiz-wrap">
+    <div class="quiz-hdr"><h3>📚 MCQ সেট</h3><span class="score-tag" id="mq-sc">০/১০</span></div>
+
+    <div class="q-box" id="mq1">
+      <div class="q-text"><span class="tag t-t">১</span> A' = A হলে A কে বলে —</div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq1','A')">A) প্রতিসম</button>
+        <button class="opt" onclick="chkM(this,'mq1','B')">B) একক ম্যাট্রিক্স</button>
+        <button class="opt" onclick="chkM(this,'mq1','C')">C) বিপ্রতিসম</button>
+        <button class="opt" onclick="chkM(this,'mq1','D')">D) কর্ণ ম্যাট্রিক্স</button>
+      </div><div class="fb" id="mq1-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq2">
+      <div class="q-text"><span class="tag t-y">২</span> AB=A এবং BA=B হলে B² = ?</div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq2','A')">A) A</button>
+        <button class="opt" onclick="chkM(this,'mq2','B')">B) B</button>
+        <button class="opt" onclick="chkM(this,'mq2','C')">C) I</button>
+        <button class="opt" onclick="chkM(this,'mq2','D')">D) O</button>
+      </div><div class="fb" id="mq2-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq3">
+      <div class="q-text"><span class="tag t-p">৩</span> নিচের কোনটি মিথ্যা? (NCERT/WBCHSE)</div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq3','A')">A) AB এর ক্রম m×p (A:m×n, B:n×p)</button>
+        <button class="opt" onclick="chkM(this,'mq3','B')">B) ম্যাট্রিক্স গুণ বিনিময় সিদ্ধ নয়</button>
+        <button class="opt" onclick="chkM(this,'mq3','C')">C) AB ও BA সমক্রমের হলেও সমান নাও হতে পারে</button>
+        <button class="opt" onclick="chkM(this,'mq3','D')">D) ম্যাট্রিক্স গুণ সংযোগ নিয়ম সিদ্ধ করে না</button>
+      </div><div class="fb" id="mq3-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq4">
+      <div class="q-text"><span class="tag t-t">৪</span> যদি A =
+        <div class="qmats"><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">x</div><div class="mc">y</div><div class="mc">z</div><div class="mc">-x</div></div><span class="m-brac">]</span></div></div></div>
+        এবং A² = I হলে —
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq4','A')">A) 1+x²+yz=0</button>
+        <button class="opt" onclick="chkM(this,'mq4','B')">B) 1-x²+yz=0</button>
+        <button class="opt" onclick="chkM(this,'mq4','C')">C) 1-x²-yz=0</button>
+        <button class="opt" onclick="chkM(this,'mq4','D')">D) 1+x²-yz=0</button>
+      </div><div class="fb" id="mq4-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq5">
+      <div class="q-text"><span class="tag t-y">৫</span> যদি A =
+        <div class="qmats"><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">3</div><div class="mc">-5</div><div class="mc">-4</div><div class="mc">2</div></div><span class="m-brac">]</span></div></div></div>
+        হলে A² − 5A − 14I = ?
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq5','A')">A) I</button>
+        <button class="opt" onclick="chkM(this,'mq5','B')">B) O</button>
+        <button class="opt" onclick="chkM(this,'mq5','C')">C) -I</button>
+        <button class="opt" onclick="chkM(this,'mq5','D')">D) A</button>
+      </div><div class="fb" id="mq5-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq6">
+      <div class="q-text"><span class="tag t-p">৬</span> যদি A =
+        <div class="qmats"><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">1</div><div class="mc">0</div><div class="mc">-1</div><div class="mc">7</div></div><span class="m-brac">]</span></div></div></div>
+        এবং A² = 8A + KI হলে K = ?
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq6','A')">A) 6</button>
+        <button class="opt" onclick="chkM(this,'mq6','B')">B) -6</button>
+        <button class="opt" onclick="chkM(this,'mq6','C')">C) -7</button>
+        <button class="opt" onclick="chkM(this,'mq6','D')">D) 7</button>
+      </div><div class="fb" id="mq6-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq7">
+      <div class="q-text"><span class="tag t-t">৭</span> A প্রতিসম ও বিপ্রতিসম উভয়ই হলে A = ?</div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq7','A')">A) I</button>
+        <button class="opt" onclick="chkM(this,'mq7','B')">B) O</button>
+        <button class="opt" onclick="chkM(this,'mq7','C')">C) kI (k≠0)</button>
+        <button class="opt" onclick="chkM(this,'mq7','D')">D) A²</button>
+      </div><div class="fb" id="mq7-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq8">
+      <div class="q-text"><span class="tag t-y">৮</span> (AB)' = ?</div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq8','A')">A) A'B'</button>
+        <button class="opt" onclick="chkM(this,'mq8','B')">B) B'A'</button>
+        <button class="opt" onclick="chkM(this,'mq8','C')">C) AB</button>
+        <button class="opt" onclick="chkM(this,'mq8','D')">D) BA</button>
+      </div><div class="fb" id="mq8-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq9">
+      <div class="q-text"><span class="tag t-p">৯</span> যদি A =
+        <div class="qmats"><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">4</div><div class="mc">2</div><div class="mc">-1</div><div class="mc">1</div></div><span class="m-brac">]</span></div></div></div>
+        হলে (A − 2I)(A − 3I) = ?
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq9','A')">A) O</button>
+        <button class="opt" onclick="chkM(this,'mq9','B')">B) I</button>
+        <button class="opt" onclick="chkM(this,'mq9','C')">C) A</button>
+        <button class="opt" onclick="chkM(this,'mq9','D')">D) 6I</button>
+      </div><div class="fb" id="mq9-fb"></div>
+    </div>
+
+    <div class="q-box" id="mq10">
+      <div class="q-text"><span class="tag t-t">১০</span> যদি 3A + 4B = 2X হয় এবং
+        <div class="qmats">
+          <div><div style="font-size:0.7rem;color:var(--teal);text-align:center;margin-bottom:3px">A</div><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">2</div><div class="mc">4</div><div class="mc">5</div><div class="mc">6</div></div><span class="m-brac">]</span></div></div></div>
+          <span class="eq">,</span>
+          <div><div style="font-size:0.7rem;color:var(--gold);text-align:center;margin-bottom:3px">B</div><div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(2,1fr)"><div class="mc">3</div><div class="mc">6</div><div class="mc">5</div><div class="mc">9</div></div><span class="m-brac">]</span></div></div></div>
+        </div>
+        হলে X = ?
+      </div>
+      <div class="opts">
+        <button class="opt" onclick="chkM(this,'mq10','A')">A) [9,18;35/2,27]</button>
+        <button class="opt" onclick="chkM(this,'mq10','B')">B) [9,18;35/2,17]</button>
+        <button class="opt" onclick="chkM(this,'mq10','C')">C) [18,9;27,35/2]</button>
+        <button class="opt" onclick="chkM(this,'mq10','D')">D) [6,12;25/2,15]</button>
+      </div><div class="fb" id="mq10-fb"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px">
+      <div id="final-r" style="font-size:1rem;color:var(--teal);font-weight:700;margin-bottom:12px;line-height:1.6"></div>
+      <button class="gbtn" onclick="resetMQ()">🔄 আবার চেষ্টা</button>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="nbtn" onclick="goTo(5)">← গেম</button>
+    <button class="nbtn pri" onclick="goTo(7)">চিটশিট →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SCREEN 7: CHEAT SHEET ══════════════════════════════ -->
+<div class="screen" id="s7">
+  <div class="story">
+    <div class="s-head"><span class="s-icon">📋</span><span class="s-title">চিটশিট — পরীক্ষার আগে দেখো</span></div>
+    <p>সব গুরুত্বপূর্ণ সূত্র ও তথ্য এক জায়গায়!</p>
+  </div>
+
+  <div class="card">
+    <h2><div class="icon">📊</div> প্রকারভেদ</h2>
+    <div style="overflow-x:auto">
+    <table class="c-table">
+      <tr><th>নাম</th><th>শর্ত</th></tr>
+      <tr><td>সারি</td><td>1×n</td></tr>
+      <tr><td>স্তম্ভ</td><td>m×1</td></tr>
+      <tr><td>বর্গ</td><td>m=n</td></tr>
+      <tr><td>শূন্য (O)</td><td>সব=0</td></tr>
+      <tr><td>কর্ণ</td><td>i≠j → aᵢⱼ=0</td></tr>
+      <tr><td>স্কেলার</td><td>কর্ণ সব সমান k</td></tr>
+      <tr><td>একক (I)</td><td>স্কেলার k=1</td></tr>
+      <tr><td>ঊর্ধ্ব ত্রিভুজীয়</td><td>i>j → 0</td></tr>
+      <tr><td>নিম্ন ত্রিভুজীয়</td><td>i&lt;j → 0</td></tr>
+      <tr><td>প্রতিসম</td><td>A'=A</td></tr>
+      <tr><td>বিপ্রতিসম</td><td>A'=-A, কর্ণ=0</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h2><div class="icon">⚡</div> গুরুত্বপূর্ণ সূত্র</h2>
+    <div class="props" style="gap:7px">
+      <div class="prop"><div class="prop-n">১</div><div class="prop-t"><span class="pf">(A')' = A</span></div></div>
+      <div class="prop"><div class="prop-n">২</div><div class="prop-t"><span class="pf">(A+B)' = A'+B'</span></div></div>
+      <div class="prop"><div class="prop-n">৩</div><div class="prop-t"><span class="pf">(kA)' = k·A'</span></div></div>
+      <div class="prop" style="border-color:var(--gold)"><div class="prop-n" style="border-color:var(--gold);color:var(--gold)">৪★</div><div class="prop-t"><span class="pf">(AB)' = B'A'</span></div></div>
+      <div class="prop"><div class="prop-n">৫</div><div class="prop-t"><span class="pf">A·I = I·A = A</span></div></div>
+      <div class="prop"><div class="prop-n">৬</div><div class="prop-t"><span class="pf">A+O = A</span></div></div>
+      <div class="prop"><div class="prop-n">৭</div><div class="prop-t">A = <span class="pf">½(A+A')</span> + <span class="pf">½(A-A')</span></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;border-color:#ff4d4d">
+    <h2><div class="icon">⚠️</div> এড়িয়ে চলো</h2>
+    <div class="props" style="gap:7px">
+      <div class="prop" style="border-color:#ff4d4d"><div class="prop-n" style="border-color:#ff4d4d;color:#ff4d4d">✗</div><div class="prop-t">AB = BA ধরে নেওয়া!</div></div>
+      <div class="prop" style="border-color:#ff4d4d"><div class="prop-n" style="border-color:#ff4d4d;color:#ff4d4d">✗</div><div class="prop-t">(AB)' = A'B' লেখা → সঠিক: B'A'</div></div>
+      <div class="prop" style="border-color:#ff4d4d"><div class="prop-n" style="border-color:#ff4d4d;color:#ff4d4d">✗</div><div class="prop-t">AB=O মানেই A=O বা B=O নয়!</div></div>
+      <div class="prop" style="border-color:var(--green)"><div class="prop-n" style="border-color:var(--green);color:var(--green)">✓</div><div class="prop-t">গুণের আগে ক্রম মিলিয়ে নাও: m×<b>n</b> × <b>n</b>×p = m×p</div></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:28px 16px;background:var(--card);border-radius:14px;margin-top:16px;border:1px solid var(--border)">
+    <div style="font-size:2.5rem;margin-bottom:10px">🎉</div>
+    <div style="color:var(--teal);font-size:1rem;font-weight:700;margin-bottom:6px">অভিনন্দন!</div>
+    <p style="color:var(--gray);font-size:0.85rem;line-height:1.8">MATHLands ম্যাট্রিক্স কোর্স সম্পন্ন! এখন WBCHSE পরীক্ষায় ম্যাট্রিক্সের যেকোনো প্রশ্ন সমাধান করতে পারবে।</p>
+    <div style="margin-top:12px"><span class="tag t-t">ম্যাট্রিক্স ✓</span><span class="tag t-y">কুইজ ✓</span><span class="tag t-g">গেম ✓</span></div>
+    <button class="gbtn" style="margin-top:14px" onclick="goTo(0)">🏠 হোমে ফিরে যাও</button>
+  </div>
+  <div class="nav-btns">
+    <button class="nbtn" onclick="goTo(6)">← কুইজ</button>
+    <div></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="nav0" onclick="goTo(0)">
+    <span class="ni-icon">🏠</span><span class="ni-lbl">হোম</span>
+  </button>
+  <button class="nav-item" id="nav1" onclick="goTo(1)">
+    <span class="ni-icon">📐</span><span class="ni-lbl">সংজ্ঞা</span>
+  </button>
+  <button class="nav-item" id="nav2" onclick="goTo(2)">
+    <span class="ni-icon">🔷</span><span class="ni-lbl">প্রকার</span>
+  </button>
+  <button class="nav-item" id="nav3" onclick="goTo(3)">
+    <span class="ni-icon">⚙️</span><span class="ni-lbl">ক্রিয়া</span>
+  </button>
+  <button class="nav-item" id="nav4" onclick="goTo(4)">
+    <span class="ni-icon">🔄</span><span class="ni-lbl">ধর্ম</span>
+  </button>
+  <button class="nav-item" id="nav5" onclick="goTo(5)">
+    <span class="ni-icon">🎮</span><span class="ni-lbl">গেম</span>
+  </button>
+  <button class="nav-item" id="nav6" onclick="goTo(6)">
+    <span class="ni-icon">📝</span><span class="ni-lbl">কুইজ</span>
+  </button>
+  <button class="nav-item" id="nav7" onclick="goTo(7)">
+    <span class="ni-icon">📋</span><span class="ni-lbl">শিট</span>
+  </button>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-ov" id="modal">
+  <div class="modal">
+    <h3 id="m-title">🎉</h3>
+    <p id="m-body"></p>
+    <button class="modal-btn" onclick="document.getElementById('modal').classList.remove('show')">বন্ধ করো</button>
+  </div>
+</div>
+
+<script>
+// ── Navigation ──
+let visited = new Set([0]);
+function goTo(i) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('s'+i).classList.add('active');
+  document.getElementById('nav'+i).classList.add('active');
+  visited.add(i);
+  updateProg();
+  window.scrollTo(0,0);
+  if(i===5){ initG1(); initG2(); }
+}
+function updateProg() {
+  const p = Math.round(visited.size/8*100);
+  document.getElementById('pfill').style.width=p+'%';
+  document.getElementById('ptxt').textContent=p+'%';
+}
+
+// ── Accordion ──
+function toggleAcc(el) { el.classList.toggle('open'); }
+
+// ── Generic Quiz ──
+let scores = {};
+function chk(btn, qid, ok, msg) {
+  const q = document.getElementById(qid);
+  q.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+  const fb = document.getElementById(qid+'-fb');
+  if(ok){
+    btn.classList.add('ok'); fb.className='fb ok show'; fb.textContent=msg;
+    if(!scores[qid]){ scores[qid]=true; updateSecScore(qid); }
+  } else {
+    btn.classList.add('no'); fb.className='fb no show'; fb.textContent='❌ '+msg;
+  }
+}
+function updateSecScore(qid) {
+  const m = {'q1a':'s1-sc','q1b':'s1-sc','q2a':'s2-sc','q2b':'s2-sc','q2c':'s2-sc',
+             'q3a':'s3-sc','q3b':'s3-sc','q3c':'s3-sc','q4a':'s4-sc','q4b':'s4-sc','q4c':'s4-sc'};
+  const totals = {'s1-sc':2,'s2-sc':3,'s3-sc':3,'s4-sc':3};
+  const scId = m[qid]; if(!scId) return;
+  const prefix = scId.replace('-sc','');
+  const keys = Object.keys(m).filter(k=>m[k]===scId);
+  const count = keys.filter(k=>scores[k]).length;
+  document.getElementById(scId).textContent = count+'/'+totals[scId];
+}
+
+// ── Calc ──
+function calcMul(){
+  const a11=+document.getElementById('a11').value||0, a12=+document.getElementById('a12').value||0;
+  const a21=+document.getElementById('a21').value||0, a22=+document.getElementById('a22').value||0;
+  const b11=+document.getElementById('b11').value||0, b12=+document.getElementById('b12').value||0;
+  const b21=+document.getElementById('b21').value||0, b22=+document.getElementById('b22').value||0;
+  const r11=a11*b11+a12*b21, r12=a11*b12+a12*b22;
+  const r21=a21*b11+a22*b21, r22=a21*b12+a22*b22;
+  document.getElementById('r11').textContent=r11;
+  document.getElementById('r12').textContent=r12;
+  document.getElementById('r21').textContent=r21;
+  document.getElementById('r22').textContent=r22;
+  const ba11=b11*a11+b12*a21, ba12=b11*a12+b12*a22;
+  const ba21=b21*a11+b22*a21, ba22=b21*a12+b22*a22;
+  const same = r11===ba11&&r12===ba12&&r21===ba21&&r22===ba22;
+  const msg = document.getElementById('comm-msg');
+  msg.textContent = same ? '✅ এক্ষেত্রে AB = BA — কিন্তু সবসময় হয় না!' : '⚠️ AB ≠ BA — ম্যাট্রিক্স গুণ বিনিময় মানে না!';
+  msg.style.color = same ? 'var(--green)' : 'var(--pink)';
+}
+calcMul();
+
+// ── Game 1 ──
+const g1qs = [
+  {mat:[[1,0,0],[0,2,0],[0,0,3]],size:3,ans:'কর্ণ ম্যাট্রিক্স',opts:['বর্গ','কর্ণ ম্যাট্রিক্স','স্কেলার','শূন্য']},
+  {mat:[[5,0,0],[0,5,0],[0,0,5]],size:3,ans:'স্কেলার ম্যাট্রিক্স',opts:['একক','কর্ণ','স্কেলার ম্যাট্রিক্স','বর্গ']},
+  {mat:[[1,0,0],[0,1,0],[0,0,1]],size:3,ans:'একক ম্যাট্রিক্স',opts:['একক ম্যাট্রিক্স','স্কেলার','কর্ণ','শূন্য']},
+  {mat:[[1,2,3],[0,4,5],[0,0,6]],size:3,ans:'ঊর্ধ্ব ত্রিভুজীয়',opts:['ঊর্ধ্ব ত্রিভুজীয়','নিম্ন','বর্গ','কর্ণ']},
+  {mat:[[1,0,0],[4,5,0],[7,8,9]],size:3,ans:'নিম্ন ত্রিভুজীয়',opts:['ঊর্ধ্ব','নিম্ন ত্রিভুজীয়','বর্গ','প্রতিসম']},
+  {mat:[[2,3],[3,7]],size:2,ans:'প্রতিসম ম্যাট্রিক্স',opts:['প্রতিসম ম্যাট্রিক্স','বিপ্রতিসম','পরিবর্ত','বর্গ']},
+  {mat:[[0,3],[-3,0]],size:2,ans:'বিপ্রতিসম ম্যাট্রিক্স',opts:['প্রতিসম','বিপ্রতিসম ম্যাট্রিক্স','শূন্য','কর্ণ']},
+  {mat:[[0,0],[0,0]],size:2,ans:'শূন্য ম্যাট্রিক্স',opts:['একক','কর্ণ','শূন্য ম্যাট্রিক্স','স্কেলার']},
+];
+let g1i=0, g1s=0;
+function initG1(){ g1i=0; g1s=0; document.getElementById('g1-sc').textContent='০'; document.getElementById('g1-next').style.display='none'; showG1(); }
+function showG1(){
+  if(g1i>=g1qs.length){ document.getElementById('g1-mat').innerHTML='<div style="font-size:2rem">🏆</div>'; document.getElementById('g1-opts').innerHTML=''; document.getElementById('g1-st').className='g-status ok'; document.getElementById('g1-st').textContent='খেলা শেষ! স্কোর: '+g1s+'/'+g1qs.length; return; }
+  const q=g1qs[g1i];
+  let h=`<div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(${q.size},1fr)">`;
+  q.mat.flat().forEach(v=>{ h+=`<div class="mc">${v}</div>`; });
+  h+=`</div><span class="m-brac">]</span></div></div>`;
+  document.getElementById('g1-mat').innerHTML=h;
+  let oh='';
+  q.opts.forEach(o=>{ oh+=`<button class="opt" onclick="chkG1(this,'${o}')" style="text-align:center">${o}</button>`; });
+  document.getElementById('g1-opts').innerHTML=oh;
+  document.getElementById('g1-st').textContent=''; document.getElementById('g1-st').className='g-status';
+  document.getElementById('g1-next').style.display='none';
+}
+function chkG1(btn,choice){
+  const q=g1qs[g1i];
+  document.getElementById('g1-opts').querySelectorAll('button').forEach(b=>b.disabled=true);
+  if(choice===q.ans){ btn.classList.add('ok'); g1s++; document.getElementById('g1-sc').textContent=g1s; document.getElementById('g1-st').className='g-status ok'; document.getElementById('g1-st').textContent='✅ সঠিক!'; }
+  else { btn.classList.add('no'); document.getElementById('g1-opts').querySelectorAll('button').forEach(b=>{ if(b.textContent===q.ans) b.classList.add('ok'); }); document.getElementById('g1-st').className='g-status no'; document.getElementById('g1-st').textContent='❌ ভুল! সঠিক: '+q.ans; }
+  g1i++;
+  document.getElementById('g1-next').style.display = g1i<g1qs.length ? 'inline-block' : 'none';
+  if(g1i>=g1qs.length) setTimeout(showG1, 1200);
+}
+function nextG1(){ showG1(); }
+
+// ── Game 2 ──
+function initG2(){
+  const ms=[[[1,2,3],[4,5,6]],[[7,-1],[2,0],[1,5]],[[3,8],[2,-1],[5,0]]];
+  const m=ms[Math.floor(Math.random()*ms.length)];
+  const r=m.length, c=m[0].length;
+  const t=Array.from({length:c},(_,j)=>Array.from({length:r},(_,i)=>m[i][j]));
+  let h=`<div style="display:flex;flex-direction:column;gap:14px;align-items:center">`;
+  h+=`<div class="m-wrap"><div style="font-size:0.75rem;color:var(--teal);margin-bottom:4px;text-align:center">A (${r}×${c})</div><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(${c},1fr)">`;
+  m.flat().forEach(v=>{ h+=`<div class="mc">${v}</div>`; });
+  h+=`</div><span class="m-brac">]</span></div></div>`;
+  h+=`<div style="font-size:0.85rem;color:var(--gray)">↓ A' (${c}×${r}) — '?'তে ট্যাপ করো</div>`;
+  h+=`<div class="m-wrap"><div class="m-vis"><span class="m-brac">[</span><div class="m-grid" style="grid-template-columns:repeat(${r},1fr)">`;
+  t.flat().forEach((v,idx)=>{
+    const hide=Math.random()>0.45;
+    h+=`<div class="mc${hide?'':' hi'}" data-v="${v}" data-h="${hide}" onclick="revCell(this)" style="cursor:${hide?'pointer':'default'};${hide?'background:var(--navy);border-color:var(--teal);color:transparent':''}">
+      ${hide?'?':v}</div>`;
+  });
+  h+=`</div><span class="m-brac">]</span></div></div></div>`;
+  document.getElementById('g2-con').innerHTML=h;
+}
+function revCell(el){ if(el.dataset.h==='true'){ el.textContent=el.dataset.v; el.className='mc hi'; el.style.cursor='default'; el.dataset.h='false'; } }
+
+// ── Game 3 ──
+const g3qs=[
+  {q:'প্রতিসমের শর্ত?',opts:["A'=A","A'=-A","A²=A","AA'=0"],a:0},
+  {q:'বিপ্রতিসমের কর্ণ = ?',opts:['1','0','-1','যেকোনো'],a:1},
+  {q:'(AB)\'=?',opts:["A'B'","B'A'","AB","BA"],a:1},
+  {q:'একক ম্যাট্রিক্স =?',opts:['শূন্য','I','স্কেলার','কর্ণ'],a:1},
+  {q:'m×n উপাদান=?',opts:['m+n','m-n','m×n','m/n'],a:2},
+  {q:'শূন্য ম্যাট্রিক্স প্রতীক?',opts:['Z','O','N','S'],a:1},
+  {q:'ঊর্ধ্ব ত্রিভুজীয়: i>j হলে aᵢⱼ=?',opts:['1','∞','0','-1'],a:2},
+  {q:'A·I=?',opts:['O','I','A','A²'],a:2},
+  {q:'(A\'\'=?',opts:['A\'','-A','A','O'],a:2},
+  {q:'বর্গ ম্যাট্রিক্সে m ও n?',opts:['m>n','m<n','m=n','m≠n'],a:2},
+];
+let g3i=0,g3s=0,g3timer=null,g3on=false;
+function startG3(){
+  g3i=0;g3s=0;g3on=true;
+  document.getElementById('g3-sc').textContent='০';
+  document.getElementById('g3-st').textContent='';
+  let t=30;
+  document.getElementById('g3-timer').textContent=t;
+  clearInterval(g3timer);
+  g3timer=setInterval(()=>{
+    t--; document.getElementById('g3-timer').textContent=t;
+    document.getElementById('g3-timer').style.color=t<=10?'var(--pink)':'var(--gold)';
+    if(t<=0){ clearInterval(g3timer); g3on=false; document.getElementById('g3-q').textContent='⏱️ সময় শেষ!'; document.getElementById('g3-opts').innerHTML=''; document.getElementById('g3-st').className='g-status ok'; document.getElementById('g3-st').textContent='স্কোর: '+g3s+'/'+g3qs.length; }
+  },1000);
+  showG3Q();
+}
+function showG3Q(){
+  if(!g3on||g3i>=g3qs.length) return;
+  const q=g3qs[g3i];
+  document.getElementById('g3-q').textContent=q.q;
+  let h='';
+  q.opts.forEach((o,i)=>{ h+=`<button class="opt" onclick="chkG3(${i})">${o}</button>`; });
+  document.getElementById('g3-opts').innerHTML=h;
+  document.getElementById('g3-st').textContent='';
+}
+function chkG3(i){
+  if(!g3on) return;
+  const q=g3qs[g3i];
+  document.getElementById('g3-opts').querySelectorAll('button').forEach(b=>b.disabled=true);
+  if(i===q.a){ document.getElementById('g3-opts').querySelectorAll('button')[i].classList.add('ok'); g3s++; document.getElementById('g3-sc').textContent=g3s; }
+  else { document.getElementById('g3-opts').querySelectorAll('button')[i].classList.add('no'); document.getElementById('g3-opts').querySelectorAll('button')[q.a].classList.add('ok'); }
+  g3i++; setTimeout(()=>{ if(g3on) showG3Q(); },600);
+}
+
+// ── Main Quiz ──
+const mAns={mq1:'A',mq2:'B',mq3:'D',mq4:'C',mq5:'B',mq6:'C',mq7:'B',mq8:'B',mq9:'A',mq10:'A'};
+const mFb={
+  mq1:'✅ A\'=A হলেই প্রতিসম ম্যাট্রিক্স।',
+  mq2:'✅ B²=B(AB)=(BA)B=B·B=B² → আইডেম্পোটেন্ট: B²=B।',
+  mq3:'✅ D মিথ্যা — ম্যাট্রিক্স গুণ সংযোগ নিয়ম সিদ্ধ করে: (AB)C = A(BC)।',
+  mq4:'✅ A² = <span style="font-family:\'DM Mono\',monospace;color:var(--gold)">⌈x²+yz  0 ⌉</span> = I → x²+yz=1 → <strong>1−x²−yz=0</strong>',
+  mq5:'✅ A² − 5A − 14I = O (শূন্য ম্যাট্রিক্স). ধাপ: A²=[29,−25;−20,24], 5A=[15,−25;−20,10] → বিয়োগ করে O পাওয়া যায়।',
+  mq6:'✅ A² = <span style="font-family:\'DM Mono\',monospace;color:var(--gold)">[1,0;−8,49]</span>, A²−8A = [−7,0;0,−7] = −7I → <strong>K = −7</strong>',
+  mq7:'✅ A=A\' ও A=−A → 2A=O → <strong>A=O</strong> (শূন্য ম্যাট্রিক্স)',
+  mq8:'✅ গুণের পরিবর্তে ক্রম উল্টে যায়: <strong>(AB)\' = B\'A\'</strong>',
+  mq9:'✅ A−2I=[2,2;−1,−1], A−3I=[1,2;−1,−2] → গুণফল = <strong>O</strong> (শূন্য ম্যাট্রিক্স)',
+  mq10:'✅ 3A=[6,12;15,18], 4B=[12,24;20,36] → 3A+4B=[18,36;35,54]=2X → <strong>X=[9,18;35/2,27]</strong>'
+};
+let mqS=0, mqA=new Set();
+function chkM(btn,qid,choice){
+  if(mqA.has(qid)) return; mqA.add(qid);
+  const q=document.getElementById(qid);
+  q.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+  const fb=document.getElementById(qid+'-fb');
+  if(choice===mAns[qid]){ btn.classList.add('ok'); fb.className='fb ok show'; fb.innerHTML=mFb[qid]; mqS++; }
+  else { btn.classList.add('no'); fb.className='fb no show'; fb.innerHTML='❌ '+mFb[qid]; q.querySelectorAll('.opt').forEach(b=>{ if(b.textContent.trim().startsWith(mAns[qid])) b.classList.add('ok'); }); }
+  document.getElementById('mq-sc').textContent=mqS+'/10';
+  if(mqA.size===10){
+    const p=Math.round(mqS/10*100);
+    const msg=p>=80?'🏆 অসাধারণ! ম্যাট্রিক্সে দক্ষ!':p>=60?'👍 ভালো! আরো অনুশীলন করো।':'📚 আরো পড়তে হবে!';
+    document.getElementById('final-r').textContent=msg+' ('+mqS+'/10)';
+    setTimeout(()=>{ document.getElementById('m-title').textContent='ফলাফল '+p+'%'; document.getElementById('m-body').textContent=msg+' তুমি ১০টির মধ্যে '+mqS+'টি সঠিক উত্তর দিয়েছ।'; document.getElementById('modal').classList.add('show'); },400);
+  }
+}
+function resetMQ(){
+  mqS=0; mqA.clear();
+  document.getElementById('mq-sc').textContent='০/১০';
+  document.getElementById('final-r').textContent='';
+  for(let i=1;i<=10;i++){
+    const q=document.getElementById('mq'+i);
+    q.querySelectorAll('.opt').forEach(b=>{b.disabled=false;b.className='opt';});
+    const fb=document.getElementById('mq'+i+'-fb');
+    fb.className='fb';
+  }
+}
+</script>
+</body>
+</html>
