@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বর্ধিষ্ণু ও ক্ষয়িষ্ণু অপেক্ষক | MATHLands</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0B1525;
+  --navy2: #0f1d30;
+  --teal: #2BBCD4;
+  --teal2: #1a9bb5;
+  --gold: #F5C518;
+  --rose: #FF6B9D;
+  --soft-white: #EAF0FB;
+  --text: #c8d8f0;
+  --muted: #7a9ab8;
+  --success: #4ade80;
+  --error: #f87171;
+  --card: rgba(43,188,212,0.06);
+  --border: rgba(43,188,212,0.18);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--navy);
+  color: var(--soft-white);
+  font-family: 'Noto Sans Bengali', 'Syne', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+
+/* ===== TOP NAV ===== */
+.topbar {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  background: rgba(11,21,37,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 24px;
+}
+.logo-text {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;
+}
+.logo-text span:first-child { color: #fff; }
+.logo-text span:last-child { color: var(--teal); }
+.chapter-badge {
+  background: var(--teal); color: var(--navy);
+  font-size: 0.65rem; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; font-family: 'DM Mono', monospace;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* ===== SIDE NAV ===== */
+.sidenav {
+  position: fixed; left:0; top:56px; bottom:0; width:220px;
+  background: var(--navy2); border-right: 1px solid var(--border);
+  overflow-y: auto; z-index:90; padding: 16px 0;
+  transition: transform 0.3s;
+}
+.nav-section { padding: 6px 16px 4px; font-size: 0.6rem; color: var(--muted);
+  font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 2px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 20px; cursor: pointer; font-size: 0.82rem;
+  color: var(--text); border-left: 3px solid transparent;
+  transition: all 0.2s; font-family: 'Noto Sans Bengali', sans-serif;
+}
+.nav-item:hover { color: var(--teal); background: rgba(43,188,212,0.07); border-left-color: var(--teal); }
+.nav-item.active { color: var(--teal); background: rgba(43,188,212,0.12); border-left-color: var(--teal); font-weight: 600; }
+.nav-dot { width:8px; height:8px; border-radius:50%; background: var(--muted); flex-shrink:0; }
+.nav-item.active .nav-dot { background: var(--teal); box-shadow: 0 0 8px var(--teal); }
+
+/* ===== MAIN CONTENT ===== */
+.main { margin-left: 220px; padding-top: 56px; }
+.page { display:none; padding: 32px 36px; min-height: calc(100vh - 56px); }
+.page.active { display: block; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: calc(100vh - 56px);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; text-align: center;
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(43,188,212,0.08) 0%, transparent 70%);
+  padding: 40px;
+}
+.hero-tag {
+  font-family: 'DM Mono', monospace; font-size: 0.7rem;
+  color: var(--teal); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 16px; opacity: 0.8;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif; font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800; line-height: 1.1;
+  background: linear-gradient(135deg, #fff 30%, var(--teal) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+.hero h1 .bn { font-family: 'Noto Sans Bengali', sans-serif; }
+.hero-sub { color: var(--teal); font-size: 1rem; margin-bottom: 24px; opacity: 0.9; }
+.hero-desc { color: var(--muted); font-size: 0.9rem; max-width: 560px; line-height: 1.7; margin-bottom: 36px; }
+.hero-cards {
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 36px;
+}
+.hero-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 20px; min-width: 120px;
+  cursor: pointer; transition: all 0.25s;
+}
+.hero-card:hover { border-color: var(--teal); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(43,188,212,0.15); }
+.hero-card .icon { font-size: 1.8rem; margin-bottom: 8px; }
+.hero-card .label { font-size: 0.75rem; color: var(--text); font-family: 'Noto Sans Bengali', sans-serif; }
+.btn-start {
+  background: var(--teal); color: var(--navy);
+  border: none; padding: 13px 32px; border-radius: 8px;
+  font-weight: 700; font-size: 0.95rem; cursor: pointer;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  transition: all 0.2s; box-shadow: 0 0 20px rgba(43,188,212,0.3);
+}
+.btn-start:hover { background: var(--teal2); transform: translateY(-2px); }
+
+/* ===== SECTION HEADERS ===== */
+.section-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
+}
+.section-num {
+  background: var(--teal); color: var(--navy);
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+}
+.section-title { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; }
+.section-subtitle { color: var(--muted); font-size: 0.8rem; font-family: 'DM Mono', monospace; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; margin-bottom: 16px;
+}
+.card-title {
+  color: var(--teal); font-weight: 600; font-size: 0.95rem;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.card p { color: var(--text); font-size: 0.88rem; line-height: 1.8; }
+
+/* ===== DEFINITION BOX ===== */
+.def-box {
+  background: linear-gradient(135deg, rgba(43,188,212,0.1), rgba(43,188,212,0.04));
+  border: 1px solid var(--teal); border-left: 4px solid var(--teal);
+  border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 16px 0;
+}
+.def-box .def-label {
+  font-family: 'DM Mono', monospace; font-size: 0.65rem;
+  color: var(--teal); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
+}
+.def-box p, .def-box .math { color: var(--soft-white); font-size: 0.9rem; line-height: 1.9; }
+
+/* ===== MATH ===== */
+.math {
+  font-family: 'DM Mono', monospace; color: var(--gold);
+  background: rgba(245,197,24,0.08); border-radius: 4px;
+  padding: 2px 6px; font-size: 0.88rem;
+}
+.math-block {
+  display: block; text-align: center; padding: 12px 16px;
+  margin: 12px 0; background: rgba(245,197,24,0.06);
+  border: 1px solid rgba(245,197,24,0.2); border-radius: 8px;
+  font-family: 'DM Mono', monospace; color: var(--gold); font-size: 1rem;
+}
+
+/* ===== TRICK BOX ===== */
+.trick-box {
+  background: linear-gradient(135deg, rgba(255,107,157,0.08), transparent);
+  border: 1px solid rgba(255,107,157,0.3); border-left: 4px solid var(--rose);
+  border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 16px 0;
+}
+.trick-label { font-family: 'DM Mono', monospace; font-size: 0.65rem;
+  color: var(--rose); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+.trick-box p { color: var(--text); font-size: 0.88rem; line-height: 1.8; }
+
+/* ===== EXAMPLE BOX ===== */
+.example-box {
+  background: rgba(43,188,212,0.04); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; margin: 16px 0;
+}
+.example-box .ex-tag {
+  display: inline-block; background: var(--navy2); border: 1px solid var(--teal);
+  color: var(--teal); font-family: 'DM Mono', monospace; font-size: 0.65rem;
+  padding: 3px 10px; border-radius: 4px; margin-bottom: 12px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.solution-steps { margin-top: 12px; }
+.step {
+  display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start;
+}
+.step-num {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--teal);
+  color: var(--navy); font-size: 0.7rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+}
+.step p { color: var(--text); font-size: 0.87rem; line-height: 1.7; }
+
+/* ===== TABS ===== */
+.tabs { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+.tab {
+  padding: 8px 16px; border-radius: 6px; cursor: pointer;
+  font-size: 0.8rem; border: 1px solid var(--border);
+  color: var(--muted); transition: all 0.2s;
+  font-family: 'Noto Sans Bengali', sans-serif;
+}
+.tab:hover { color: var(--teal); border-color: var(--teal); }
+.tab.active { background: var(--teal); color: var(--navy); font-weight: 700; border-color: var(--teal); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ===== GRAPH CANVAS ===== */
+.graph-container {
+  background: rgba(11,21,37,0.8); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px; margin: 16px 0; position: relative;
+}
+.graph-title { color: var(--muted); font-size: 0.75rem; font-family: 'DM Mono', monospace;
+  margin-bottom: 8px; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+canvas { display: block; margin: 0 auto; border-radius: 8px; }
+.graph-controls { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.graph-btn {
+  padding: 6px 14px; background: transparent; border: 1px solid var(--border);
+  color: var(--text); border-radius: 6px; cursor: pointer; font-size: 0.78rem;
+  transition: all 0.2s;
+}
+.graph-btn:hover, .graph-btn.active { background: var(--teal); color: var(--navy); border-color: var(--teal); }
+
+/* ===== QUIZ ===== */
+.quiz-container { max-width: 700px; }
+.quiz-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.quiz-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.quiz-fill { height: 100%; background: var(--teal); transition: width 0.4s; border-radius: 3px; }
+.quiz-count { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+.quiz-question { 
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; margin-bottom: 16px;
+}
+.quiz-q-text { font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px; color: var(--soft-white); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer; transition: all 0.2s; font-size: 0.87rem;
+  color: var(--text); display: flex; align-items: center; gap: 10px;
+}
+.quiz-option:hover { border-color: var(--teal); color: var(--teal); background: rgba(43,188,212,0.06); }
+.quiz-option.correct { border-color: var(--success); background: rgba(74,222,128,0.1); color: var(--success); }
+.quiz-option.wrong { border-color: var(--error); background: rgba(248,113,113,0.1); color: var(--error); }
+.quiz-option.disabled { pointer-events: none; }
+.opt-letter {
+  width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 0.75rem; flex-shrink: 0;
+}
+.quiz-explanation {
+  display: none; margin-top: 12px; padding: 14px 18px;
+  background: rgba(43,188,212,0.06); border: 1px solid var(--border);
+  border-radius: 8px; font-size: 0.85rem; color: var(--text); line-height: 1.7;
+}
+.quiz-explanation.show { display: block; }
+.quiz-explanation .ex-head { color: var(--teal); font-weight: 600; margin-bottom: 6px; }
+.quiz-nav { display: flex; gap: 12px; margin-top: 16px; align-items: center; }
+.btn {
+  padding: 10px 22px; border-radius: 8px; cursor: pointer;
+  font-size: 0.85rem; font-weight: 600; transition: all 0.2s;
+  font-family: 'Noto Sans Bengali', sans-serif; border: none;
+}
+.btn-primary { background: var(--teal); color: var(--navy); }
+.btn-primary:hover { background: var(--teal2); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+.score-display {
+  text-align: center; padding: 40px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+}
+.score-big {
+  font-family: 'Syne', sans-serif; font-size: 4rem; font-weight: 800;
+  color: var(--teal); line-height: 1;
+}
+.score-label { color: var(--muted); font-size: 0.9rem; margin-top: 8px; margin-bottom: 24px; }
+
+/* ===== MISTAKE LAB ===== */
+.mistake-item {
+  background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.2);
+  border-left: 4px solid var(--error); border-radius: 0 12px 12px 0;
+  padding: 16px 20px; margin-bottom: 12px;
+}
+.mistake-title { color: var(--error); font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; }
+.mistake-item p { color: var(--text); font-size: 0.87rem; line-height: 1.7; }
+.fix-box {
+  background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.2);
+  border-radius: 8px; padding: 12px 16px; margin-top: 10px;
+}
+.fix-label { color: var(--success); font-size: 0.75rem; font-weight: 600; margin-bottom: 6px; }
+
+/* ===== GRID LAYOUT ===== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+@media(max-width: 900px) {
+  .sidenav { transform: translateX(-100%); }
+  .sidenav.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.5); }
+  .main { margin-left: 0; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  #menuToggle { display: inline-block !important; }
+  .page { padding: 20px 16px; }
+  .hero h1 { font-size: 2rem; }
+  .hero-cards { gap: 10px; }
+  .hero-card { min-width: 90px; padding: 12px; }
+  canvas { max-width: 100%; }
+}
+.nav-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 89; backdrop-filter: blur(2px);
+}
+.nav-overlay.show { display: block; }
+
+/* ===== SUMMARY TABLE ===== */
+.summary-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.85rem; }
+.summary-table th {
+  background: rgba(43,188,212,0.15); color: var(--teal);
+  padding: 10px 14px; text-align: left; border: 1px solid var(--border);
+  font-family: 'DM Mono', monospace; font-size: 0.75rem;
+}
+.summary-table td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text); line-height: 1.6; }
+.summary-table tr:hover td { background: rgba(43,188,212,0.04); }
+
+/* ===== BADGE ===== */
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.7rem;
+  font-family: 'DM Mono', monospace; font-weight: 600;
+}
+.badge-teal { background: rgba(43,188,212,0.15); color: var(--teal); border: 1px solid var(--teal); }
+.badge-gold { background: rgba(245,197,24,0.12); color: var(--gold); border: 1px solid var(--gold); }
+.badge-rose { background: rgba(255,107,157,0.12); color: var(--rose); border: 1px solid var(--rose); }
+.badge-green { background: rgba(74,222,128,0.12); color: var(--success); border: 1px solid var(--success); }
+
+/* ===== FLIP CARD ===== */
+.flip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin: 16px 0; }
+.flip-card { height: 130px; perspective: 1000px; cursor: pointer; }
+.flip-inner {
+  width: 100%; height: 100%; position: relative;
+  transform-style: preserve-3d; transition: transform 0.5s;
+}
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+  position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  padding: 14px; text-align: center; font-size: 0.83rem;
+}
+.flip-front {
+  background: var(--card); border: 1px solid var(--border); color: var(--text); flex-direction: column; gap: 8px;
+}
+.flip-back {
+  background: linear-gradient(135deg, rgba(43,188,212,0.12), rgba(43,188,212,0.06));
+  border: 1px solid var(--teal); color: var(--soft-white);
+  transform: rotateY(180deg);
+}
+.flip-front .flip-icon { font-size: 1.6rem; }
+.flip-hint { font-size: 0.65rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+/* ===== PROGRESS TRACKER ===== */
+.progress-bar-section {
+  display: flex; flex-direction: column; gap: 8px; margin: 16px 0;
+}
+.prog-row { display: flex; align-items: center; gap: 12px; }
+.prog-label { font-size: 0.82rem; color: var(--text); min-width: 180px; font-family: 'Noto Sans Bengali', sans-serif; }
+.prog-track { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 4px; transition: width 1.5s ease; }
+.prog-val { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); min-width: 30px; text-align: right; }
+
+/* ===== INTERACTIVE NUMBER LINE ===== */
+.num-line-container {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; margin: 16px 0;
+}
+.sign-table {
+  display: flex; gap: 0; margin: 16px 0; overflow-x: auto;
+}
+.sign-cell {
+  flex: 1; min-width: 60px; border: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center;
+}
+.sign-cell:first-child { border-radius: 8px 0 0 8px; }
+.sign-cell:last-child { border-radius: 0 8px 8px 0; }
+.sign-cell .sign-header {
+  background: rgba(43,188,212,0.1); color: var(--teal);
+  font-family: 'DM Mono', monospace; font-size: 0.7rem; padding: 6px;
+  width: 100%; text-align: center; border-bottom: 1px solid var(--border);
+}
+.sign-cell .sign-val {
+  padding: 10px 6px; font-size: 1.1rem; font-weight: 700;
+}
+.sign-pos { color: var(--success); }
+.sign-neg { color: var(--error); }
+.sign-zero { color: var(--muted); }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+@keyframes glow { 0%,100% { box-shadow:0 0 10px rgba(43,188,212,0.2); } 50% { box-shadow:0 0 25px rgba(43,188,212,0.5); } }
+.page.active .card, .page.active .def-box, .page.active .example-box {
+  animation: fadeUp 0.4s ease both;
+}
+.teal-glow { animation: glow 2s infinite; }
+
+/* ===== LOADING ===== */
+.page-loader {
+  position: fixed; inset:0; background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; transition: opacity 0.5s;
+}
+.loader-logo { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; }
+.loader-logo span:first-child { color: #fff; }
+.loader-logo span:last-child { color: var(--teal); }
+.loader-bar { width: 200px; height: 3px; background: var(--border); border-radius: 2px; margin-top: 16px; overflow: hidden; }
+.loader-fill { height: 100%; background: var(--teal); animation: loading 1.5s ease-in-out; }
+@keyframes loading { from { width:0; } to { width:100%; } }
+
+/* ===== MCQ PRACTICE ===== */
+.mcq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.mcq-opt {
+  padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer; transition: all 0.2s; font-size: 0.83rem; color: var(--text);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.mcq-opt:hover { border-color: var(--teal); color: var(--teal); background: rgba(43,188,212,0.05); }
+.mcq-opt.correct { border-color: var(--success); background: rgba(74,222,128,0.1); color: var(--success); }
+.mcq-opt.wrong { border-color: var(--error); background: rgba(248,113,113,0.1); color: var(--error); }
+.mcq-key { font-family: 'DM Mono', monospace; font-weight: 700; flex-shrink: 0; }
+@media(max-width: 600px) { .mcq-grid { grid-template-columns: 1fr; } }
+
+/* formula sheet */
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.formula-card {
+  background: rgba(245,197,24,0.04); border: 1px solid rgba(245,197,24,0.15);
+  border-radius: 10px; padding: 14px 18px;
+}
+.formula-card .fc-title { color: var(--gold); font-size: 0.78rem; font-weight: 600; margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+.formula-card .fc-math { color: var(--soft-white); font-family: 'DM Mono', monospace; font-size: 0.9rem; }
+.formula-card .fc-note { color: var(--muted); font-size: 0.78rem; margin-top: 6px; }
+
+/* sticky note */
+.sticky {
+  background: rgba(245,197,24,0.08); border: 1px solid rgba(245,197,24,0.25);
+  border-radius: 10px; padding: 14px 18px;
+}
+.sticky .sticky-head { color: var(--gold); font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; }
+
+/* number line visual */
+.nl-visual {
+  position: relative; margin: 20px 0 10px;
+  height: 40px; display: flex; align-items: center;
+}
+.nl-line {
+  position: absolute; left: 40px; right: 40px; height: 2px; background: var(--muted);
+}
+.nl-arrow-l, .nl-arrow-r {
+  position: absolute; top: 50%; width: 0; height: 0;
+  border-top: 7px solid transparent; border-bottom: 7px solid transparent;
+  transform: translateY(-50%);
+}
+.nl-arrow-l { left: 32px; border-right: 12px solid var(--muted); }
+.nl-arrow-r { right: 32px; border-left: 12px solid var(--muted); }
+.nl-point {
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  width: 12px; height: 12px; border-radius: 50%; background: var(--gold);
+  cursor: pointer;
+}
+.nl-point::after {
+  content: attr(data-label); position: absolute; top: 14px; left: 50%;
+  transform: translateX(-50%); font-size: 0.7rem; color: var(--gold);
+  font-family: 'DM Mono', monospace; white-space: nowrap;
+}
+.nl-region {
+  position: absolute; top: 30%; height: 40%;
+  opacity: 0.15; border-radius: 2px;
+}
+.nl-region.inc { background: var(--success); }
+.nl-region.dec { background: var(--error); }
+
+/* collapsible */
+.collapsible { margin-bottom: 10px; }
+.coll-header {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 18px;
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; transition: all 0.2s;
+}
+.coll-header:hover { border-color: var(--teal); }
+.coll-header.open { border-radius: 10px 10px 0 0; border-color: var(--teal); }
+.coll-title { font-size: 0.9rem; color: var(--soft-white); }
+.coll-arrow { color: var(--teal); font-size: 1rem; transition: transform 0.3s; }
+.coll-header.open .coll-arrow { transform: rotate(180deg); }
+.coll-body {
+  display: none; padding: 16px 18px;
+  background: rgba(43,188,212,0.03); border: 1px solid var(--teal);
+  border-top: none; border-radius: 0 0 10px 10px;
+}
+.coll-body.show { display: block; }
+
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="page-loader" id="loader">
+  <div style="text-align:center">
+    <div class="loader-logo"><span>MATH</span><span>Lands.</span></div>
+    <div style="color:var(--muted);font-size:0.75rem;font-family:'DM Mono',monospace;margin-top:6px;letter-spacing:2px;">LOADING CHAPTER 6</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<nav class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button id="menuToggle" onclick="toggleMenu()" style="display:none;background:transparent;border:1px solid var(--border);color:var(--teal);padding:6px 10px;border-radius:6px;cursor:pointer;font-size:1rem">☰</button>
+    <div class="logo-text"><span>MATH</span><span>Lands.</span></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted)">Class 12 · Unit 3</span>
+    <div class="chapter-badge">Chapter 6</div>
+  </div>
+</nav>
+
+<!-- NAV OVERLAY (mobile) -->
+<div class="nav-overlay" id="navOverlay" onclick="toggleMenu()"></div>
+
+<!-- SIDE NAV -->
+<nav class="sidenav" id="sidenav">
+  <div class="nav-section">Navigate</div>
+  <div class="nav-item active" onclick="showPage('home')"><div class="nav-dot"></div>🏠 হোম</div>
+  <div class="nav-section">বোঝো</div>
+  <div class="nav-item" onclick="showPage('concept1')"><div class="nav-dot"></div>একসিন অপেক্ষক</div>
+  <div class="nav-item" onclick="showPage('concept2')"><div class="nav-dot"></div>অন্তরকলজের তাৎপর্য</div>
+  <div class="nav-item" onclick="showPage('feel')"><div class="nav-dot"></div>📈 Feel করো</div>
+  <div class="nav-section">অনুশীলন</div>
+  <div class="nav-item" onclick="showPage('examples')"><div class="nav-dot"></div>🔢 উদাহরণ সমূহ</div>
+  <div class="nav-item" onclick="showPage('tricks')"><div class="nav-dot"></div>⚡ Short Tricks</div>
+  <div class="nav-item" onclick="showPage('mistakes')"><div class="nav-dot"></div>❌ ভুল থেকে শিখি</div>
+  <div class="nav-section">টেস্ট</div>
+  <div class="nav-item" onclick="showPage('mcq')"><div class="nav-dot"></div>📋 MCQ Practice</div>
+  <div class="nav-item" onclick="showPage('quiz')"><div class="nav-dot"></div>🏆 Full Quiz</div>
+  <div class="nav-section">রিভিশন</div>
+  <div class="nav-item" onclick="showPage('formula')"><div class="nav-dot"></div>📌 Formula Sheet</div>
+  <div class="nav-item" onclick="showPage('flashcard')"><div class="nav-dot"></div>🃏 Flashcards</div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ============ HOME ============ -->
+<section class="page active" id="home">
+  <div class="hero">
+    <div class="hero-tag">MATHLands · Class 12 · Chapter 6</div>
+    <h1><span class="bn">বর্ধিষ্ণু ও ক্ষয়িষ্ণু</span><br>অপেক্ষক</h1>
+    <div class="hero-sub">Increasing and Decreasing Functions</div>
+    <p class="hero-desc">Basic থেকে Advanced — একদিষ্ট অপেক্ষক, Derivative Test, Number Line Method সব কিছু এক জায়গায়। Feel করো, বোঝো, Apply করো।</p>
+    <div class="hero-cards">
+      <div class="hero-card" onclick="showPage('concept1')">
+        <div class="icon">📐</div>
+        <div class="label">সংজ্ঞা ও তত্ত্ব</div>
+      </div>
+      <div class="hero-card" onclick="showPage('feel')">
+        <div class="icon">📈</div>
+        <div class="label">Graph Feel</div>
+      </div>
+      <div class="hero-card" onclick="showPage('examples')">
+        <div class="icon">🔢</div>
+        <div class="label">Solved Examples</div>
+      </div>
+      <div class="hero-card" onclick="showPage('tricks')">
+        <div class="icon">⚡</div>
+        <div class="label">Short Tricks</div>
+      </div>
+      <div class="hero-card" onclick="showPage('quiz')">
+        <div class="icon">🏆</div>
+        <div class="label">Quiz দাও</div>
+      </div>
+      <div class="hero-card" onclick="showPage('formula')">
+        <div class="icon">📌</div>
+        <div class="label">Formula Sheet</div>
+      </div>
+    </div>
+    <button class="btn-start" onclick="showPage('concept1')">শুরু করো →</button>
+    <div style="margin-top:32px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+      <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--teal)">6</div><div style="font-size:0.7rem;color:var(--muted)">Topics</div></div>
+      <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--gold)">20+</div><div style="font-size:0.7rem;color:var(--muted)">Solved Examples</div></div>
+      <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--rose)">15</div><div style="font-size:0.7rem;color:var(--muted)">MCQ Questions</div></div>
+      <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--success)">8</div><div style="font-size:0.7rem;color:var(--muted)">Common Mistakes</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONCEPT 1 ============ -->
+<section class="page" id="concept1">
+  <div class="section-header">
+    <div class="section-num">6.1</div>
+    <div>
+      <div class="section-title">একদিষ্ট অপেক্ষক</div>
+      <div class="section-subtitle">একদিষ্ট অপেক্ষক — সংজ্ঞা & Types</div>
+    </div>
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">Basic Idea</div>
+    <p>মনে করো, <span class="math">y = f(x)</span> একটি অপেক্ষক। <span class="math">[a, b]</span> অঞ্চলে <span class="math">x₁</span> এবং <span class="math">x₂</span> দুটো বিন্দু নিলাম যেখানে <span class="math">x₁ < x₂</span>।</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">⬆️ বর্ধিষ্ণু (Increasing) অপেক্ষক</div>
+      <p>যদি <span class="math">x₁ < x₂ ⟹ f(x₁) ≤ f(x₂)</span> হয়, তাহলে <strong>f বর্ধিষ্ণু</strong>।</p>
+      <br>
+      <div style="background:rgba(74,222,128,0.08);border-radius:8px;padding:10px 14px;margin-top:8px">
+        <div style="font-size:0.75rem;color:var(--success);font-weight:600;margin-bottom:4px">সহজ কথায়</div>
+        <p style="color:var(--text);font-size:0.85rem">x বাড়লে y ও বাড়ে — গ্রাফ উপরে উঠে যায় 📈</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">⬇️ ক্ষয়িষ্ণু (Decreasing) অপেক্ষক</div>
+      <p>যদি <span class="math">x₁ < x₂ ⟹ f(x₁) ≥ f(x₂)</span> হয়, তাহলে <strong>f ক্ষয়িষ্ণু</strong>।</p>
+      <br>
+      <div style="background:rgba(248,113,113,0.08);border-radius:8px;padding:10px 14px;margin-top:8px">
+        <div style="font-size:0.75rem;color:var(--error);font-weight:600;margin-bottom:4px">সহজ কথায়</div>
+        <p style="color:var(--text);font-size:0.85rem">x বাড়লে y কমে — গ্রাফ নিচে নেমে যায় 📉</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0">
+    <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--soft-white);margin-bottom:12px">চার ধরনের একদিষ্ট অপেক্ষক</div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>ধরন</th><th>শর্ত</th><th>Strict?</th><th>উদাহরণ</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-green">একদিষ্ট বর্ধিষ্ণু</span></td>
+          <td><span class="math">x₁ < x₂ ⟹ f(x₁) ≤ f(x₂)</span></td>
+          <td>না (≤)</td>
+          <td><span class="math">f(x) = c</span> (constant)</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-teal">Strictly Increasing</span></td>
+          <td><span class="math">x₁ < x₂ ⟹ f(x₁) < f(x₂)</span></td>
+          <td>হ্যাঁ (<)</td>
+          <td><span class="math">f(x) = x³</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-rose">একদিষ্ট ক্ষয়িষ্ণু</span></td>
+          <td><span class="math">x₁ < x₂ ⟹ f(x₁) ≥ f(x₂)</span></td>
+          <td>না (≥)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-gold">Strictly Decreasing</span></td>
+          <td><span class="math">x₁ < x₂ ⟹ f(x₁) > f(x₂)</span></td>
+          <td>হ্যাঁ (>)</td>
+          <td><span class="math">f(x) = 1/x, x>0</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-tag">উদাহরণ ১ — WBCHSE Style</div>
+    <p style="color:var(--soft-white);font-size:0.9rem">দেখাও যে <span class="math">f(x) = (3x+5)/(x+2)</span> অপেক্ষকটি <span class="math">[0,∞)</span> বিস্তারে যথার্থ একটি আরোহী অপেক্ষক।</p>
+    <div class="solution-steps">
+      <div class="step">
+        <div class="step-num">১</div>
+        <p><strong>ধরি</strong> <span class="math">0 ≤ x₁ < x₂</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num">২</div>
+        <p><strong>হিসাব করি:</strong> <span class="math">f(x₂) - f(x₁) = (3x₂+5)/(x₂+2) - (3x₁+5)/(x₁+2)</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num">৩</div>
+        <p><strong>সরল করলে:</strong> <span class="math">= (x₂ - x₁) / [(x₂+2)(x₁+2)]</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num">৪</div>
+        <p><strong>যেহেতু</strong> <span class="math">x₁ < x₂</span>, তাই <span class="math">x₂ - x₁ > 0</span>, এবং <span class="math">(x₂+2)(x₁+2) > 0</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num">✓</div>
+        <p style="color:var(--success)"><strong>সুতরাং</strong> <span class="math">f(x₂) - f(x₁) > 0</span>, অর্থাৎ <span class="math">f(x₂) > f(x₁)</span> — প্রমাণিত ✅</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-tag">উদাহরণ ২ — NCERT</div>
+    <p style="color:var(--soft-white);font-size:0.9rem">প্রমাণ করো যে <span class="math">[0, π]</span> বিস্তারে <span class="math">φ(x) = cos x</span> একটি যথার্থ অবরোহী অপেক্ষক।</p>
+    <div class="solution-steps">
+      <div class="step">
+        <div class="step-num">১</div>
+        <p><strong>ধরি</strong> <span class="math">0 ≤ x₁ < x₂ ≤ π</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num">২</div>
+        <p><span class="math">φ(x₂) - φ(x₁) = cos x₂ - cos x₁</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num">৩</div>
+        <p><span class="math">= -2 sin((x₁+x₂)/2) · sin((x₂-x₁)/2)</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num">৪</div>
+        <p>যেহেতু <span class="math">0 < (x₁+x₂)/2 < π</span>, তাই <span class="math">sin((x₁+x₂)/2) > 0</span><br>এবং <span class="math">sin((x₂-x₁)/2) > 0</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num">✓</div>
+        <p style="color:var(--success)"><span class="math">φ(x₂) - φ(x₁) < 0</span>, অতএব <span class="math">φ(x₂) < φ(x₁)</span> — <strong>অবরোহী প্রমাণিত ✅</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:right;margin-top:20px">
+    <button class="btn btn-primary" onclick="showPage('concept2')">পরের টপিক → অন্তরকলজের তাৎপর্য</button>
+  </div>
+</section>
+
+<!-- ============ CONCEPT 2 ============ -->
+<section class="page" id="concept2">
+  <div class="section-header">
+    <div class="section-num">6.2</div>
+    <div>
+      <div class="section-title">অন্তরকলজের তাৎপর্য</div>
+      <div class="section-subtitle">Meaning of Derivative — The Key Theorem</div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:var(--teal)">
+    <div class="card-title" style="font-size:1rem">🎯 মূল উপপাদ্য (The Big Theorem)</div>
+    <p style="font-size:0.92rem;line-height:1.9">যদি <span class="math">f</span> অপেক্ষকটি <span class="math">[a, b]</span> অঞ্চলে সংতত এবং <span class="math">(a, b)</span> এর প্রতিটি বিন্দুতে অন্তরকলযোগ্য হয়, তাহলে:</p>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px">
+    <div class="def-box">
+      <div class="def-label">বর্ধিষ্ণুর শর্ত</div>
+      <p><strong>(a, b)-তে f বর্ধিষ্ণু হবে</strong> যদি এবং কেবলমাত্র যদি সকল <span class="math">x ∈ (a, b)</span>-এর জন্য</p>
+      <div class="math-block">f'(x) ≥ 0</div>
+      <p style="font-size:0.8rem;color:var(--muted)">Strictly increasing এর জন্য f'(x) > 0</p>
+    </div>
+    <div class="def-box" style="border-color:var(--rose)">
+      <div class="def-label" style="color:var(--rose)">ক্ষয়িষ্ণুর শর্ত</div>
+      <p><strong>(a, b)-তে f ক্ষয়িষ্ণু হবে</strong> যদি এবং কেবলমাত্র যদি সকল <span class="math">x ∈ (a, b)</span>-এর জন্য</p>
+      <div class="math-block" style="border-color:rgba(255,107,157,0.3);background:rgba(255,107,157,0.06);color:var(--rose)">f'(x) ≤ 0</div>
+      <p style="font-size:0.8rem;color:var(--muted)">Strictly decreasing এর জন্য f'(x) < 0</p>
+    </div>
+  </div>
+
+  <div class="trick-box" style="margin-top:20px">
+    <div class="trick-label">💡 Visual Intuition</div>
+    <p><strong>f'(x) = slope of tangent</strong> — স্পর্শকের ঢাল।</p>
+    <p style="margin-top:6px">📈 <strong>ধনাত্মক ঢাল (f' > 0)</strong> → ফাংশন উপরে উঠছে → বর্ধিষ্ণু</p>
+    <p style="margin-top:4px">📉 <strong>ঋণাত্মক ঢাল (f' < 0)</strong> → ফাংশন নিচে নামছে → ক্ষয়িষ্ণু</p>
+    <p style="margin-top:4px">➡️ <strong>শূন্য ঢাল (f' = 0)</strong> → সমতল → neutral point</p>
+  </div>
+
+  <div style="margin:24px 0 12px"><div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--soft-white)">Standard Method — Number Line (সংখ্যারেখা পদ্ধতি)</div></div>
+
+  <div class="card">
+    <div class="card-title">📋 ধাপে ধাপে পদ্ধতি</div>
+    <div class="solution-steps">
+      <div class="step"><div class="step-num">১</div><p><strong>f'(x) বের করো</strong> — f(x) কে x এর সাপেক্ষে differentiate করো</p></div>
+      <div class="step"><div class="step-num">২</div><p><strong>Critical points খোঁজো</strong> — f'(x) = 0 সমীকরণ সমাধান করো এবং যেখানে f'(x) অপরিভাষিত সেই বিন্দু নাও</p></div>
+      <div class="step"><div class="step-num">৩</div><p><strong>Number line বাও</strong> — Critical points গুলো number line এ বসাও</p></div>
+      <div class="step"><div class="step-num">৪</div><p><strong>চিহ্ন পরীক্ষা করো</strong> — প্রতিটি interval থেকে একটি মান নিয়ে f'(x) এর চিহ্ন দেখো</p></div>
+      <div class="step"><div class="step-num">৫</div><p><strong>সিদ্ধান্ত নাও</strong> — (+) হলে বর্ধিষ্ণু, (−) হলে ক্ষয়িষ্ণু</p></div>
+    </div>
+  </div>
+
+  <div style="margin:20px 0 12px"><div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--soft-white)">Interactive উদাহরণ — Number Line Method</div></div>
+
+  <div class="num-line-container">
+    <div style="color:var(--soft-white);font-size:0.9rem;margin-bottom:12px">নিচের function গুলো থেকে একটি select করো:</div>
+    <div class="tabs" id="nlTabs">
+      <div class="tab active" onclick="showNL(0)">f(x) = x² - 4x + 3</div>
+      <div class="tab" onclick="showNL(1)">f(x) = x³ - 3x² + 4x</div>
+      <div class="tab" onclick="showNL(2)">f(x) = 2x³ - 9x² - 24x + 5</div>
+    </div>
+    <div id="nlContent"></div>
+  </div>
+
+  <div style="text-align:right;margin-top:20px">
+    <button class="btn btn-primary" onclick="showPage('feel')">Graph Feel করো →</button>
+  </div>
+</section>
+
+<!-- ============ FEEL ============ -->
+<section class="page" id="feel">
+  <div class="section-header">
+    <div class="section-num">📈</div>
+    <div>
+      <div class="section-title">Graph দেখে Feel করো</div>
+      <div class="section-subtitle">Visual Understanding of Increasing & Decreasing</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">Interactive Graph Explorer</div>
+    <p>নিচের function গুলো দেখো — কোথায় বর্ধিষ্ণু, কোথায় ক্ষয়িষ্ণু সেটা রঙ দিয়ে দেখানো হয়েছে।</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchGraph('quadratic')">x² - 4x + 3</div>
+    <div class="tab" onclick="switchGraph('cubic')">x³ - 3x² + 4x</div>
+    <div class="tab" onclick="switchGraph('sine')">sin x</div>
+    <div class="tab" onclick="switchGraph('exp')">eˣ</div>
+    <div class="tab" onclick="switchGraph('logx')">log x</div>
+  </div>
+
+  <div class="graph-container teal-glow">
+    <div class="graph-title" id="graphTitle">f(x) = x² - 4x + 3</div>
+    <canvas id="mainCanvas" width="650" height="300"></canvas>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px">
+    <div id="incInfo" class="card" style="border-color:var(--success)">
+      <div class="card-title" style="color:var(--success)">📈 বর্ধিষ্ণু অঞ্চল</div>
+      <p id="incText" style="font-family:'DM Mono',monospace;color:var(--success)">x ∈ [2, ∞)</p>
+    </div>
+    <div id="decInfo" class="card" style="border-color:var(--error)">
+      <div class="card-title" style="color:var(--error)">📉 ক্ষয়িষ্ণু অঞ্চল</div>
+      <p id="decText" style="font-family:'DM Mono',monospace;color:var(--error)">x ∈ (-∞, 2]</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="card-title">🔑 কেন এই অঞ্চলে?</div>
+    <p id="whyText">f'(x) = 2x - 4। f'(x) = 0 হলে x = 2। x < 2 তে f'(x) < 0 (ক্ষয়িষ্ণু), x > 2 তে f'(x) > 0 (বর্ধিষ্ণু)।</p>
+  </div>
+
+  <div style="margin:28px 0 12px">
+    <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--soft-white)">Tangent Slope Visualizer</div>
+    <p style="color:var(--muted);font-size:0.82rem;margin-top:4px">Slider টানো — <span style="color:var(--teal);font-weight:600" id="tangentFnLabel">f(x) = x² − 4x + 3</span> এর tangent line এর ঢাল কীভাবে পরিবর্তন হচ্ছে দেখো</p>
+  </div>
+
+  <div class="graph-container">
+    <canvas id="tangentCanvas" width="650" height="280"></canvas>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:12px;padding:0 4px">
+      <span style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--muted)">x =</span>
+      <input type="range" id="xSlider" min="-4" max="6" step="0.05" value="0"
+        style="flex:1;accent-color:var(--teal);" oninput="updateTangent()">
+      <span id="xVal" style="font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--teal);min-width:55px">x = 0.00</span>
+    </div>
+    <div style="display:flex;gap:24px;justify-content:center;margin-top:10px;flex-wrap:wrap">
+      <span id="slopeInfo" style="font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--gold)">f'(x) = —</span>
+      <span id="slopeStatus" style="font-size:0.85rem;font-weight:600">—</span>
+      <span id="yVal" style="font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--muted)">f(x) = —</span>
+    </div>
+  </div>
+
+  <div style="text-align:right;margin-top:20px">
+    <button class="btn btn-primary" onclick="showPage('examples')">উদাহরণ দেখো →</button>
+  </div>
+</section>
+
+<!-- ============ EXAMPLES ============ -->
+<section class="page" id="examples">
+  <div class="section-header">
+    <div class="section-num">🔢</div>
+    <div>
+      <div class="section-title">উদাহরণ সমূহ</div>
+      <div class="section-subtitle">Board & NCERT Solved Examples</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('ex-basic','exTabs')">Basic</div>
+    <div class="tab" onclick="switchTab('ex-medium','exTabs')">Medium</div>
+    <div class="tab" onclick="switchTab('ex-hard','exTabs')">Advanced</div>
+    <div class="tab" onclick="switchTab('ex-board','exTabs')">Board Questions</div>
+  </div>
+
+  <!-- BASIC -->
+  <div class="tab-content active" id="ex-basic">
+    <div class="example-box">
+      <div class="ex-tag">উদাহরণ ১ — WBCHSE</div>
+      <p style="color:var(--soft-white);font-size:0.9rem"><strong>f(x) = 3x² - 6x + 4</strong> অপেক্ষকটির বর্ধিষ্ণু ও ক্ষয়িষ্ণু বিস্তার নির্ণয় করো।</p>
+      <div class="solution-steps">
+        <div class="step"><div class="step-num">১</div><p>f'(x) = 6x - 6 = 6(x - 1)</p></div>
+        <div class="step"><div class="step-num">২</div><p>f'(x) = 0 ⟹ x = 1 (Critical point)</p></div>
+        <div class="step"><div class="step-num">৩</div>
+          <p>Number Line:</p>
+          <div style="display:flex;gap:0;margin:8px 0;font-family:'DM Mono',monospace;font-size:0.82rem">
+            <div style="flex:1;text-align:center;padding:8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:6px 0 0 6px">
+              <div style="color:var(--error)">x < 1</div>
+              <div style="color:var(--error)">f'(x) < 0 (−)</div>
+              <div style="font-size:0.7rem;color:var(--muted)">ক্ষয়িষ্ণু 📉</div>
+            </div>
+            <div style="padding:8px 12px;background:rgba(245,197,24,0.1);border:1px solid rgba(245,197,24,0.3);display:flex;align-items:center">
+              <span style="color:var(--gold)">x=1<br>f'=0</span>
+            </div>
+            <div style="flex:1;text-align:center;padding:8px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:0 6px 6px 0">
+              <div style="color:var(--success)">x > 1</div>
+              <div style="color:var(--success)">f'(x) > 0 (+)</div>
+              <div style="font-size:0.7rem;color:var(--muted)">বর্ধিষ্ণু 📈</div>
+            </div>
+          </div>
+        </div>
+        <div class="step"><div class="step-num">✓</div><p style="color:var(--success)"><strong>বর্ধিষ্ণু:</strong> x ∈ [1, ∞) &nbsp;|&nbsp; <strong>ক্ষয়িষ্ণু:</strong> x ∈ (-∞, 1]</p></div>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-tag">উদাহরণ ২ — x-এর বৃদ্ধির সাথে</div>
+      <p style="color:var(--soft-white);font-size:0.9rem">দেখাও যে <strong>f(x) = x³ - 3x² + 4x</strong> -এর মান সর্বদা বৃদ্ধি পায়। (NCERT)</p>
+      <div class="solution-steps">
+        <div class="step"><div class="step-num">১</div><p>f'(x) = 3x² - 6x + 4 = 3(x² - 2x + 1) + 1 = 3(x-1)² + 1</p></div>
+        <div class="step"><div class="step-num">২</div><p>যেহেতু <span class="math">(x-1)² ≥ 0</span>, তাই <span class="math">3(x-1)² + 1 ≥ 1 > 0</span></p></div>
+        <div class="step"><div class="step-num">✓</div><p style="color:var(--success)">সুতরাং f'(x) > 0 সকল x-এর জন্য — f সর্বদা বর্ধিষ্ণু ✅</p></div>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-tag">উদাহরণ ৩ — Trigonometric</div>
+      <p style="color:var(--soft-white);font-size:0.9rem"><strong>f(x) = sin x + cos x</strong> অপেক্ষকটি বর্ধিষ্ণু ও ক্ষয়িষ্ণু কখন?</p>
+      <div class="solution-steps">
+        <div class="step"><div class="step-num">১</div><p>f'(x) = cos x - sin x = √2 cos(x + π/4)</p></div>
+        <div class="step"><div class="step-num">২</div><p>f'(x) > 0 যখন cos(x + π/4) > 0, অর্থাৎ x ∈ (-π/4, 3π/4) তে বর্ধিষ্ণু</p></div>
+        <div class="step"><div class="step-num">৩</div><p>f'(x) < 0 যখন x ∈ (3π/4, 7π/4) তে ক্ষয়িষ্ণু</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="tab-content" id="ex-medium">
+    <div class="example-box">
+      <div class="ex-tag">উদাহরণ ৪ — Rational Function</div>
+      <p style="color:var(--soft-white);font-size:0.9rem"><strong>f(x) = (4x²+1)/x</strong> অপেক্ষকটির বর্ধিষ্ণু ও ক্ষয়িষ্ণু বিস্তার নির্ণয় করো।</p>
+      <div class="solution-steps">
+        <div class="step"><div class="step-num">১</div><p>f(x) = 4x + 1/x → f'(x) = 4 - 1/x² = (4x² - 1)/x²</p></div>
+        <div class="step"><div class="step-num">২</div><p>f'(x) = 0 → 4x² = 1 → x = ±1/2</p></div>
+        <div class="step"><div class="step-num">৩</div><p>Critical points: x = -1/2, x = 0 (undefined), x = 1/2</p></div>
+        <div class="step"><div class="step-num">৪</div>
+          <p>Sign Analysis:</p>
+          <div style="font-family:'DM Mono',monospace;font-size:0.78rem;margin:8px 0;display:flex;gap:0">
+            <div style="flex:1;text-align:center;padding:8px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:6px 0 0 6px"><div style="color:var(--success)">x < -1/2</div><div>f' > 0 (+)</div><div style="font-size:0.7rem;color:var(--muted)">বর্ধিষ্ণু</div></div>
+            <div style="padding:8px 10px;background:rgba(245,197,24,0.08);border:1px solid rgba(245,197,24,0.3);display:flex;align-items:center;font-size:0.7rem;color:var(--gold)">-1/2</div>
+            <div style="flex:1;text-align:center;padding:8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3)"><div style="color:var(--error)">-1/2 < x < 0</div><div>f' < 0</div><div style="font-size:0.7rem;color:var(--muted)">ক্ষয়িষ্ণু</div></div>
+            <div style="padding:8px 10px;background:rgba(255,107,157,0.08);border:1px solid rgba(255,107,157,0.3);display:flex;align-items:center;font-size:0.7rem;color:var(--rose)">0</div>
+            <div style="flex:1;text-align:center;padding:8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3)"><div style="color:var(--error)">0 < x < 1/2</div><div>f' < 0</div><div style="font-size:0.7rem;color:var(--muted)">ক্ষয়িষ্ণু</div></div>
+            <div style="padding:8px 10px;background:rgba(245,197,24,0.08);border:1px solid rgba(245,197,24,0.3);display:flex;align-items:center;font-size:0.7rem;color:var(--gold)">1/2</div>
+            <div style="flex:1;text-align:center;padding:8px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:0 6px 6px 0"><div style="color:var(--success)">x > 1/2</div><div>f' > 0</div><div style="font-size:0.7rem;color:var(--muted)">বর্ধিষ্ণু</div></div>
+          </div>
+        </div>
+        <div class="step"><div class="step-num">✓</div>
+          <p style="color:var(--success)">
+            <strong>বর্ধিষ্ণু:</strong> (-∞, -1/2] ∪ [1/2, ∞)<br>
+            <strong>ক্ষয়িষ্ণু:</strong> [-1/2, 0) ∪ (0, 1/2]
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-tag">উদাহরণ ৫ — f(x) = x³ + 1/x³</div>
+      <p style="color:var(--soft-white);font-size:0.9rem"><strong>f(x) = x³ + 1/x³</strong> (x ≠ 0) — বর্ধিষ্ণু ও ক্ষয়িষ্ণু নির্ণয় করো। (NCERT/CBSE)</p>
+      <div class="solution-steps">
+        <div class="step"><div class="step-num">১</div><p>f'(x) = 3x² - 3/x⁴ = (3/x⁴)(x⁶ - 1) = (3/x⁴)(x²-1)(x⁴+x²+1)</p></div>
+        <div class="step"><div class="step-num">২</div><p>x⁴ > 0 এবং (x⁴+x²+1) > 0 সর্বদা। তাই চিহ্ন নির্ভর করে (x²-1) এর উপর।</p></div>
+        <div class="step"><div class="step-num">৩</div><p>x² > 1 → |x| > 1 → f' > 0 (বর্ধিষ্ণু)<br>x² < 1 → |x| < 1 → f' < 0 (ক্ষয়িষ্ণু)</p></div>
+        <div class="step"><div class="step-num">✓</div>
+          <p style="color:var(--success)"><strong>বর্ধিষ্ণু:</strong> (-∞,-1] ∪ [1,∞) &nbsp;|&nbsp; <strong>ক্ষয়িষ্ণু:</strong> [-1,0) ∪ (0,1]</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HARD -->
+  <div class="tab-content" id="ex-hard">
+    <div class="example-box">
+      <div class="ex-tag">উদাহরণ ৬ — Parametric</div>
+      <p style="color:var(--soft-white);font-size:0.9rem">যদি a পরামিতির কোন মানের জন্য <strong>f(x) = ax³ + 3x² + (2a+1)x + 1000</strong> যথার্থ ক্ষয়িষ্ণু?</p>
+      <div class="solution-steps">
+        <div class="step"><div class="step-num">১</div><p>f'(x) = 3ax² + 6x + (2a+1)</p></div>
+        <div class="step"><div class="step-num">২</div><p>f সর্বদা ক্ষয়িষ্ণু হতে হলে f'(x) ≤ 0 সর্বত্র হতে হবে।</p></div>
+        <div class="step"><div class="step-num">৩</div><p>এটা Quadratic (a < 0 হলে)। তাই: a < 0 এবং Discriminant ≤ 0</p></div>
+        <div class="step"><div class="step-num">৪</div><p>D = 36 - 12a(2a+1) ≤ 0 → 36 - 24a² - 12a ≤ 0 → 2a² + a - 3 ≥ 0</p></div>
+        <div class="step"><div class="step-num">৫</div><p>(2a+3)(a-1) ≥ 0 → a ≤ -3/2 বা a ≥ 1</p></div>
+        <div class="step"><div class="step-num">✓</div><p style="color:var(--success)">a < 0 এবং a ≤ -3/2 → <strong>a ≤ -3/2</strong></p></div>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-tag">উদাহরণ ৭ — Trigonometric Inequality</div>
+      <p style="color:var(--soft-white);font-size:0.9rem">প্রমাণ করো যে x > 0 হলে <strong>log(1+x) > x/(1+x)</strong></p>
+      <div class="solution-steps">
+        <div class="step"><div class="step-num">১</div><p>ধরি f(x) = log(1+x) - x/(1+x), তাহলে f(0) = 0</p></div>
+        <div class="step"><div class="step-num">২</div><p>f'(x) = 1/(1+x) - [(1+x)-x]/(1+x)² = 1/(1+x) - 1/(1+x)² = x/(1+x)²</p></div>
+        <div class="step"><div class="step-num">৩</div><p>x > 0 হলে f'(x) > 0, অতএব f বর্ধিষ্ণু।</p></div>
+        <div class="step"><div class="step-num">✓</div><p style="color:var(--success)">f(x) > f(0) = 0, অতএব log(1+x) > x/(1+x) ✅</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOARD -->
+  <div class="tab-content" id="ex-board">
+    <div class="card" style="border-color:var(--gold)">
+      <div class="card-title" style="color:var(--gold)">📋 HS Board Previous Year Questions</div>
+      <p style="color:var(--muted);font-size:0.83rem">এই প্রশ্নগুলো আগে নিজে solve করার চেষ্টা করো, তারপর hint দেখো।</p>
+    </div>
+
+    <div class="collapsible">
+      <div class="coll-header" onclick="toggleColl(this)">
+        <span class="coll-title">[HS '12] f:[0,2]→R, f(x)=x³-3x কোন পরিসরে ক্রমহ্রাসমান?</span>
+        <span class="coll-arrow">▼</span>
+      </div>
+      <div class="coll-body">
+        <div class="solution-steps">
+          <div class="step"><div class="step-num">১</div><p>f'(x) = 3x² - 3 = 3(x²-1) = 3(x-1)(x+1)</p></div>
+          <div class="step"><div class="step-num">২</div><p>f'(x) < 0 যখন (x-1)(x+1) < 0 → -1 < x < 1</p></div>
+          <div class="step"><div class="step-num">✓</div><p style="color:var(--success)">[0,2] তে ক্রমহ্রাসমান বিস্তার: <strong>(0,1)</strong> উত্তর: <strong>(B) (0,1)</strong></p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="coll-header" onclick="toggleColl(this)">
+        <span class="coll-title">[HS '15] f(x) = μx - sin x, x>0 সমস্তক ক্রমবর্ধমান হলে μ-এর মান?</span>
+        <span class="coll-arrow">▼</span>
+      </div>
+      <div class="coll-body">
+        <div class="solution-steps">
+          <div class="step"><div class="step-num">১</div><p>f'(x) = μ - cos x</p></div>
+          <div class="step"><div class="step-num">২</div><p>সর্বদা বর্ধিষ্ণু হতে হলে f'(x) ≥ 0 সর্বত্র, অর্থাৎ μ - cos x ≥ 0 সর্বত্র</p></div>
+          <div class="step"><div class="step-num">৩</div><p>cos x এর সর্বোচ্চ মান 1, তাই μ ≥ 1</p></div>
+          <div class="step"><div class="step-num">✓</div><p style="color:var(--success)"><strong>উত্তর: μ ≥ 1</strong></p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="coll-header" onclick="toggleColl(this)">
+        <span class="coll-title">[HS Model '24] f(x) = 2x³-3x²-36x+7 — বর্ধিষ্ণু ও ক্ষয়িষ্ণু বিস্তার নির্ণয়</span>
+        <span class="coll-arrow">▼</span>
+      </div>
+      <div class="coll-body">
+        <div class="solution-steps">
+          <div class="step"><div class="step-num">১</div><p>f'(x) = 6x² - 6x - 36 = 6(x² - x - 6) = 6(x-3)(x+2)</p></div>
+          <div class="step"><div class="step-num">২</div><p>Critical points: x = -2, x = 3</p></div>
+          <div class="step"><div class="step-num">৩</div><p>x < -2: f' > 0 (বর্ধিষ্ণু) | -2 < x < 3: f' < 0 (ক্ষয়িষ্ণু) | x > 3: f' > 0 (বর্ধিষ্ণু)</p></div>
+          <div class="step"><div class="step-num">✓</div><p style="color:var(--success)"><strong>বর্ধিষ্ণু:</strong> (-∞,-2] ∪ [3,∞) &nbsp;|&nbsp; <strong>ক্ষয়িষ্ণু:</strong> [-2,3]</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="coll-header" onclick="toggleColl(this)">
+        <span class="coll-title">f(x) = 10-9x+6x²-x³ — একদিষ্ট বিস্তার নির্ণয় করো</span>
+        <span class="coll-arrow">▼</span>
+      </div>
+      <div class="coll-body">
+        <div class="solution-steps">
+          <div class="step"><div class="step-num">১</div><p>f'(x) = -9 + 12x - 3x² = -3(x²-4x+3) = -3(x-1)(x-3)</p></div>
+          <div class="step"><div class="step-num">২</div><p>Critical points: x = 1, x = 3</p></div>
+          <div class="step"><div class="step-num">৩</div><p>x < 1: f' = -3(−)(−) = -3(+) < 0 ক্ষয়িষ্ণু<br>1 < x < 3: f' = -3(+)(−) > 0 বর্ধিষ্ণু<br>x > 3: f' = -3(+)(+) < 0 ক্ষয়িষ্ণু</p></div>
+          <div class="step"><div class="step-num">✓</div><p style="color:var(--success)"><strong>বর্ধিষ্ণু:</strong> [1,3] | <strong>ক্ষয়িষ্ণু:</strong> (-∞,1] ∪ [3,∞)</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:right;margin-top:28px">
+    <button class="btn btn-primary" onclick="showPage('tricks')">⚡ Short Tricks দেখো →</button>
+  </div>
+</section>
+
+<!-- ============ TRICKS ============ -->
+<section class="page" id="tricks">
+  <div class="section-header">
+    <div class="section-num">⚡</div>
+    <div>
+      <div class="section-title">Short Tricks & Pattern Recognition</div>
+      <div class="section-subtitle">পরীক্ষায় দ্রুত করার কৌশল</div>
+    </div>
+  </div>
+
+  <div class="trick-box">
+    <div class="trick-label">⚡ MASTER TRICK #1 — The Sign Test</div>
+    <p><strong>f'(x) এর চিহ্ন বের করার ৩০ সেকেন্ড পদ্ধতি:</strong></p>
+    <p style="margin-top:8px">f'(x) = (x-a)(x-b)(x-c)... এর মতো factor করো।</p>
+    <p style="margin-top:4px">Number line এ a, b, c বসাও। <strong>সবচেয়ে ডানের interval থেকে শুরু করো (+) দিয়ে</strong>, তারপর প্রতিটি critical point পেরিয়ে চিহ্ন বদলে যাও।</p>
+  </div>
+
+  <div class="trick-box" style="margin-top:12px">
+    <div class="trick-label">⚡ TRICK #2 — Even Power Rule</div>
+    <p>যদি f'(x) = (x-a)² × g(x) আকারে হয়, তাহলে (x-a)² সর্বদা ≥ 0, তাই চিহ্ন শুধু g(x) এর উপর নির্ভর করে।</p>
+    <p style="margin-top:6px;font-family:'DM Mono',monospace;color:var(--gold);font-size:0.85rem">Example: f'(x) = (x-1)²(x-3) → x=1 তে চিহ্ন বদলায় না!</p>
+  </div>
+
+  <div class="trick-box" style="margin-top:12px">
+    <div class="trick-label">⚡ TRICK #3 — Always Increasing Functions</div>
+    <p>f সর্বদা বর্ধিষ্ণু প্রমাণ করতে দেখাও f'(x) > 0 সর্বত্র।</p>
+    <p style="margin-top:6px"><strong>Common Pattern:</strong> f'(x) = (something)² + positive constant → সর্বদা > 0</p>
+    <p style="margin-top:4px;font-family:'DM Mono',monospace;color:var(--gold);font-size:0.85rem">f'(x) = 3(x-1)² + 1 ≥ 1 > 0 ✓</p>
+  </div>
+
+  <div class="trick-box" style="margin-top:12px">
+    <div class="trick-label">⚡ TRICK #4 — Parametric Questions</div>
+    <p>f সর্বদা বর্ধিষ্ণু/ক্ষয়িষ্ণু হওয়ার শর্ত:<br>
+    f'(x) = ax² + bx + c → সর্বদা ≥ 0 এর জন্য: <strong>a > 0 এবং D ≤ 0</strong><br>
+    সর্বদা ≤ 0 এর জন্য: <strong>a < 0 এবং D ≤ 0</strong></p>
+  </div>
+
+  <div class="trick-box" style="margin-top:12px">
+    <div class="trick-label">⚡ TRICK #5 — Inequality Proofs</div>
+    <p>h(x) > 0 বা h(x) < 0 প্রমাণ করতে:</p>
+    <p style="margin-top:6px">১. g(x) = h(x) বানাও &nbsp; ২. g(a) = 0 দেখাও &nbsp; ৩. g'(x) > 0 দেখাও</p>
+    <p style="margin-top:4px">তাহলে x > a তে g(x) > 0 → মূল inequality প্রমাণিত!</p>
+  </div>
+
+  <div style="margin:24px 0 16px">
+    <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--soft-white)">🎯 MCQ Tricks — বিকল্পগুলো দেখলেই বোঝো</div>
+  </div>
+  <div class="grid-2">
+    <div class="sticky">
+      <div class="sticky-head">f(x) = e^x</div>
+      <p style="color:var(--text);font-size:0.85rem">f'(x) = eˣ > 0 সর্বত্র → সর্বদা strictly increasing ✅</p>
+    </div>
+    <div class="sticky">
+      <div class="sticky-head">f(x) = log x (x > 0)</div>
+      <p style="color:var(--text);font-size:0.85rem">f'(x) = 1/x > 0 যখন x > 0 → (0,∞) তে বর্ধিষ্ণু ✅</p>
+    </div>
+    <div class="sticky">
+      <div class="sticky-head">f(x) = tan x (0, π/2)</div>
+      <p style="color:var(--text);font-size:0.85rem">f'(x) = sec²x > 0 → strictly increasing ✅</p>
+    </div>
+    <div class="sticky">
+      <div class="sticky-head">f(x) = (2x-3)/(4x+5), x>0</div>
+      <p style="color:var(--text);font-size:0.85rem">f'(x) = 22/(4x+5)² > 0 → সর্বদা বর্ধিষ্ণু ✅</p>
+    </div>
+  </div>
+
+  <div style="text-align:right;margin-top:28px">
+    <button class="btn btn-primary" onclick="showPage('mistakes')">❌ ভুল থেকে শিখি →</button>
+  </div>
+</section>
+
+<!-- ============ MISTAKES ============ -->
+<section class="page" id="mistakes">
+  <div class="section-header">
+    <div class="section-num">❌</div>
+    <div>
+      <div class="section-title">ভুল থেকে শিখি</div>
+      <div class="section-subtitle">Common Mistakes & How to Fix Them</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title">এই ভুলগুলো সবাই করে — তুমি করো না!</div>
+    <p style="color:var(--muted);font-size:0.85rem">প্রতিটি ভুল পড়ো, বোঝো কেন ভুল এবং সঠিক পদ্ধতিটি মনে রাখো।</p>
+  </div>
+
+  <div class="mistake-item">
+    <div class="mistake-title">❌ ভুল #1 — Endpoint ভুলে যাওয়া</div>
+    <p>শুধু open interval (a, b) বলা, কিন্তু closed interval [a, b] বলা উচিত ছিল। যেমন: বর্ধিষ্ণু বিস্তার x > 2 বলা — কিন্তু x = 2 তে f' = 0, তবু সেই বিন্দুটা include করা হয়।</p>
+    <div class="fix-box">
+      <div class="fix-label">✅ সঠিক পদ্ধতি</div>
+      <p style="color:var(--text);font-size:0.85rem">f'(x) ≥ 0 হলে [a, b] (closed), f'(x) > 0 হলে (a, b) (open) — কিন্তু সাধারণত বিন্দু include করাই হয়। Endpoint যোগ করো।</p>
+    </div>
+  </div>
+
+  <div class="mistake-item">
+    <div class="mistake-title">❌ ভুল #2 — Domain check না করা</div>
+    <p>f(x) = 1/x এর জন্য সরাসরি বলা "সব x তে ক্ষয়িষ্ণু" — কিন্তু x = 0 তে function defined নয়!</p>
+    <div class="fix-box">
+      <div class="fix-label">✅ সঠিক পদ্ধতি</div>
+      <p style="color:var(--text);font-size:0.85rem">(-∞, 0) তে এবং (0, ∞) তে আলাদা আলাদাভাবে ক্ষয়িষ্ণু — কিন্তু overall ক্ষয়িষ্ণু না! কারণ x = 0 নেই।</p>
+    </div>
+  </div>
+
+  <div class="mistake-item">
+    <div class="mistake-title">❌ ভুল #3 — Sign check না করে সরাসরি answer</div>
+    <p>f'(x) = (x-2)(x+3) দেখে সরাসরি বলা "x = 2, -3 তে ক্ষয়িষ্ণু"। Sign check না করলে ভুল হয়।</p>
+    <div class="fix-box">
+      <div class="fix-label">✅ সঠিক পদ্ধতি</div>
+      <p style="color:var(--text);font-size:0.85rem">Number line বাও: x < -3 → (+)(+) > 0; -3 < x < 2 → (+)(−) < 0; x > 2 → (+)(+) > 0। তারপর সিদ্ধান্ত নাও।</p>
+    </div>
+  </div>
+
+  <div class="mistake-item">
+    <div class="mistake-title">❌ ভুল #4 — Even Power এ চিহ্ন বদলানো</div>
+    <p>f'(x) = (x-1)²(x-3) দেখে মনে করা x = 1 তেও চিহ্ন বদলায়।</p>
+    <div class="fix-box">
+      <div class="fix-label">✅ সঠিক পদ্ধতি</div>
+      <p style="color:var(--text);font-size:0.85rem">(x-1)² সর্বদা ≥ 0, তাই চিহ্ন শুধু (x-3) এর উপর নির্ভর করে। x < 3 তে f' < 0, x > 3 তে f' > 0। x = 1 তে চিহ্ন বদলায় না।</p>
+    </div>
+  </div>
+
+  <div class="mistake-item">
+    <div class="mistake-title">❌ ভুল #5 — Discontinuity উপেক্ষা করা</div>
+    <p>Rational function এ denominator = 0 হওয়া বিন্দু উপেক্ষা করা।</p>
+    <div class="fix-box">
+      <div class="fix-label">✅ সঠিক পদ্ধতি</div>
+      <p style="color:var(--text);font-size:0.85rem">f'(x) undefined হওয়া বিন্দুগুলোও critical points। Number line এ রাখো এবং তাদের দুই পাশের interval আলাদা করো।</p>
+    </div>
+  </div>
+
+  <div class="mistake-item">
+    <div class="mistake-title">❌ ভুল #6 — "সর্বদা বর্ধিষ্ণু" মানে f' > 0 ভাবা</div>
+    <p>f(x) = x³ সর্বদা বর্ধিষ্ণু, কিন্তু x = 0 তে f'(0) = 0।</p>
+    <div class="fix-box">
+      <div class="fix-label">✅ সঠিক পদ্ধতি</div>
+      <p style="color:var(--text);font-size:0.85rem">Strictly increasing এর জন্য f' > 0 সর্বত্র দরকার নেই। কোনো interval এ f' = 0 হলেও চলে, যদি শুধু isolated point হয়।</p>
+    </div>
+  </div>
+
+  <div class="mistake-item">
+    <div class="mistake-title">❌ ভুল #7 — Inequality Proof এ শুরুর বিন্দু ভুল</div>
+    <p>log(1+x) > x/(1+x) প্রমাণে g(x) বানিয়ে g(1) = 0 ধরা — কিন্তু শুরুর বিন্দু x = 0 হওয়া উচিত।</p>
+    <div class="fix-box">
+      <div class="fix-label">✅ সঠিক পদ্ধতি</div>
+      <p style="color:var(--text);font-size:0.85rem">সঠিক বিন্দু হলো x = 0: g(0) = 0। তারপর g'(x) > 0 দেখাও, সুতরাং x > 0 তে g(x) > g(0) = 0।</p>
+    </div>
+  </div>
+
+  <div class="mistake-item">
+    <div class="mistake-title">❌ ভুল #8 — Parametric: a = 0 case ভুলে যাওয়া</div>
+    <p>f'(x) = ax² + bx + c সর্বদা ≥ 0 এর জন্য শুধু a > 0 এবং D ≤ 0 দেওয়া — কিন্তু a = 0 case?</p>
+    <div class="fix-box">
+      <div class="fix-label">✅ সঠিক পদ্ধতি</div>
+      <p style="color:var(--text);font-size:0.85rem">a = 0 হলে f'(x) = bx + c হয়। এটা সর্বদা ≥ 0 হয় না (যদি না b = 0 এবং c ≥ 0)। তাই a > 0 অবশ্যই ধরতে হবে।</p>
+    </div>
+  <div style="text-align:right;margin-top:28px">
+    <button class="btn btn-primary" onclick="showPage('mcq')">📋 MCQ Practice →</button>
+  </div>
+</section>
+
+<!-- ============ MCQ ============ -->
+<section class="page" id="mcq">
+  <div class="section-header">
+    <div class="section-num">📋</div>
+    <div>
+      <div class="section-title">MCQ Practice</div>
+      <div class="section-subtitle">বইয়ের সমস্ত MCQ — একটা একটা করে করো</div>
+    </div>
+  </div>
+  <div id="mcqArea"></div>
+  <div style="text-align:right;margin-top:24px">
+    <button class="btn btn-primary" onclick="showPage('quiz')">🏆 Full Quiz দাও →</button>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="page" id="quiz">
+  <div class="section-header">
+    <div class="section-num">🏆</div>
+    <div>
+      <div class="section-title">Full Chapter Quiz</div>
+      <div class="section-subtitle">তোমার প্রস্তুতি পরীক্ষা করো</div>
+    </div>
+  </div>
+  <div class="quiz-container" id="quizArea"></div>
+  <div style="text-align:right;margin-top:24px">
+    <button class="btn btn-outline" onclick="showPage('formula')">📌 Formula Sheet →</button>
+  </div>
+</section>
+
+<!-- ============ FORMULA ============ -->
+<section class="page" id="formula">
+  <div class="section-header">
+    <div class="section-num">📌</div>
+    <div>
+      <div class="section-title">Formula Sheet</div>
+      <div class="section-subtitle">সব Formula এক জায়গায়</div>
+    </div>
+  </div>
+
+  <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--teal);margin-bottom:12px">📐 মূল সংজ্ঞা</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="fc-title">একদিষ্ট বর্ধিষ্ণু</div>
+      <div class="fc-math">x₁ < x₂ ⟹ f(x₁) ≤ f(x₂)</div>
+      <div class="fc-note">Non-strictly</div>
+    </div>
+    <div class="formula-card">
+      <div class="fc-title">Strictly Increasing</div>
+      <div class="fc-math">x₁ < x₂ ⟹ f(x₁) < f(x₂)</div>
+      <div class="fc-note">f'(x) > 0 সর্বত্র</div>
+    </div>
+    <div class="formula-card">
+      <div class="fc-title">একদিষ্ট ক্ষয়িষ্ণু</div>
+      <div class="fc-math">x₁ < x₂ ⟹ f(x₁) ≥ f(x₂)</div>
+      <div class="fc-note">Non-strictly</div>
+    </div>
+    <div class="formula-card">
+      <div class="fc-title">Strictly Decreasing</div>
+      <div class="fc-math">x₁ < x₂ ⟹ f(x₁) > f(x₂)</div>
+      <div class="fc-note">f'(x) < 0 সর্বত্র</div>
+    </div>
+  </div>
+
+  <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--teal);margin:20px 0 12px">📊 Derivative Test</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="fc-title">বর্ধিষ্ণু শর্ত</div>
+      <div class="fc-math">f'(x) ≥ 0, x ∈ (a,b)</div>
+      <div class="fc-note">f(a,b)-তে বর্ধিষ্ণু</div>
+    </div>
+    <div class="formula-card">
+      <div class="fc-title">ক্ষয়িষ্ণু শর্ত</div>
+      <div class="fc-math">f'(x) ≤ 0, x ∈ (a,b)</div>
+      <div class="fc-note">f(a,b)-তে ক্ষয়িষ্ণু</div>
+    </div>
+    <div class="formula-card">
+      <div class="fc-title">Always Increasing</div>
+      <div class="fc-math">f'(x) > 0, ∀x ∈ R</div>
+      <div class="fc-note">সর্বদা strictly increasing</div>
+    </div>
+    <div class="formula-card">
+      <div class="fc-title">Parametric Condition</div>
+      <div class="fc-math">a > 0, D = b²-4ac ≤ 0</div>
+      <div class="fc-note">f'(x) ≥ 0 সর্বত্রের জন্য</div>
+    </div>
+  </div>
+
+  <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--teal);margin:20px 0 12px">📈 Important Standard Results</div>
+  <table class="summary-table">
+    <thead><tr><th>Function</th><th>Increasing</th><th>Decreasing</th></tr></thead>
+    <tbody>
+      <tr><td><span class="math">sin x</span></td><td>[-π/2, π/2]</td><td>[π/2, 3π/2]</td></tr>
+      <tr><td><span class="math">cos x</span></td><td>[π, 2π]</td><td>[0, π]</td></tr>
+      <tr><td><span class="math">tan x</span></td><td>(-π/2, π/2)</td><td>— (not decreasing in R)</td></tr>
+      <tr><td><span class="math">eˣ</span></td><td>R (all of R)</td><td>—</td></tr>
+      <tr><td><span class="math">log x</span></td><td>(0, ∞)</td><td>—</td></tr>
+      <tr><td><span class="math">xⁿ (n>0)</span></td><td>[0, ∞)</td><td>—</td></tr>
+      <tr><td><span class="math">1/x</span></td><td>—</td><td>(-∞,0) ও (0,∞) আলাদা আলাদা</td></tr>
+    </tbody>
+  </table>
+
+  <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--teal);margin:20px 0 12px">🔑 Key Identities</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="fc-title">cos A - cos B Identity</div>
+      <div class="fc-math">= -2sin((A+B)/2)sin((A-B)/2)</div>
+      <div class="fc-note">cos অপেক্ষকের একদিষ্টতা প্রমাণে ব্যবহার</div>
+    </div>
+    <div class="formula-card">
+      <div class="fc-title">Completing the Square</div>
+      <div class="fc-math">ax²+bx+c = a(x+b/2a)² + (c-b²/4a)</div>
+      <div class="fc-note">always positive/negative দেখাতে</div>
+    </div>
+  </div>
+
+  <div style="text-align:right;margin-top:28px">
+    <button class="btn btn-primary" onclick="showPage('flashcard')">🃏 Flashcards দিয়ে রিভিশন করো →</button>
+  </div>
+</section>
+
+<!-- ============ FLASHCARD ============ -->
+<section class="page" id="flashcard">
+  <div class="section-header">
+    <div class="section-num">🃏</div>
+    <div>
+      <div class="section-title">Flashcards</div>
+      <div class="section-subtitle">Click করো — উত্তর দেখো — মনে রাখো</div>
+    </div>
+  </div>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:20px">প্রতিটি card-এ click করো — সামনে প্রশ্ন, পেছনে উত্তর।</p>
+
+  <div class="flip-grid" id="flashcardGrid"></div>
+
+  <div style="margin-top:24px">
+    <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--soft-white);margin-bottom:12px">Progress Tracker</div>
+    <div class="progress-bar-section">
+      <div class="prog-row">
+        <div class="prog-label">সংজ্ঞা বুঝেছি</div>
+        <div class="prog-track"><div class="prog-fill" style="width:0%;background:var(--teal)" data-width="85"></div></div>
+        <div class="prog-val">85%</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Number Line Method</div>
+        <div class="prog-track"><div class="prog-fill" style="width:0%;background:var(--gold)" data-width="75"></div></div>
+        <div class="prog-val">75%</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Solved Examples</div>
+        <div class="prog-track"><div class="prog-fill" style="width:0%;background:var(--rose)" data-width="65"></div></div>
+        <div class="prog-val">65%</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Board Questions</div>
+        <div class="prog-track"><div class="prog-fill" style="width:0%;background:var(--success)" data-width="50"></div></div>
+        <div class="prog-val">50%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ===== LOADER =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    loader.style.opacity = '0';
+    setTimeout(() => loader.style.display = 'none', 500);
+  }, 1600);
+});
+
+// ===== MOBILE MENU =====
+function toggleMenu() {
+  const nav = document.getElementById('sidenav');
+  const overlay = document.getElementById('navOverlay');
+  nav.classList.toggle('open');
+  overlay.classList.toggle('show');
+}
+
+// ===== NAVIGATION =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const target = document.getElementById(id);
+  if(!target) return;
+  target.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if(n.getAttribute('onclick')?.includes("'" + id + "'")) n.classList.add('active');
+  });
+  // close mobile menu
+  document.getElementById('sidenav').classList.remove('open');
+  document.getElementById('navOverlay').classList.remove('show');
+  window.scrollTo(0,0);
+  if(id === 'feel') { setTimeout(() => { drawGraph('quadratic'); syncTangentSlider(); updateTangent(); }, 100); }
+  if(id === 'concept2') { setTimeout(() => showNL(0), 100); }
+  if(id === 'flashcard') { setTimeout(() => startProgressAnim(), 300); }
+  if(id === 'quiz') initQuiz();
+  if(id === 'mcq') initMCQ();
+}
+
+// ===== TABS =====
+function switchTab(id, groupId) {
+  const target = document.getElementById(id);
+  if(!target) return;
+  const section = target.closest('.page');
+  if(!section) return;
+  // deactivate all tabs and tab-contents within this section
+  section.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  // activate the target content
+  target.classList.add('active');
+  // activate the matching tab button
+  section.querySelectorAll('.tab').forEach(t => {
+    if(t.getAttribute('onclick') && t.getAttribute('onclick').includes("'" + id + "'")) {
+      t.classList.add('active');
+    }
+  });
+}
+
+// ===== COLLAPSIBLE =====
+function toggleColl(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('show');
+}
+
+// ===== FLIP CARDS =====
+const flashcards = [
+  { q: 'Strictly Increasing এর শর্ত কী?', a: 'x₁ < x₂ ⟹ f(x₁) < f(x₂)\nঅথবা f\'(x) > 0' },
+  { q: 'f\'(x) = 0 সর্বত্র হলে f কী ধরনের?', a: 'Constant function\n(একদিষ্ট, কিন্তু strictly নয়)' },
+  { q: 'cos x, [0,π]-তে কী ধরনের?', a: 'Strictly Decreasing\nকারণ f\'(x) = -sin x < 0' },
+  { q: 'eˣ সর্বদা কোন ধরনের?', a: 'Strictly Increasing\nf\'(x) = eˣ > 0 সর্বত্র' },
+  { q: 'Number Line Method এর প্রথম ধাপ?', a: 'f\'(x) বের করো এবং\nCritical points খোঁজো' },
+  { q: '(x-a)² factor থাকলে কী হয়?', a: 'x=a তে চিহ্ন বদলায় না!\n(even power বলে)' },
+  { q: 'f সর্বদা বর্ধিষ্ণু হওয়ার শর্ত?', a: 'f\'(x) ≥ 0 সর্বত্র\n(isolated point ছাড়া)' },
+  { q: 'log x কোথায় বর্ধিষ্ণু?', a: '(0, ∞) তে\nf\'(x) = 1/x > 0' },
+  { q: 'f\'(x) = ax²+bx+c সর্বদা ≥ 0 এর শর্ত?', a: 'a > 0 এবং\nD = b²-4ac ≤ 0' },
+  { q: 'x³ - 3x² + 4x কি সর্বদা বর্ধিষ্ণু?', a: 'হ্যাঁ!\nf\'(x) = 3(x-1)² + 1 ≥ 1 > 0' },
+  { q: 'Critical point কী?', a: 'যেখানে f\'(x) = 0 অথবা\nf\'(x) undefined' },
+  { q: 'tan x কোথায় বর্ধিষ্ণু?', a: '(-π/2, π/2) তে\nf\'(x) = sec²x > 0' },
+];
+
+function initFlashcards() {
+  const grid = document.getElementById('flashcardGrid');
+  if(!grid) return;
+  grid.innerHTML = flashcards.map((c,i) => `
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon">❓</div>
+          <div>${c.q}</div>
+          <div class="flip-hint">click to reveal</div>
+        </div>
+        <div class="flip-back" style="white-space:pre-line;font-size:0.82rem;font-family:'DM Mono',monospace;color:var(--teal)">${c.a}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function startProgressAnim() {
+  document.querySelectorAll('.prog-fill').forEach(el => {
+    const w = el.getAttribute('data-width');
+    setTimeout(() => el.style.width = w + '%', 100);
+  });
+}
+
+// ===== GRAPH DRAWING =====
+const graphData = {
+  quadratic: {
+    fn: x => x*x - 4*x + 3, deriv: x => 2*x - 4,
+    inc: '[ 2, ∞ )', dec: '( -∞, 2 ]',
+    why: "f'(x) = 2x - 4। Critical point: x = 2। x < 2 তে f'(x) < 0 (ক্ষয়িষ্ণু), x > 2 তে f'(x) > 0 (বর্ধিষ্ণু)।",
+    label: 'f(x) = x² - 4x + 3', cp: 2, xmin: -1, xmax: 5
+  },
+  cubic: {
+    fn: x => x*x*x - 3*x*x + 4*x, deriv: x => 3*x*x - 6*x + 4,
+    inc: 'R (সব x)', dec: '— (কোনো ক্ষয়িষ্ণু অঞ্চল নেই)',
+    why: "f'(x) = 3x² - 6x + 4 = 3(x-1)² + 1 ≥ 1 > 0 সর্বত্র। তাই সর্বদা strictly বর্ধিষ্ণু।",
+    label: 'f(x) = x³ - 3x² + 4x', cp: null, xmin: -1, xmax: 3
+  },
+  sine: {
+    fn: x => Math.sin(x), deriv: x => Math.cos(x),
+    inc: '[-π/2, π/2]', dec: '[π/2, 3π/2]',
+    why: "f'(x) = cos x। cos x > 0 যখন x ∈ (-π/2, π/2)। cos x < 0 যখন x ∈ (π/2, 3π/2)।",
+    label: 'f(x) = sin x', cp: null, xmin: -Math.PI, xmax: 2*Math.PI
+  },
+  exp: {
+    fn: x => Math.exp(x), deriv: x => Math.exp(x),
+    inc: 'R (সব x)', dec: '—',
+    why: "f'(x) = eˣ > 0 সর্বত্র। তাই সমগ্র R-এ strictly বর্ধিষ্ণু।",
+    label: 'f(x) = eˣ', cp: null, xmin: -2, xmax: 2.5
+  },
+  logx: {
+    fn: x => x > 0 ? Math.log(x) : null, deriv: x => x > 0 ? 1/x : null,
+    inc: '(0, ∞)', dec: '—',
+    why: "f'(x) = 1/x। x > 0 হলে 1/x > 0, তাই (0,∞) তে strictly বর্ধিষ্ণু।",
+    label: 'f(x) = log x', cp: null, xmin: 0.1, xmax: 6
+  }
+};
+
+let currentGraph = 'quadratic';
+function switchGraph(name) {
+  currentGraph = name;
+  const feelPage = document.getElementById('feel');
+  if(feelPage) {
+    feelPage.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+    feelPage.querySelectorAll('.tab').forEach(t => {
+      if(t.getAttribute('onclick') && t.getAttribute('onclick').includes("'" + name + "'")) {
+        t.classList.add('active');
+      }
+    });
+  }
+  drawGraph(name);
+  document.getElementById('incText').textContent = graphData[name].inc;
+  document.getElementById('decText').textContent = graphData[name].dec;
+  document.getElementById('whyText').textContent = graphData[name].why;
+  document.getElementById('graphTitle').textContent = graphData[name].label;
+  // Sync tangent visualizer to this function
+  syncTangentSlider();
+  updateTangent();
+}
+
+function getCanvasSize(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return { w: 640, h: 270 };
+  const container = canvas.parentElement;
+  const cw = container ? container.clientWidth : 0;
+  const w = Math.max(280, Math.min(cw > 32 ? cw - 32 : 640, 800));
+  const h = Math.round(w * 0.42);
+  canvas.width = w;
+  canvas.height = h;
+  return { w, h };
+}
+
+function drawGraph(name) {
+  const canvas = document.getElementById('mainCanvas');
+  if(!canvas) return;
+  const { w: W, h: H } = getCanvasSize('mainCanvas');
+  const ctx = canvas.getContext('2d');
+  const d = graphData[name];
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = 'rgba(11,21,37,0.95)';
+  ctx.fillRect(0, 0, W, H);
+
+  const margin = 40;
+  const xMin = d.xmin, xMax = d.xmax;
+  const pts = [], xArr = [];
+  for(let i = 0; i <= 300; i++) {
+    const x = xMin + (xMax - xMin) * i / 300;
+    const y = d.fn(x);
+    xArr.push(x);
+    pts.push(y);
+  }
+  const validPts = pts.filter(y => y !== null && isFinite(y));
+  if(validPts.length === 0) return;
+  const yMin = Math.min(...validPts) - 0.5;
+  const yMax = Math.max(...validPts) + 0.5;
+
+  const toX = x => margin + (x - xMin) / (xMax - xMin) * (W - 2*margin);
+  const toY = y => H - margin - (y - yMin) / (yMax - yMin) * (H - 2*margin);
+
+  // Grid
+  ctx.strokeStyle = 'rgba(43,188,212,0.08)';
+  ctx.lineWidth = 1;
+  for(let i = 0; i <= 6; i++) {
+    const x = margin + i*(W-2*margin)/6;
+    ctx.beginPath(); ctx.moveTo(x, margin); ctx.lineTo(x, H-margin); ctx.stroke();
+  }
+  for(let i = 0; i <= 4; i++) {
+    const y = margin + i*(H-2*margin)/4;
+    ctx.beginPath(); ctx.moveTo(margin, y); ctx.lineTo(W-margin, y); ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = 'rgba(200,216,240,0.3)';
+  ctx.lineWidth = 1.5;
+  const y0 = toY(0);
+  if(y0 >= margin && y0 <= H-margin) {
+    ctx.beginPath(); ctx.moveTo(margin, y0); ctx.lineTo(W-margin, y0); ctx.stroke();
+  }
+  const x0 = toX(0);
+  if(x0 >= margin && x0 <= W-margin) {
+    ctx.beginPath(); ctx.moveTo(x0, margin); ctx.lineTo(x0, H-margin); ctx.stroke();
+  }
+
+  // Draw colored regions
+  const deriv = d.deriv;
+  for(let i = 0; i < xArr.length - 1; i++) {
+    const x1 = xArr[i], x2 = xArr[i+1];
+    const y1 = pts[i], y2 = pts[i+1];
+    if(y1 === null || y2 === null || !isFinite(y1) || !isFinite(y2)) continue;
+    const mid = (x1 + x2) / 2;
+    const dp = deriv(mid);
+    if(dp === null || !isFinite(dp)) continue;
+    const color = dp >= 0 ? 'rgba(74,222,128,0.12)' : 'rgba(248,113,113,0.12)';
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(toX(x1), toY(0) > H-margin ? H-margin : (toY(0) < margin ? margin : toY(0)));
+    ctx.lineTo(toX(x1), toY(y1));
+    ctx.lineTo(toX(x2), toY(y2));
+    ctx.lineTo(toX(x2), toY(0) > H-margin ? H-margin : (toY(0) < margin ? margin : toY(0)));
+    ctx.closePath(); ctx.fill();
+  }
+
+  // Function curve
+  ctx.strokeStyle = '#2BBCD4';
+  ctx.lineWidth = 2.5;
+  ctx.shadowColor = '#2BBCD4';
+  ctx.shadowBlur = 6;
+  ctx.beginPath();
+  let started = false;
+  for(let i = 0; i < xArr.length; i++) {
+    const x = xArr[i], y = pts[i];
+    if(y === null || !isFinite(y)) { started = false; continue; }
+    const px = toX(x), py = toY(y);
+    if(!started) { ctx.moveTo(px, py); started = true; }
+    else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  // Axis tick labels
+  ctx.fillStyle = 'rgba(120,160,190,0.7)';
+  ctx.font = `${Math.max(9, Math.round(W/70))}px DM Mono, monospace`;
+  ctx.textAlign = 'center';
+  const xStep = (xMax - xMin) / 5;
+  for(let i = 0; i <= 5; i++) {
+    const xv = xMin + i * xStep;
+    const px = toX(xv);
+    const labelY = Math.min(toY(0) + 14, H - 6);
+    ctx.fillText(xv.toFixed(1), px, labelY);
+  }
+  ctx.textAlign = 'left';
+
+  // Legend
+  ctx.fillStyle = 'rgba(74,222,128,0.8)';
+  ctx.fillRect(W - 130, H - 55, 12, 12);
+  ctx.fillStyle = 'rgba(200,216,240,0.7)';
+  ctx.font = '11px DM Mono, monospace';
+  ctx.fillText('বর্ধিষ্ণু', W - 112, H - 45);
+  ctx.fillStyle = 'rgba(248,113,113,0.8)';
+  ctx.fillRect(W - 130, H - 35, 12, 12);
+  ctx.fillStyle = 'rgba(200,216,240,0.7)';
+  ctx.fillText('ক্ষয়িষ্ণু', W - 112, H - 25);
+}
+
+// ===== TANGENT VISUALIZER — per-function =====
+const tangentConfigs = {
+  quadratic: {
+    fn:    x => x*x - 4*x + 3,
+    deriv: x => 2*x - 4,
+    label: "f(x) = x² − 4x + 3",
+    derivLabel: x => `f'(x) = 2(${x.toFixed(2)}) − 4 = ${(2*x-4).toFixed(2)}`,
+    xmin: -1, xmax: 5, ymin: -1.5, ymax: 8,
+    sliderMin: -1, sliderMax: 5, sliderDefault: 0
+  },
+  cubic: {
+    fn:    x => x*x*x - 3*x*x + 4*x,
+    deriv: x => 3*x*x - 6*x + 4,
+    label: "f(x) = x³ − 3x² + 4x",
+    derivLabel: x => `f'(x) = 3x²−6x+4 = ${(3*x*x-6*x+4).toFixed(2)} ≥ 1`,
+    xmin: -1, xmax: 3, ymin: -2, ymax: 6,
+    sliderMin: -1, sliderMax: 3, sliderDefault: 0
+  },
+  sine: {
+    fn:    x => Math.sin(x),
+    deriv: x => Math.cos(x),
+    label: "f(x) = sin x",
+    derivLabel: x => `f'(x) = cos(${x.toFixed(2)}) = ${Math.cos(x).toFixed(3)}`,
+    xmin: -Math.PI, xmax: 2*Math.PI, ymin: -1.6, ymax: 1.6,
+    sliderMin: -3.14, sliderMax: 6.28, sliderDefault: 0
+  },
+  exp: {
+    fn:    x => Math.exp(x),
+    deriv: x => Math.exp(x),
+    label: "f(x) = eˣ",
+    derivLabel: x => `f'(x) = eˣ = ${Math.exp(x).toFixed(3)} > 0 ✓`,
+    xmin: -2, xmax: 2.5, ymin: -0.5, ymax: 12,
+    sliderMin: -2, sliderMax: 2.5, sliderDefault: 0
+  },
+  logx: {
+    fn:    x => x > 0 ? Math.log(x) : null,
+    deriv: x => x > 0 ? 1/x : null,
+    label: "f(x) = log x",
+    derivLabel: x => x > 0 ? `f'(x) = 1/x = 1/${x.toFixed(2)} = ${(1/x).toFixed(3)} > 0 ✓` : 'x > 0 দরকার',
+    xmin: 0.1, xmax: 6, ymin: -2.5, ymax: 2,
+    sliderMin: 0.15, sliderMax: 6, sliderDefault: 1
+  }
+};
+
+function syncTangentSlider() {
+  const cfg = tangentConfigs[currentGraph];
+  const slider = document.getElementById('xSlider');
+  const lbl = document.getElementById('tangentFnLabel');
+  if(!slider || !cfg) return;
+  slider.min   = cfg.sliderMin;
+  slider.max   = cfg.sliderMax;
+  slider.step  = 0.05;
+  slider.value = cfg.sliderDefault;
+  if(lbl) lbl.textContent = cfg.label;
+}
+
+function updateTangent() {
+  const cfg = tangentConfigs[currentGraph];
+  if(!cfg) return;
+  const xVal = parseFloat(document.getElementById('xSlider').value);
+  document.getElementById('xVal').textContent = `x = ${xVal.toFixed(2)}`;
+
+  const fVal  = cfg.fn(xVal);
+  const slope = cfg.deriv(xVal);
+  const fvStr = (fVal !== null && isFinite(fVal)) ? fVal.toFixed(3) : '—';
+  const slStr = (slope !== null && isFinite(slope)) ? slope.toFixed(3) : '—';
+
+  document.getElementById('slopeInfo').textContent = cfg.derivLabel(xVal);
+  document.getElementById('yVal').textContent = `f(x) = ${fvStr}`;
+
+  const slopeNum = (slope !== null && isFinite(slope)) ? slope : 0;
+  const status = slopeNum > 0.02
+    ? { t: '📈 বর্ধিষ্ণু', c: '#4ade80' }
+    : slopeNum < -0.02
+    ? { t: '📉 ক্ষয়িষ্ণু', c: '#f87171' }
+    : { t: '→ সমতল (critical)', c: '#F5C518' };
+  const el = document.getElementById('slopeStatus');
+  el.textContent = status.t; el.style.color = status.c;
+
+  // Draw
+  const canvas = document.getElementById('tangentCanvas');
+  if(!canvas) return;
+  const { w: W, h: H } = getCanvasSize('tangentCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = 'rgba(11,21,37,0.97)';
+  ctx.fillRect(0, 0, W, H);
+
+  const { xmin, xmax, ymin, ymax } = cfg;
+  const margin = 44;
+  const toX = x => margin + (x - xmin) / (xmax - xmin) * (W - 2*margin);
+  const toY = y => H - margin - (y - ymin) / (ymax - ymin) * (H - 2*margin);
+
+  // Grid
+  ctx.strokeStyle = 'rgba(43,188,212,0.07)'; ctx.lineWidth = 1;
+  for(let i = 0; i <= 5; i++) {
+    const gx = margin + i*(W-2*margin)/5;
+    ctx.beginPath(); ctx.moveTo(gx, margin); ctx.lineTo(gx, H-margin); ctx.stroke();
+  }
+  for(let i = 0; i <= 4; i++) {
+    const gy = margin + i*(H-2*margin)/4;
+    ctx.beginPath(); ctx.moveTo(margin, gy); ctx.lineTo(W-margin, gy); ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = 'rgba(200,216,240,0.2)'; ctx.lineWidth = 1.5;
+  const y0c = toY(0);
+  if(y0c >= margin && y0c <= H-margin) {
+    ctx.beginPath(); ctx.moveTo(margin, y0c); ctx.lineTo(W-margin, y0c); ctx.stroke();
+  }
+  const x0c = toX(0);
+  if(x0c >= margin && x0c <= W-margin) {
+    ctx.beginPath(); ctx.moveTo(x0c, margin); ctx.lineTo(x0c, H-margin); ctx.stroke();
+  }
+
+  // Axis labels
+  ctx.fillStyle = 'rgba(120,160,190,0.6)';
+  ctx.font = `${Math.max(9, Math.round(W/72))}px DM Mono, monospace`;
+  ctx.textAlign = 'center';
+  const xStep = (xmax - xmin) / 5;
+  for(let i = 0; i <= 5; i++) {
+    const xv = xmin + i * xStep;
+    const px = toX(xv);
+    const lyBase = Math.min(toY(0) + 13, H - 5);
+    ctx.fillText(xv.toFixed(1), px, lyBase);
+  }
+  ctx.textAlign = 'left';
+
+  // Function curve with color regions
+  const N = 400;
+  for(let i = 0; i < N - 1; i++) {
+    const x1 = xmin + (xmax-xmin)*i/N;
+    const x2 = xmin + (xmax-xmin)*(i+1)/N;
+    const y1 = cfg.fn(x1), y2 = cfg.fn(x2);
+    if(y1===null||y2===null||!isFinite(y1)||!isFinite(y2)) continue;
+    const mid = (x1+x2)/2;
+    const dp = cfg.deriv(mid);
+    if(dp===null||!isFinite(dp)) continue;
+    ctx.fillStyle = dp >= 0 ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)';
+    const baseline = Math.max(margin, Math.min(H-margin, toY(0)));
+    ctx.beginPath();
+    ctx.moveTo(toX(x1), baseline); ctx.lineTo(toX(x1), toY(y1));
+    ctx.lineTo(toX(x2), toY(y2)); ctx.lineTo(toX(x2), baseline);
+    ctx.closePath(); ctx.fill();
+  }
+
+  ctx.strokeStyle = '#2BBCD4'; ctx.lineWidth = 2.5;
+  ctx.shadowColor = '#2BBCD4'; ctx.shadowBlur = 5;
+  ctx.beginPath();
+  let started = false;
+  for(let i = 0; i <= N; i++) {
+    const x = xmin + (xmax-xmin)*i/N;
+    const y = cfg.fn(x);
+    if(y === null || !isFinite(y)) { started = false; continue; }
+    const px = toX(x), py = toY(y);
+    if(!started) { ctx.moveTo(px,py); started=true; } else ctx.lineTo(px,py);
+  }
+  ctx.stroke(); ctx.shadowBlur = 0;
+
+  // Tangent line
+  if(fVal !== null && isFinite(fVal) && slope !== null && isFinite(slope)) {
+    const tColor = slope > 0.02 ? '#4ade80' : slope < -0.02 ? '#f87171' : '#F5C518';
+    const ty1 = fVal + slope * (xmin - xVal);
+    const ty2 = fVal + slope * (xmax - xVal);
+    ctx.strokeStyle = tColor; ctx.lineWidth = 2.2;
+    ctx.setLineDash([7, 4]);
+    ctx.beginPath();
+    ctx.moveTo(toX(xmin), toY(ty1));
+    ctx.lineTo(toX(xmax), toY(ty2));
+    ctx.stroke(); ctx.setLineDash([]);
+
+    // Point on curve
+    ctx.fillStyle = '#F5C518'; ctx.shadowColor = '#F5C518'; ctx.shadowBlur = 10;
+    ctx.beginPath(); ctx.arc(toX(xVal), toY(fVal), 6, 0, 2*Math.PI); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Small vertical dashed line to x-axis
+    ctx.strokeStyle = 'rgba(245,197,24,0.35)'; ctx.lineWidth = 1;
+    ctx.setLineDash([3,3]);
+    ctx.beginPath();
+    ctx.moveTo(toX(xVal), toY(fVal));
+    ctx.lineTo(toX(xVal), Math.min(H-margin, Math.max(margin, toY(0))));
+    ctx.stroke(); ctx.setLineDash([]);
+
+    // Slope angle arc (visual)
+    const arcR = 22;
+    const angle = Math.atan(slope * (H-2*margin) / (W-2*margin));
+    ctx.strokeStyle = tColor; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.5;
+    ctx.beginPath();
+    ctx.arc(toX(xVal), toY(fVal), arcR, -angle - 0.3, -angle + 0.3);
+    ctx.stroke(); ctx.globalAlpha = 1;
+
+    // Label at point
+    ctx.fillStyle = 'rgba(245,197,24,0.85)';
+    ctx.font = `${Math.max(10, Math.round(W/65))}px DM Mono, monospace`;
+    const lx = toX(xVal) + 9, ly = toY(fVal) - 10;
+    ctx.fillText(`(${xVal.toFixed(1)}, ${fVal.toFixed(2)})`, lx, ly);
+  }
+}
+
+// ===== NUMBER LINE ===== 
+const nlData = [
+  {
+    fn: 'f(x) = x² - 4x + 3',
+    deriv: "f'(x) = 2x - 4 = 2(x - 2)",
+    cp: [2], cpLabels: ['x = 2'],
+    regions: [
+      { label: 'x < 2', val: '(+) — ?? 🤔', sign: -1, correct: -1, hint: 'Plug x=0: 2(0)-4 = -4 < 0' },
+      { label: 'x > 2', val: '(+) — ?? 🤔', sign: 1, correct: 1, hint: 'Plug x=3: 2(3)-4 = 2 > 0' }
+    ],
+    conclusion: 'বর্ধিষ্ণু: [2, ∞) | ক্ষয়িষ্ণু: (-∞, 2]'
+  },
+  {
+    fn: 'f(x) = x³ - 3x² + 4x',
+    deriv: "f'(x) = 3x² - 6x + 4 = 3(x-1)² + 1",
+    cp: [], cpLabels: [],
+    regions: [{ label: 'সব x', val: '≥ 1 > 0', sign: 1, correct: 1, hint: '3(x-1)²≥0, তাই f\'≥1>0' }],
+    conclusion: 'সর্বদা বর্ধিষ্ণু: R'
+  },
+  {
+    fn: 'f(x) = 2x³ - 9x² - 24x + 5',
+    deriv: "f'(x) = 6x² - 18x - 24 = 6(x-4)(x+1)",
+    cp: [-1, 4], cpLabels: ['x = -1', 'x = 4'],
+    regions: [
+      { label: 'x < -1', sign: 1, correct: 1, hint: 'Plug x=-2: 6(-6)(-1)=+36>0' },
+      { label: '-1 < x < 4', sign: -1, correct: -1, hint: 'Plug x=0: 6(-4)(1)=-24<0' },
+      { label: 'x > 4', sign: 1, correct: 1, hint: 'Plug x=5: 6(1)(6)=+36>0' }
+    ],
+    conclusion: 'বর্ধিষ্ণু: (-∞,-1] ∪ [4,∞) | ক্ষয়িষ্ণু: [-1,4]'
+  }
+];
+
+let nlAnswers = {};
+function showNL(idx) {
+  nlAnswers = {};
+  const d = nlData[idx];
+  const cont = document.getElementById('nlContent');
+  document.querySelectorAll('#nlTabs .tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+
+  let regHtml = d.regions.map((r, i) => `
+    <div style="flex:1;text-align:center;padding:10px;border:1px solid var(--border);
+      ${i===0?'border-radius:8px 0 0 8px;':''}${i===d.regions.length-1?'border-radius:0 8px 8px 0;':''}
+      background:rgba(43,188,212,0.04)" id="nlReg${idx}_${i}">
+      <div style="font-size:0.75rem;color:var(--muted);margin-bottom:6px">${r.label}</div>
+      <div style="display:flex;gap:6px;justify-content:center">
+        <button onclick="checkNLSign(${idx},${i},1)" style="padding:4px 12px;border-radius:4px;border:1px solid var(--border);
+          background:transparent;color:var(--success);cursor:pointer;font-size:0.85rem;font-weight:700">+</button>
+        <button onclick="checkNLSign(${idx},${i},-1)" style="padding:4px 12px;border-radius:4px;border:1px solid var(--border);
+          background:transparent;color:var(--error);cursor:pointer;font-size:0.85rem;font-weight:700">−</button>
+      </div>
+      <div id="nlFeedback${idx}_${i}" style="font-size:0.7rem;margin-top:6px;height:16px"></div>
+    </div>
+  `).join('');
+
+  cont.innerHTML = `
+    <div style="margin:12px 0">
+      <div style="font-family:'DM Mono',monospace;color:var(--gold);font-size:0.85rem;margin-bottom:8px">${d.fn}</div>
+      <div style="color:var(--text);font-size:0.88rem;margin-bottom:12px">${d.deriv}</div>
+      <p style="color:var(--muted);font-size:0.82rem;margin-bottom:12px">প্রতিটি interval-এ f'(x) এর চিহ্ন (+/−) select করো:</p>
+      <div style="display:flex;gap:0;margin:8px 0">${regHtml}</div>
+      <div id="nlConclusion${idx}" style="display:none;margin-top:12px;padding:12px 16px;
+        background:rgba(74,222,128,0.08);border:1px solid var(--success);border-radius:8px;
+        color:var(--success);font-family:'DM Mono',monospace;font-size:0.85rem">
+        ✅ সঠিক! <strong>${d.conclusion}</strong>
+      </div>
+    </div>
+  `;
+}
+
+function checkNLSign(idx, reg, val) {
+  const d = nlData[idx];
+  const correct = d.regions[reg].correct;
+  const fb = document.getElementById(`nlFeedback${idx}_${reg}`);
+  const regionEl = document.getElementById(`nlReg${idx}_${reg}`);
+  nlAnswers[reg] = val === correct;
+
+  if(val === correct) {
+    fb.textContent = '✓ সঠিক!'; fb.style.color = 'var(--success)';
+    regionEl.style.borderColor = 'var(--success)'; regionEl.style.background = 'rgba(74,222,128,0.08)';
+  } else {
+    fb.textContent = '✗ ' + d.regions[reg].hint;
+    fb.style.color = 'var(--error)';
+    regionEl.style.borderColor = 'var(--error)'; regionEl.style.background = 'rgba(248,113,113,0.08)';
+  }
+
+  const allCorrect = d.regions.every((_, i) => nlAnswers[i] === true);
+  if(allCorrect) {
+    document.getElementById(`nlConclusion${idx}`)?.style.setProperty('display', 'block');
+  }
+}
+
+// ===== MCQ =====
+const mcqQuestions = [
+  {
+    q: 'a ≤ x ≤ b এবং a < x₁ < x₂ < b বিস্তারে f(x) অপেক্ষকটি সংজ্ঞাত হলে, a ≤ x ≤ b বিস্তারে f(x) অপেক্ষক একটি একটি আরোহী হবে যদি—',
+    opts: ['f(x₂) > f(x₁) যখন x₂ > x₁', 'f(x₂) < f(x₁) যখন x₂ > x₁', 'f(x₂) > f(x₁) যখন x₂ < x₁', 'f(x₂) < f(x₁) যখন x₂ < x₁'],
+    ans: 0, exp: 'আরোহী মানে x বাড়লে f(x) বাড়ে। তাই x₂ > x₁ হলে f(x₂) > f(x₁) হবে।'
+  },
+  {
+    q: 'f:[0,2]→R, f(x) = x³ - 3x দ্বারা সংজ্ঞাত, কোন পরিসরে অপেক্ষকটি ক্রমহ্রাসমান?',
+    opts: ['(1,2)', '(0,1)', '(0,2)', '(1/2, 3/2)'],
+    ans: 1, exp: "f'(x) = 3x²-3 = 3(x-1)(x+1)। f'(x) < 0 যখন -1 < x < 1। [0,2]-এ সেটা হলো (0,1)।"
+  },
+  {
+    q: 'যদি f(x) = μx - sin x, x > 0, একটি সমস্তক ক্রমবর্ধমান অপেক্ষক হয় তবে—',
+    opts: ['μ > -1', 'μ < 1', 'μ > 1', 'μ < -1'],
+    ans: 2, exp: "f'(x) = μ - cos x ≥ 0 সর্বত্র → μ ≥ cos x সর্বত্র। max(cos x) = 1, তাই μ ≥ 1।"
+  },
+  {
+    q: 'সঠিক বিকল্পটি নির্বাচন করো: f(x) = (2x-3)/(4x+5) (x > 0) অপেক্ষকটি একটি—',
+    opts: ['সর্বদা অবরোহী', 'সর্বদা আরোহী', 'কখনো আরোহী কখনো অবরোহী', 'ধ্রুবক'],
+    ans: 1, exp: "f'(x) = [2(4x+5) - 4(2x-3)]/(4x+5)² = 22/(4x+5)² > 0 সর্বত্র। তাই সর্বদা আরোহী।"
+  },
+  {
+    q: 'f(x) = x/(x+1) অপেক্ষকটি (x > 0) একটি একটি—',
+    opts: ['বর্ধিষ্ণু আরোহী', 'ক্রমহ্রাসমান', 'কখনো বর্ধিষ্ণু কখনো ক্রমহ্রাসমান', 'ধ্রুবক'],
+    ans: 0, exp: "f'(x) = 1/(x+1)² > 0 সব x > 0 এর জন্য। সুতরাং সর্বদা বর্ধিষ্ণু।"
+  },
+  {
+    q: 'f(x) = log_x (x > 0) অপেক্ষকটি সর্বদা—',
+    opts: ['অবরোহী', 'আরোহী (0,∞) তে', 'ক্রমহ্রাসমান (1,∞) তে', 'ধ্রুবক'],
+    ans: 1, exp: "f'(x) = 1/x > 0 যখন x > 0। তাই (0,∞) সম্পূর্ণ বিস্তারে আরোহী।"
+  },
+  {
+    q: 'f(x) = x³ - 3x² + 4x অপেক্ষকটি—',
+    opts: ['(-∞,1)-তে ক্রমহ্রাসমান', 'R-তে সর্বদা আরোহী', '(1,∞)-তে ক্রমহ্রাসমান', 'কোথাও আরোহী নয়'],
+    ans: 1, exp: "f'(x) = 3(x-1)² + 1 ≥ 1 > 0 সর্বত্র। তাই R-তে সর্বদা strictly আরোহী।"
+  },
+  {
+    q: 'f(x) = 4x³ + 3x² - 24x + 1 অপেক্ষক—',
+    opts: ['(-2,1)-তে ক্রমহ্রাসমান', '(−∞,−2)∪(1,∞)-তে আরোহী', 'A এবং B উভয়ই সঠিক', '(−2,1)-তে আরোহী'],
+    ans: 2, exp: "f'(x) = 12x²+6x-24 = 6(2x²+x-4) = 6(2x-1)(x+2)? আসলে = 6(x+2)(2x-1)। (+) যখন x<-2 বা x>1/2। (-) যখন -2<x<1/2।"
+  },
+  {
+    q: 'sinx (π/2 ≤ x ≤ π) অপেক্ষকটি—',
+    opts: ['বর্ধিষ্ণু আরোহী', 'ক্রমহ্রাসমান অবরোহী', 'ধ্রুবক', 'এটি বর্ধিষ্ণু অথবা অবরোহী নয়'],
+    ans: 1, exp: "f'(x) = cos x। π/2 ≤ x ≤ π তে cos x ≤ 0 (cos π/2 = 0, cos π = -1)। তাই ক্রমহ্রাসমান।"
+  },
+  {
+    q: 'f(x) = 1/(1+x) + 1/(2+x) + 1/(3+x) (x > 0) অপেক্ষকটি—',
+    opts: ['আরোহী', 'অবরোহী', 'ধ্রুবক', 'None'],
+    ans: 1, exp: "f'(x) = -1/(1+x)² - 1/(2+x)² - 1/(3+x)² < 0 সর্বদা। তাই সর্বদা ক্ষয়িষ্ণু।"
+  },
+  {
+    q: 'f(x) = eˣ অপেক্ষকটি সর্বদা—',
+    opts: ['ক্ষয়িষ্ণু', 'আরোহী', 'ধ্রুবক', 'None'],
+    ans: 1, exp: "f'(x) = eˣ > 0 সর্বত্র। তাই সমগ্র R-এ strictly বর্ধিষ্ণু।"
+  },
+  {
+    q: 'f(x) = tan x (0 < x < π/2) অপেক্ষকটি—',
+    opts: ['অবরোহী', 'আরোহী', 'ধ্রুবক', 'None'],
+    ans: 1, exp: "f'(x) = sec²x > 0 যখন x ∈ (0, π/2)। তাই সর্বদা বর্ধিষ্ণু।"
+  },
+  {
+    q: 'f(x) = 2x³ - 15x² + 36x + 7 বর্ধিষ্ণু বিস্তার—',
+    opts: ['(-∞,2]', '[3,∞)', '(-∞,2]∪[3,∞)', '(2,3)'],
+    ans: 2, exp: "f'(x) = 6x²-30x+36 = 6(x-2)(x-3)। f' > 0 যখন x < 2 বা x > 3। বর্ধিষ্ণু: (-∞,2]∪[3,∞)।"
+  },
+  {
+    q: 'f(x) = (x-1)³(x-2)² অপেক্ষক—',
+    opts: ['(-∞,8/5) ∪ (2,∞) তে বর্ধিষ্ণু', '[8/5,2] তে বর্ধিষ্ণু', '(−∞,1) ∪ (8/5,∞) তে বর্ধিষ্ণু', '(1,2) তে বর্ধিষ্ণু'],
+    ans: 0, exp: "f'(x) = (x-2)²·3(x-1)² + (x-1)³·2(x-2) = (x-1)²(x-2)[3(x-2)+2(x-1)] = (x-1)²(x-2)(5x-8)। f' > 0 যখন (x-2)(5x-8) > 0 (কারণ (x-1)² ≥ 0)। তাই x < 8/5 বা x > 2।"
+  },
+  {
+    q: 'f(x) = 2x³ - 3x² - 36x + 7 অপেক্ষক কোন বিস্তারে যথার্থ বর্ধিষ্ণু এবং কোন বিস্তারে যথার্থ ক্ষয়িষ্ণু?',
+    opts: ['বর্ধিষ্ণু (-∞,-2) ও (3,∞), ক্ষয়িষ্ণু (-2,3)', 'বর্ধিষ্ণু (-2,3), ক্ষয়িষ্ণু (-∞,-2) ও (3,∞)', 'সর্বদা বর্ধিষ্ণু', 'সর্বদা ক্ষয়িষ্ণু'],
+    ans: 0, exp: "f'(x) = 6x²-6x-36 = 6(x-3)(x+2)। f' > 0 যখন x < -2 বা x > 3। বর্ধিষ্ণু: (-∞,-2) ও (3,∞)। ক্ষয়িষ্ণু: (-2,3)।"
+  }
+];
+
+let mcqState = {};
+let mcqInitialized = false;
+function initMCQ() {
+  const area = document.getElementById('mcqArea');
+  if(!area || mcqInitialized) return;
+  mcqInitialized = true;
+  mcqState = {};
+  area.innerHTML = `
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-title">📋 বইয়ের MCQ — সব প্রশ্ন (${mcqQuestions.length}টি)</div>
+      <p style="color:var(--muted);font-size:0.85rem">প্রতিটি প্রশ্নে বিকল্প বেছে নাও। সঠিক হলে সবুজ, ভুল হলে লাল এবং সঠিক উত্তর দেখাবে।</p>
+      <div style="margin-top:12px;display:flex;gap:16px;align-items:center">
+        <span id="mcqTotal" style="font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--muted)">০ / ${mcqQuestions.length} answered</span>
+        <span id="mcqCorrectCount" style="font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--success)">✓ ০ সঠিক</span>
+        <span id="mcqWrongCount" style="font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--error)">✗ ০ ভুল</span>
+      </div>
+    </div>
+  ` + mcqQuestions.map((q, qi) => `
+    <div class="example-box" style="margin-bottom:16px" id="mcqQ${qi}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+        <span class="ex-tag">Q.${qi+1}</span>
+        <span id="mcqScore${qi}" style="font-size:0.75rem;font-family:'DM Mono',monospace"></span>
+      </div>
+      <p style="color:var(--soft-white);font-size:0.9rem;margin:10px 0 14px;line-height:1.7">${q.q}</p>
+      <div class="mcq-grid">
+        ${q.opts.map((opt, oi) => `
+          <div class="mcq-opt" id="mcqOpt${qi}_${oi}" onclick="checkMCQ(${qi},${oi})">
+            <span class="mcq-key">${String.fromCharCode(65+oi)})</span>
+            <span>${opt}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="quiz-explanation" id="mcqExp${qi}">
+        <div class="ex-head">💡 ব্যাখ্যা:</div>
+        <p>${q.exp}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function checkMCQ(qi, oi) {
+  if(mcqState[qi]) return;
+  mcqState[qi] = { answered: true, correct: oi === mcqQuestions[qi].ans };
+  const q = mcqQuestions[qi];
+  const allOpts = document.querySelectorAll(`[id^="mcqOpt${qi}_"]`);
+  allOpts.forEach((el, i) => {
+    el.style.pointerEvents = 'none';
+    if(i === q.ans) { el.classList.add('correct'); }
+    else if(i === oi && oi !== q.ans) { el.classList.add('wrong'); }
+  });
+  document.getElementById(`mcqExp${qi}`)?.classList.add('show');
+  const sc = document.getElementById(`mcqScore${qi}`);
+  if(sc) {
+    sc.textContent = oi === q.ans ? '✓ সঠিক' : '✗ ভুল';
+    sc.style.color = oi === q.ans ? 'var(--success)' : 'var(--error)';
+  }
+  // Update counters
+  const answered = Object.keys(mcqState).length;
+  const correct = Object.values(mcqState).filter(v => v.correct).length;
+  const wrong = answered - correct;
+  const tot = document.getElementById('mcqTotal');
+  const cor = document.getElementById('mcqCorrectCount');
+  const wrn = document.getElementById('mcqWrongCount');
+  if(tot) tot.textContent = `${answered} / ${mcqQuestions.length} answered`;
+  if(cor) cor.textContent = `✓ ${correct} সঠিক`;
+  if(wrn) wrn.textContent = `✗ ${wrong} ভুল`;
+}
+
+// ===== FULL QUIZ =====
+const quizQs = [
+  { q: 'যদি f\'(x) > 0 হয় সকল x ∈ (a,b) এর জন্য, তাহলে f অপেক্ষকটি (a,b) তে—', opts: ['ধ্রুবক','বর্ধিষ্ণু','ক্ষয়িষ্ণু','কিছুই বলা যায় না'], ans: 1, exp: 'Derivative > 0 মানে tangent এর ঢাল ধনাত্মক — function উপরে যাচ্ছে — বর্ধিষ্ণু।' },
+  { q: 'f(x) = x³ - এর জন্য x = 0 বিন্দুতে f\'(0) = ?', opts: ['1','−1','0','∞'], ans: 2, exp: "f'(x) = 3x², f'(0) = 0। কিন্তু x³ সর্বদা বর্ধিষ্ণু (isolated zero point বলে)।" },
+  { q: 'f(x) = x² + 2x + 3 অপেক্ষকটি কোথায় বর্ধিষ্ণু?', opts: ['(-∞,-1)','[-1,∞)','R সর্বত্র','(-∞,0)'], ans: 1, exp: "f'(x) = 2x+2 = 2(x+1)। f' ≥ 0 যখন x ≥ -1। বর্ধিষ্ণু: [-1,∞)।" },
+  { q: 'cos x অপেক্ষকটি [0,π] বিস্তারে কী ধরনের?', opts: ['বর্ধিষ্ণু','ক্ষয়িষ্ণু','ধ্রুবক','উপরে যায় তারপর নামে'], ans: 1, exp: "f'(x) = -sin x। [0,π]-তে sin x ≥ 0, তাই f' ≤ 0 — ক্ষয়িষ্ণু।" },
+  { q: 'f\'(x) এর মান বের করার পর Number Line এ কী রাখা হয়?', opts: ['শুধু যেখানে f\'=0','শুধু শূন্য','Critical points (f\'=0 ও f\' undefined)','Maxima-Minima points'], ans: 2, exp: "Critical points হলো যেখানে f'(x) = 0 অথবা f'(x) undefined (domain থেকে বাদ)।" },
+  { q: 'f(x) = (x-1)²(x-3) — x = 1 তে f\'(1) এর চিহ্ন পরিবর্তন হয়?', opts: ['হ্যাঁ','না','শুধু ডান দিকে','শুধু বাম দিকে'], ans: 1, exp: "f'(x) = (x-1)² × (something)। (x-1)² ≥ 0 সর্বদা, even power, তাই x=1 তে চিহ্ন বদলায় না।" },
+  { q: 'f সর্বত্র বর্ধিষ্ণু হলে f\'(x) = 3(x-2)² + k এর জন্য k এর মান কত হতে পারে?', opts: ['k = 0','k = -3','k > 0','k < 0'], ans: 2, exp: "3(x-2)² ≥ 0, তাই 3(x-2)²+k ≥ k। f'>0 সর্বত্র হতে হলে k > 0।" },
+  { q: 'f(x) = log(1+x) এর জন্য x > 0 তে কোনটি সত্য?', opts: ['log(1+x) < x/(1+x)','log(1+x) = x/(1+x)','log(1+x) > x/(1+x)','তুলনা করা যায় না'], ans: 2, exp: "g(x) = log(1+x) - x/(1+x) বানিয়ে দেখাই g(0)=0 এবং g'(x)>0 যখন x>0।" },
+  { q: 'f(x) = sin x + cos x অপেক্ষকটি কোন বিস্তারে বর্ধিষ্ণু?', opts: ['(π/4, π/2)',  '(-π/4, 3π/4)', '(0, π/2)', '(-π/2, π/4)'], ans: 1, exp: "f'(x) = cos x - sin x = √2 cos(x+π/4)। f' > 0 যখন x+π/4 ∈ (-π/2, π/2), অর্থাৎ x ∈ (-π/4, 3π/4)।" },
+  { q: 'f সর্বত্র ক্ষয়িষ্ণু হতে ax²+bx+c ≤ 0 সর্বত্র — এর শর্ত কী?', opts: ['a>0, D≤0','a<0, D≤0','a>0, D≥0','a<0, D≥0'], ans: 1, exp: "Quadratic সর্বত্র ≤ 0 হতে: open downward (a<0) এবং real root নেই (D≤0)।" },
+];
+
+let quizIdx = 0, quizScore = 0, quizAnswered = [];
+function initQuiz() {
+  quizIdx = 0; quizScore = 0;
+  quizAnswered = Array(quizQs.length).fill(false);
+  renderQuiz();
+}
+function renderQuiz() {
+  const area = document.getElementById('quizArea');
+  if(!area) return;
+  if(quizIdx >= quizQs.length) {
+    const pct = Math.round(quizScore/quizQs.length*100);
+    const msg = pct >= 80 ? '🎉 Excellent! তুমি এই chapter এ দুর্দান্ত!' : pct >= 60 ? '👍 ভালো হয়েছে! আরেকটু practice করো।' : '💪 চেষ্টা করতে থাকো! Examples গুলো আবার দেখো।';
+    area.innerHTML = `
+      <div class="score-display">
+        <div class="score-big">${quizScore}/${quizQs.length}</div>
+        <div class="score-label">${pct}% সঠিক</div>
+        <p style="color:var(--text);font-size:0.95rem;margin-bottom:28px">${msg}</p>
+        <div style="display:flex;gap:12px;justify-content:center">
+          <button class="btn btn-primary" onclick="initQuiz()">আবার দাও</button>
+          <button class="btn btn-outline" onclick="showPage('examples')">Examples দেখো</button>
+        </div>
+      </div>`;
+    return;
+  }
+  const q = quizQs[quizIdx];
+  const pct = (quizIdx/quizQs.length*100).toFixed(0);
+  const isLast = quizIdx === quizQs.length - 1;
+  area.innerHTML = `
+    <div class="quiz-progress">
+      <div class="quiz-bar"><div class="quiz-fill" style="width:${pct}%"></div></div>
+      <div class="quiz-count">${quizIdx+1} / ${quizQs.length}</div>
+      <span style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--teal)">Score: ${quizScore}</span>
+    </div>
+    <div class="quiz-question">
+      <div class="quiz-q-text">${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((opt,i) => `
+          <div class="quiz-option" id="qopt${i}" onclick="selectAnswer(${i})">
+            <div class="opt-letter">${String.fromCharCode(65+i)}</div>
+            <span>${opt}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="quiz-explanation" id="quizExp">
+        <div class="ex-head">💡 ব্যাখ্যা:</div>
+        <p>${q.exp}</p>
+      </div>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" style="display:none">${isLast ? '🏆 ফলাফল দেখো' : 'পরের প্রশ্ন →'}</button>
+    </div>
+  `;
+}
+
+function selectAnswer(i) {
+  if(quizAnswered[quizIdx]) return;
+  quizAnswered[quizIdx] = true;
+  const q = quizQs[quizIdx];
+  document.querySelectorAll('.quiz-option').forEach((el,j) => {
+    el.classList.add('disabled');
+    if(j === q.ans) el.classList.add('correct');
+    else if(j === i && i !== q.ans) el.classList.add('wrong');
+  });
+  if(i === q.ans) quizScore++;
+  document.getElementById('quizExp').classList.add('show');
+  document.getElementById('nextBtn').style.display = 'inline-block';
+}
+
+function nextQ() { quizIdx++; renderQuiz(); }
+
+// ===== INIT =====
+setTimeout(() => {
+  initFlashcards();
+  // concept2 page not active on load, so showNL runs when page is navigated to via showPage()
+  // drawGraph also only needed if feel page is active
+}, 1800);
+
+window.addEventListener('resize', () => {
+  if(document.getElementById('feel').classList.contains('active')) {
+    drawGraph(currentGraph);
+    updateTangent();
+  }
+});
+</script>
+</body>
+</html>
